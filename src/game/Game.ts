@@ -546,13 +546,6 @@ export class Game implements BaseCtx {
     this.player = new Player(scene);
     const sp = this.st.spawns.find((s) => s.type === "playerSpawnPoint");
     this.player.pos.set(sp?.wx ?? 0, 0, sp?.wz ?? 0);
-    // Start right at the work (user 2026-10-28: "start the player beside the rice field"): in front of the rice
-    // nearest the houses, facing it (the fields lie north, toward -z).
-    const rice = this.nearestBlock(this.player.pos, (b) => isCrop(this.st.blocks[b.i].ore));
-    if (rice) {
-      this.player.pos.set(rice.cx * CELL, 0, rice.cz * CELL + CELL * 0.85);
-      this.player.facing = Math.PI;
-    }
     this.refreshPlayerStats();
     // CARGO pill sits under the player's feet, the home tab below it (reference layout).
     this.cargoLabel = this.labels.add(this.cargoAt, "cargo", "");
@@ -564,6 +557,31 @@ export class Game implements BaseCtx {
       .sort((a, b) => a.x - b.x);
 
     this.buildBase();
+    // Start a short walk from the rice, facing it (user 2026-10-28: first "beside the rice field", then "a little way
+    // off, not by the houses either, and meet the first boost on the way"): 3-4 cells south of a front rice cell (the
+    // fields lie north, toward -z), on open ground well clear of every building, the one nearest the old spawn; the
+    // first gift can then lands halfway (openGroundOnWay). Beside the rice if nowhere fits.
+    const spawn = this.player.pos.clone();
+    const clear = (x: number, z: number) => this.openGround(x, z) && !this.solids.some((s) => x > s.x0 - 4 && x < s.x1 + 4 && z > s.z0 - 4 && z < s.z1 + 4);
+    let start: THREE.Vector3 | null = null;
+    let best = Infinity;
+    for (const b of this.field.blocks) {
+      if (!b.alive || !isCrop(this.st.blocks[b.i].ore) || this.field.at(b.cx, b.cz + 1)) continue;
+      for (const k of [4, 3.5, 3]) {
+        const x = b.cx * CELL;
+        const z = b.cz * CELL + CELL * k;
+        const d = Math.hypot(x - spawn.x, z - spawn.z);
+        if (d < best && clear(x, z)) {
+          best = d;
+          start = new THREE.Vector3(x, 0, z);
+          break;
+        }
+      }
+    }
+    const rice = start ? null : this.nearestBlock(spawn, (b) => isCrop(this.st.blocks[b.i].ore));
+    if (start) this.player.pos.copy(start);
+    else if (rice) this.player.pos.set(rice.cx * CELL, 0, rice.cz * CELL + CELL * 0.85);
+    this.player.facing = Math.PI;
     this.shopIn = new ShopInterior(scene, this.uiRoot, this.stage);
     // Scenery that never moves stops rebuilding its matrices every frame (engine/freeze.ts):
     // the map, the walk-in shop, the entry buildings (their beacons keep bobbing).
