@@ -441,9 +441,20 @@ export interface QuestDef {
   scaled: boolean;
   guide: { type: string; detail: string };
 }
+/**
+ * Our own counts for a few quests (farm game, user 2026-10-28): 1025, half way through stage 1, has the player dig up at
+ * least 2 rocks (it was 10 metal ores, 5 at PACE.quest).
+ */
+const QUEST_TARGET: Record<number, number> = { 1025: 2 };
+/**
+ * Quests left out (same day): 1013 "Save 300 for a Wheelbarrow", 1014 "Visit the Farm Shop" and 1015 "Rent a Wheelbarrow":
+ * the wheelbarrow is free now and comes with the first tool (Game.buyTool), so 1016 "Push the Wheelbarrow" follows 1012.
+ */
+const SKIP_QUESTS = new Set([1013, 1014, 1015]);
 const COUNTED = new Set(["DestroyOre", "CollectMineral", "ReturnMineralToSmelter", "SellIngot", "DestroyOreByCategory", "SellIngotByCategory"]);
 /** "Save {0} for …" follows the cheaper prices it is saving up for; counted quests ask for PACE.quest of their number. */
 function questTarget(q: any): number {
+  if (q.id in QUEST_TARGET) return QUEST_TARGET[q.id];
   if (q.type === "HoldCurrency") return cheaper(q.target);
   if (COUNTED.has(q.type) && q.target > 5 && PACE.quest !== 1) return Math.max(5, Math.round((q.target * PACE.quest) / 5) * 5);
   return q.target;
@@ -460,7 +471,7 @@ const questOf = (q: any): QuestDef => ({
   guide: q.guide?.type === "ToastMessage" ? { ...q.guide, detail: TEXT.toasts[q.guide.detail] ?? "" } : q.guide,
 });
 // Idle-reward claims belong to a meta system we don't have: those cards are left out.
-const played = (g: any[]) => g.filter((q) => q.type !== "ClaimRndReward").map(questOf);
+const played = (g: any[]) => g.filter((q) => q.type !== "ClaimRndReward" && !SKIP_QUESTS.has(q.id)).map(questOf);
 /**
  * The guide chain as the original runs it: group 1 (stages 1-4) once, group 2 six times, then
  * group 1000 for ever (here 60 rounds, far more than anyone plays). Saves keep an index into this

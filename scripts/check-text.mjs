@@ -1,5 +1,6 @@
 // Check src/data/text.json against the copy in git HEAD: same keys in every section (new sections allowed), dialogue
-// entries with the same number of lines, the same {0}-style placeholders in each string, no Candy Miner, Mars Miner
+// entries with at most as many lines (never more: some are played in parts; fewer is fine since 2026-10-28, "cut the
+// dialogue right down"), the same {0}-style placeholders in each string, no Candy Miner, Mars Miner
 // or Quarry Crush words left. Farm Valley names: docs/FARM.md.
 //
 //   node scripts/check-text.mjs
@@ -17,8 +18,8 @@ const walk = (a, b, path) => {
     return;
   }
   if (Array.isArray(a)) {
-    if (!Array.isArray(b) || a.length !== b.length) return problems.push(`${path}: ${a.length} lines -> ${Array.isArray(b) ? b.length : "not a list"}`);
-    a.forEach((x, i) => walk(x, b[i], `${path}[${i}]`));
+    if (!Array.isArray(b) || !b.length || b.length > a.length) return problems.push(`${path}: ${a.length} lines -> ${Array.isArray(b) ? b.length : "not a list"}`);
+    b.forEach((x, i) => walk(a[i], x, `${path}[${i}]`));
     return;
   }
   if (a && typeof a === "object") {

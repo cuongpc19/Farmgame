@@ -54,8 +54,7 @@ import { EntryBuilding, OilStation, OreStorage, Cafeteria } from "./base/Buildin
 import { priceBoard } from "./base/PriceBoard";
 import {
   S, stageDef, stageNumber, addCash, isBroken, markBroken, power, interval, cargo, absorb, moveSpeed, flush, markDirty, onBeforeSave,
-  spendCash, nextPrice, equipPrice, freshRun, resetBroken, level,
-} from "./state";
+  spendCash, nextPrice, equipPrice, freshRun, resetBroken, level, FIRST_TOOL, firstToolBought } from "./state";
 
 /** The exo-carrier's "walk faster" (its moveSpeed stat is empty in the data; +15 % is ours). */
 const exoSpeed = () => (S.equipCarrying === "exoCarrier" ? 1.15 : 1);
@@ -1425,7 +1424,8 @@ export class Game implements BaseCtx {
   }
 
   private buyTool(k: string): void {
-    if (S.owned.includes(k) || !spendCash(equipPrice(k))) return sfx.deny();
+    if (S.owned.includes(k) || (k !== FIRST_TOOL && !firstToolBought()) || !spendCash(equipPrice(k))) return sfx.deny();
+    const first = !firstToolBought();
     S.owned.push(k);
     if (!S.unlocked.includes(k)) S.unlocked.push(k);
     this.equip(k);
@@ -1437,6 +1437,14 @@ export class Game implements BaseCtx {
     // inventory forced open (user 2026-10-22: three of five players who quit on quest 1011 "Smash Ore"
     // left within a minute of buying their first tool, after that step and still in the hall).
     this.once(401);
+    // The first tool unlocks the rest of the shop and brings a free wheelbarrow (user 2026-10-28), waiting outside.
+    if (first) {
+      this.shopIn.refresh();
+      if (!S.run.rentals.includes("wheelbarrow")) {
+        this.rent("wheelbarrow");
+        this.hud.toast("🎁 A free wheelbarrow! It's waiting outside.", 3500);
+      }
+    }
   }
 
   /**
@@ -1465,7 +1473,7 @@ export class Game implements BaseCtx {
   }
 
   private rent(k: string): void {
-    if (S.run.rentals.includes(k) || !spendCash(equipPrice(k))) return sfx.deny();
+    if (S.run.rentals.includes(k) || !firstToolBought() || !spendCash(equipPrice(k))) return sfx.deny();
     S.run.rentals.push(k);
     if (!S.unlocked.includes(k)) S.unlocked.push(k);
     markDirty();
@@ -1657,6 +1665,14 @@ export class Game implements BaseCtx {
    */
   once(id: number, after?: () => void): void {
     if (S.dialogues.includes(id)) return;
+    // Lines the farm game leaves out (SILENT), and every line in the first QUIET_SECS of play (user 2026-10-28: "no
+    // dialogue in the first 5 minutes"): counted as seen at once, whatever waits on them goes on.
+    if (Game.SILENT.has(id) || (S.played ?? 0) < Game.QUIET_SECS) {
+      S.dialogues.push(id);
+      markDirty();
+      after?.();
+      return;
+    }
     const waiting = this.saying.get(id);
     if (waiting) {
       if (after) waiting.push(after);
@@ -1674,6 +1690,13 @@ export class Game implements BaseCtx {
     if (!d || !d.lines.length) return done();
     void this.dialogue.say(this.speaker(id), d.lines).then(done);
   }
+
+  /**
+   * Dialogues never played (user 2026-10-28: "too much dialogue, cut it right down"; the rest are one line each in
+   * text.json): 302 hand tools vs machines, 401 the first tool, 502 driving, 903 the Noodle Stall.
+   */
+  private static readonly SILENT = new Set([302, 401, 502, 903]);
+  private static readonly QUIET_SECS = 300;
 
   private speaker(id: number): "hank" | "sofia" {
     return id === 804 || id === 801 || id === 802 || id === 803 || id === 1201 ? "sofia" : "hank";

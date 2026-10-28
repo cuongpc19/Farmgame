@@ -6,7 +6,7 @@ import { haybaleGeometry, tintedInstances, tintedMaterial } from "../world/farmS
 import { gearModel } from "../characters";
 import { floorText } from "../world/props";
 import { Zone } from "./Zone";
-import { S, equipPrice, stageNumber } from "../state";
+import { FIRST_TOOL, S, equipPrice, firstToolBought, stageNumber } from "../state";
 import { fmt } from "../ui/Hud";
 import type { Stage3D } from "../engine/Stage3D";
 import { events } from "../systems/Events";
@@ -274,6 +274,9 @@ export class ShopInterior {
   }
 
   private lockText(def: EquipDef): string | null {
+    // First visit: the first tool only (user 2026-10-28: "the first time in the shop, point them straight at the
+    // hammer; everything else unlocks once it is bought").
+    if (def.key !== FIRST_TOOL && !firstToolBought()) return `First, buy the ${EQUIP[FIRST_TOOL]?.name ?? "first tool"}`;
     if (def.unlock.type === "ReachStage" && stageNumber() < def.unlock.value) return `First, Reach Stage ${def.unlock.value}`;
     if (def.unlock.type === "UnlockEquipment") {
       const need = Object.values(EQUIP).find((x) => x.id === def.unlock.value);
@@ -292,8 +295,9 @@ export class ShopInterior {
       const locked = !!this.lockText(s.def);
       s.crate.visible = locked;
       s.display.visible = !locked && !this.soldOut(s);
-      const caption = this.soldOut(s) ? "SOLD OUT" : `$ ${fmt(equipPrice(s.key))}`;
-      s.plate.setText(caption, this.soldOut(s) ? "#cfd4db" : "#ffd34d");
+      const caption = this.soldOut(s) ? "SOLD OUT" : equipPrice(s.key) === 0 ? "FREE" : `$ ${fmt(equipPrice(s.key))}`;
+      // On the pale canvas pads (Zone): dark brown, a muted grey once sold out (the old yellow / grey were for dark plates).
+      s.plate.setText(caption, this.soldOut(s) ? "#9a8f80" : undefined);
     }
   }
 

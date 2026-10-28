@@ -44,9 +44,11 @@ function caption(text: string, w: number, h: number, fill: string, edge: string)
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.anisotropy = 4;
-  const me = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false }));
+  // Pulled further toward the camera than the mat (padMat's polygon offset), or the mat hides part of the caption.
+  const m = new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -6, polygonOffsetUnits: -6 });
+  const me = new THREE.Mesh(new THREE.PlaneGeometry(w, h), m);
   me.rotation.x = -Math.PI / 2;
-  me.position.y = 0.07;
+  me.position.y = 0.08;
   return me;
 }
 

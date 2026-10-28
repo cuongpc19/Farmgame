@@ -1,0 +1,24 @@
+[
+ {
+  "until": "!!(window.__game && __game.player && __game.field)",
+  "timeout": 90000
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.cash(5000); const S=g.debug.state(); const c0=S.cash; g.buyTool('jackhammer'); g.rent('hydraulicBreaker'); return JSON.stringify({case:'before the first tool nothing else can be bought or rented', owned:S.owned, rentals:S.run.rentals, spent:c0-S.cash, PASS: !S.owned.includes('jackhammer') && !S.run.rentals.includes('hydraulicBreaker') && c0===S.cash})})()"
+ },
+ {
+  "eval": "(()=>{const g=__game; const S=g.debug.state(); const c0=S.cash; g.buyTool('sledgehammer'); return JSON.stringify({case:'the first tool brings a free wheelbarrow', owned:S.owned, rentals:S.run.rentals, spent:c0-S.cash, PASS: S.owned.includes('sledgehammer') && S.run.rentals.includes('wheelbarrow') && c0-S.cash===g.debug.equipPrice?.('sledgehammer') || (S.owned.includes('sledgehammer') && S.run.rentals.includes('wheelbarrow') && c0-S.cash>0 && c0-S.cash<=250)})})()"
+ },
+ {
+  "eval": "(()=>{const g=__game; const S=g.debug.state(); const c0=S.cash; g.rent('hydraulicBreaker'); return JSON.stringify({case:'after it the shop is open', rentals:S.run.rentals, spent:c0-S.cash, PASS:S.run.rentals.includes('hydraulicBreaker')})})()"
+ },
+ {
+  "eval": "(()=>{const g=__game; const S=g.debug.state(); const before=S.dialogues.length; S.played=60; g.once(201); const quiet=!g.dialogue.open && S.dialogues.includes(201); S.dialogues=S.dialogues.filter(x=>x!==201); S.played=400; g.once(201); const talks=g.dialogue.open; return JSON.stringify({case:'no dialogue in the first 5 minutes, dialogue after', quiet, talksAfter:talks, PASS: quiet && talks})})()"
+ },
+ {
+  "snap": "fv_shop_gate"
+ }
+]

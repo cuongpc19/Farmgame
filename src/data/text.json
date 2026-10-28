@@ -41,7 +41,7 @@
     "1022": "Drive a Machine",
     "1023": "Harvest, Chop or Dig",
     "1024": "Buy an Upgrade",
-    "1025": "Dig Up Metal Ore",
+    "1025": "Dig Up 2 Rocks",
     "1026": "Harvest 40% of Stage 1",
     "1027": "Hire a Farmhand",
     "1028": "Keep Harvesting",
@@ -124,10 +124,10 @@
       "Lovely load, dear! Raw harvest won't sell, though. Rice and wood go on MILL, rocks go on FORGE."
     ],
     "201": [
-      "Look at all that cash, dear! Let's spend some at the Workshop. Better tools, bigger harvest!"
+      "Nice cash, dear! Spend it at the Workshop for better tools."
     ],
     "301": [
-      "You've saved enough for a new tool. Off to the Farm Shop!"
+      "Enough saved for a new tool. Off to the Farm Shop!"
     ],
     "302": [
       "Hand tools are yours to keep. Machines are rent-only."
@@ -137,8 +137,7 @@
       "Tap EQUIPMENT any time you want to switch tools."
     ],
     "501": [
-      "Rented! It's yours for this plot. On the next plot, you rent again.",
-      "It's parked by the Mill already. Go take a look!"
+      "Rented! It's parked by the Mill. Hop in!"
     ],
     "502": [
       "Look at you behind the wheel! Smooth driving, dear.",
@@ -147,40 +146,25 @@
       "Auntie's rule number one: full stop before you hop off!"
     ],
     "601": [
-      "Uh-oh, the tank's empty! Without diesel it can only crawl.",
-      "Until you rent a Diesel Tanker, carry fuel cans over from FUEL. Go fill it up!"
+      "Out of diesel! Bring fuel cans over from FUEL."
     ],
     "801": [
-      "Welcome to the Farm Office! Look outside: this plot is thriving, thanks to you!",
-      "While you're here, let's sharpen up your hand tools. Follow me!",
-      "This is the Tool Shed. Pop in often to make your tools stronger!"
+      "Welcome to the Farm Office! Let's sharpen your tools in the Tool Shed."
     ],
     "802": [
-      "Tour done! Ready for the next plot of the valley?"
+      "Tour done! Ready for the next plot?"
     ],
     "803": [
-      "Great news: the Tractor Barn is open! Can you pop over to the Farm Office for a sec?",
-      "This is where you research upgrades for your machines.",
-      "Machine research works a little differently: it costs Gear. Want to try it?",
-      "The Farm Office button is up in the corner. Tap it whenever you're ready!"
+      "The Tractor Barn is open! Research machines at the Farm Office, top corner."
     ],
     "804": [
-      "The Mill is humming again! Hi, I'm Bao, Auntie's grandson. I help run things here.",
-      "Sorry to butt in! Swing by the Farm Office when you're done. I'll be there."
+      "Hi, I'm Bao! Swing by the Farm Office when you're done."
     ],
     "901": [
-      "Too much work for one farmer? Time to hire some farmhands!",
-      "Job applications come in every so often. Don't keep them waiting!",
-      "I called in a favour: your first hire is free. Sign right here!",
-      "Farmhands work on their own until the plot is done, and they can borrow your hand tools too!",
-      "When you're set, swing by the Farmhands' House and I'll show you around!"
+      "Too much work for one farmer? Hire a farmhand: the first one's free!"
     ],
     "902": [
-      "Welcome to the Farmhands' House! Keep an eye on your team here.",
-      "Best part? Your farmhands can borrow your hand tools. Let me show you.",
-      "Everyone starts with basic tools. Slot yours in and they'll put them to work!",
-      "Empty slot? Tap Equip. Taken? Swap it. You can take it back whenever you like!",
-      "Your tool shed is still small, but this pays off later. Back to work, dear!"
+      "Your farmhands live here. Lend them your tools and they work faster!"
     ],
     "903": [
       "Tired farmhands head to the Noodle Stall next door: a bowl, a drink or a nap and they're good as new.",
@@ -188,21 +172,16 @@
       "Big team? Add more tables. No seat means no proper rest!"
     ],
     "1101": [
-      "You've harvested enough to finish this plot! Look how tidy it is!",
-      "Heads up: that's only the minimum. A good farmer leaves nothing in the field!",
-      "You can move on now, but selling your leftover harvest first really pays. Your call!"
+      "This plot's done! Sell your leftovers first, or move on when you like."
     ],
     "1201": [
-      "Great news, Farmer! Our suppliers are giving us cashback now!",
-      "Nice, right? The more you spend, the more comes back!",
-      "Tools, hires, upgrades: hit each target and the reward is yours!"
+      "Cashback! Spend on tools, hires and upgrades to earn rewards."
     ],
     "1501": [
       "Grab diesel cans at FUEL. Spare cans go in the bin right here."
     ],
     "1601": [
-      "Auntie's tip, dear: once you're harvesting, just let go.",
-      "You'll stroll to the next one nearby and keep working on your own."
+      "Tip, dear: once you're harvesting, let go. You'll keep working on your own."
     ]
   },
   "equipment": {

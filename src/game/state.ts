@@ -399,9 +399,19 @@ export function fuelTank(equip: string): number {
 }
 
 /** Rental / purchase price in the current stage (heavy equipment scales with stage). */
+/** The first tool to buy: everything else in the Farm Shop waits for it (`firstToolBought`). */
+export const FIRST_TOOL = "sledgehammer";
+
+/** The first tool bought, or a save already past it (any tool beyond the starters). */
+export function firstToolBought(): boolean {
+  return S.owned.some((k) => k !== "pickaxe" && k !== "woodenCarrier");
+}
+
 export function equipPrice(key: string): number {
   const e = EQUIP[key];
   if (!e) return 0;
+  // The wheelbarrow is free (user 2026-10-28), on every stage; on stage 1 it comes with the first tool (Game.buyTool).
+  if (key === "wheelbarrow") return 0;
   const m = e.rental ? stageMult(stageNumber()).heavyEquipmentRentMultiplier : 1;
   return Math.round(e.price * m);
 }
