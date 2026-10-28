@@ -12,10 +12,10 @@
   "wait": 3000
  },
  {
-  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('cm_save')); return JSON.stringify({cash:s.cash, quest:s.quest, seen:s.dialogues.length, mined:s.run.mined ?? s.run.broken?.length});})()"
+  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('fv_save')); return JSON.stringify({cash:s.cash, quest:s.quest, seen:s.dialogues.length, mined:s.run.mined ?? s.run.broken?.length});})()"
  },
  {
-  "eval": "(localStorage.setItem('cm_settings', JSON.stringify({music:false,sfx:true,perfMode:true,perfUser:true})), true)"
+  "eval": "(localStorage.setItem('fv_settings', JSON.stringify({music:false,sfx:true,perfMode:true,perfUser:true})), true)"
  },
  {
   "eval": "(document.querySelector('[data-k=settings]').click(), true)"
@@ -37,7 +37,7 @@
   "wait": 1500
  },
  {
-  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('cm_save')||'null'); return JSON.stringify({url:location.search, live:__game.debug.state().cash, quest:__game.debug.state().quest, seen:__game.debug.state().dialogues.length, stored: s && {cash:s.cash, quest:s.quest, seen:s.dialogues.length}, settings: localStorage.getItem('cm_settings'), dlgOpen: __game.dialogue.open});})()"
+  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('fv_save')||'null'); return JSON.stringify({url:location.search, live:__game.debug.state().cash, quest:__game.debug.state().quest, seen:__game.debug.state().dialogues.length, stored: s && {cash:s.cash, quest:s.quest, seen:s.dialogues.length}, settings: localStorage.getItem('fv_settings'), dlgOpen: __game.dialogue.open});})()"
  },
  {
   "snap": "reset_after"

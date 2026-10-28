@@ -1,51 +1,51 @@
 import * as THREE from "three";
 
 /**
- * Candy Miner's look (2026-10-28, reskinned from Mars Miner; names and story: docs/CANDY.md): a candy island floating
- * over clouds in a pastel sky. Biscuit ground, a cream deck under the houses, chocolate cliffs, cake layers down the
- * island's sides, gumdrops and lollipops round the quarry. Every world colour that is not a candy block's own lives
- * here, so the theme can be tuned in one place.
+ * Farm Valley's look (2026-10-28, from Candy Miner; names and story: docs/FARM.md): a rice-paddy countryside on a
+ * grassy plot by a river. Grass-green fields, warm earth yards and roads, grey rocky hills with moss on top, an
+ * earth-and-stone bank down to the water round the plot and in the gaps, a blue sky with soft white clouds. Bright,
+ * smooth cartoon, not flat-shaded low-poly. Every world colour that is not a cell's own lives here, so the look can be
+ * tuned in one place. All textures are drawn on canvases (no image files).
  */
 export const THEME = {
-  /** Fog and the sky behind the island (the background texture is drawn around this colour). */
-  sky: 0xf6d6ea,
+  /** Fog and the haze at the horizon (the backdrop's lower half is drawn in this colour). */
+  sky: 0xcfe9f8,
   fogNear: 80,
   fogFar: 150,
   /** Sky / ground colours of the hemisphere light, and the sun. */
-  hemiSky: 0xfff2fb,
-  hemiGround: 0x9a6a5a,
-  hemiIntensity: 1.35,
-  sun: 0xfff4e6,
-  sunIntensity: 2.0,
-  /** Quarry floor: biscuit with crumbs, and sprinkles. */
-  floor: "#e2b07a",
-  floorDots: ["#c98f58", "#efc595", "#b97e4a", "#f3d2a8"],
-  sprinkles: ["#ff6fa5", "#5fd3b5", "#ffd166", "#8fb8ff", "#c79bff", "#ffffff"],
-  /** Base floor: vanilla cream. */
-  deck: "#fbecd8",
-  deckDots: ["#f3dcc0", "#fff6ea", "#efd2b2"],
-  /** The delivery-van road: chocolate. */
-  road: 0x9a5c3c,
-  /** Cliff pillars and the stage 9 knoll: chocolate. */
-  cliff: 0x8a5232,
-  knoll: 0x7a4a30,
-  /** The island's top round the used area (pink frosting), its cake sides and its chocolate underside. */
-  crust: "#f7b6cf",
-  crustDots: ["#f59cc0", "#fbd0e0", "#ffffff", "#f28ab4"],
-  underside: 0x5a3324,
-  /** Barriers: candy canes. Lamps: lollipop pink with a warm glow. */
-  barrier: 0xffffff,
-  barrierBand: 0xe8395a,
-  barrierLeg: 0xe8395a,
-  lampPole: 0xfff0f6,
-  lampHead: 0xfff1c9,
-  lampGlow: 0xffb04a,
-  /** Stage 1's yard (the lawn beside the base): mint frosting, with gift boxes and candy jars. */
-  apron: 0x9fe3c8,
-  containers: [0xff8fb8, 0x8fe0c8, 0xffd98a, 0xb9a4ff, 0xffffff, 0x8fc8ff],
-  barrels: [0xff6fa5, 0x5fd3b5, 0xffd166, 0xc79bff],
-  /** Gumdrops and lollipops on the frosting round the quarry. */
-  gumdrops: [0xff5c8a, 0x4fd1a5, 0xffc93c, 0x9b7bff, 0x5fb8ff, 0xff8a3d],
+  hemiSky: 0xeef7ff,
+  hemiGround: 0x7d9a5a,
+  hemiIntensity: 1.3,
+  sun: 0xfff1d6,
+  sunIntensity: 2.05,
+  /** The field (the ground under the cells): fresh grass. */
+  field: "#8fcb57",
+  fieldDots: ["#7dbb48", "#a5d968", "#6aa83d", "#b6e07a"],
+  /** The base yard: packed warm earth. */
+  yard: "#dcb27a",
+  yardDots: ["#c99c63", "#e8c592", "#b98a55", "#efd3a6"],
+  /** The delivery road: a darker earth road. */
+  road: 0xb88a58,
+  roadTex: "#b98c5a",
+  roadDots: ["#a57a4a", "#c99f6c", "#8f6a42", "#d6b07c"],
+  /** Rocky hills (cliff tiles, the stage 9 knoll): grey stone, moss on top. */
+  rock: 0x9a9690,
+  rockDark: 0x7d7a75,
+  moss: 0x79b04a,
+  /** The meadow round the plot, its earth bank and the water. */
+  meadow: "#77bd4f",
+  meadowDots: ["#66ad42", "#8ccc5e", "#5a9e3a", "#9fd86e"],
+  earth: 0x9c6b42,
+  water: "#45b3e0",
+  /** Fences and lamp posts: warm wood; lanterns glow. */
+  wood: 0x9a6a3c,
+  woodDark: 0x6e4a28,
+  woodLight: 0xc4925a,
+  lantern: 0xffe2a0,
+  lanternGlow: 0xffa53a,
+  /** Bushes, flowers and reeds round the plot. */
+  bushes: [0x5fae3f, 0x4f9c38, 0x72bd4a, 0x3f8a33],
+  flowers: [0xffffff, 0xffd84a, 0xff7aa8, 0xb48cff, 0xff8a3d, 0x7fc8ff],
 };
 
 /** Rng for the drawn backdrop and textures (same look every load). */
@@ -60,12 +60,13 @@ export function rng(seed: number): () => number {
   };
 }
 
+/** A soft round cloud of overlapping circles. */
 function puff(g: CanvasRenderingContext2D, x: number, y: number, w: number, r: () => number, color: string): void {
   g.fillStyle = color;
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 8; i++) {
     const px = x + (r() - 0.5) * w;
-    const py = y + (r() - 0.5) * w * 0.25;
-    const rad = w * (0.18 + r() * 0.16);
+    const py = y + (r() - 0.6) * w * 0.22;
+    const rad = w * (0.16 + r() * 0.15);
     g.beginPath();
     g.arc(px, py, rad, 0, Math.PI * 2);
     g.fill();
@@ -73,8 +74,8 @@ function puff(g: CanvasRenderingContext2D, x: number, y: number, w: number, r: (
 }
 
 /**
- * The sky behind everything, as the scene background (fixed to the screen): a pastel gradient from sky blue to pink,
- * a soft rainbow and fluffy clouds.
+ * The sky behind everything, as the scene background (fixed to the screen): a blue gradient fading to the haze of
+ * the fog toward the bottom, soft white clouds with a pale blue underside.
  */
 export function skyBackdrop(): THREE.CanvasTexture {
   const W = 1024;
@@ -85,30 +86,18 @@ export function skyBackdrop(): THREE.CanvasTexture {
   const g = c.getContext("2d")!;
   const r = rng(2026);
   const sky = g.createLinearGradient(0, 0, 0, H);
-  sky.addColorStop(0, "#9fd8ff");
-  sky.addColorStop(0.45, "#cfe3ff");
-  sky.addColorStop(0.8, "#f6d6ea");
-  sky.addColorStop(1, "#ffd9e6");
+  sky.addColorStop(0, "#5fb6f2");
+  sky.addColorStop(0.45, "#9fd5f7");
+  sky.addColorStop(0.78, "#cfe9f8");
+  sky.addColorStop(1, "#e2f2fb");
   g.fillStyle = sky;
   g.fillRect(0, 0, W, H);
-  // A soft rainbow, top left.
-  const bands = ["#ff8fa3", "#ffbf80", "#fff09a", "#a8f0b0", "#9fd0ff", "#c8a8ff"];
-  g.globalAlpha = 0.28;
-  g.lineWidth = 22;
-  bands.forEach((col, i) => {
-    g.strokeStyle = col;
-    g.beginPath();
-    g.arc(W * 0.18, H * 0.62, W * 0.42 - i * 22, Math.PI * 1.08, Math.PI * 1.62);
-    g.stroke();
-  });
-  g.globalAlpha = 1;
-  // Clouds: white puffs with a pink underside.
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 14; i++) {
     const x = r() * W;
-    const y = H * (0.08 + r() * 0.8);
-    const w = 90 + r() * 170;
-    g.globalAlpha = 0.55 + r() * 0.35;
-    puff(g, x, y + w * 0.08, w, rng(i * 31 + 7), "#ffd3e6");
+    const y = H * (0.06 + r() * 0.62);
+    const w = 110 + r() * 190;
+    g.globalAlpha = 0.6 + r() * 0.35;
+    puff(g, x, y + w * 0.07, w, rng(i * 31 + 7), "#d6e9f6");
     puff(g, x, y, w, rng(i * 31 + 7), "#ffffff");
   }
   g.globalAlpha = 1;
@@ -117,35 +106,199 @@ export function skyBackdrop(): THREE.CanvasTexture {
   return t;
 }
 
-/** A gap's surface: clouds far below, so a gap reads as a drop off the island, not a pond. */
-export function cloudTexture(): THREE.CanvasTexture {
+/** Draw `fn` at (x, y) and at its wrapped copies, so a texture tiles without seams. */
+function wrapped(S: number, x: number, y: number, reach: number, fn: (x: number, y: number) => void): void {
+  for (const ox of [-S, 0, S])
+    for (const oy of [-S, 0, S]) {
+      const px = x + ox;
+      const py = y + oy;
+      if (px < -reach || px > S + reach || py < -reach || py > S + reach) continue;
+      fn(px, py);
+    }
+}
+
+function canvasTexture(c: HTMLCanvasElement, repeat = true): THREE.CanvasTexture {
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = 4;
+  return t;
+}
+
+/**
+ * Ground that tiles: `base` with big soft patches of its `dots` colours, short strokes (grass blades or grit), and
+ * optionally pebbles, grass tufts and little flowers. Everything is soft and a few pixels wide: thin hard lines
+ * shimmer as the camera scrolls (CLAUDE.md, floor tiles).
+ */
+export function groundTexture(
+  base: string,
+  dots: string[],
+  o: { size?: number; seed?: number; blades?: number; pebbles?: number; flowers?: number; tufts?: number } = {},
+): THREE.CanvasTexture {
+  const S = o.size ?? 256;
+  const k = S / 256;
+  const c = document.createElement("canvas");
+  c.width = c.height = S;
+  const g = c.getContext("2d")!;
+  const r = rng(o.seed ?? 11);
+  g.fillStyle = base;
+  g.fillRect(0, 0, S, S);
+  // Soft patches.
+  for (let i = 0; i < 26; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    const rad = (30 + r() * 60) * k;
+    const col = dots[i % dots.length];
+    wrapped(S, x, y, rad, (px, py) => {
+      const gr = g.createRadialGradient(px, py, 0, px, py, rad);
+      gr.addColorStop(0, col);
+      gr.addColorStop(1, col + "00");
+      g.globalAlpha = 0.45;
+      g.fillStyle = gr;
+      g.fillRect(px - rad, py - rad, rad * 2, rad * 2);
+    });
+  }
+  g.globalAlpha = 1;
+  // Blades / grit: short soft strokes.
+  g.lineCap = "round";
+  for (let i = 0; i < (o.blades ?? 900) * k * k; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    const len = (3 + r() * 5) * k;
+    const lean = (r() - 0.5) * 0.9;
+    g.strokeStyle = dots[Math.floor(r() * dots.length)];
+    g.globalAlpha = 0.55 + r() * 0.4;
+    g.lineWidth = (1.4 + r() * 1.2) * k;
+    wrapped(S, x, y, 10 * k, (px, py) => {
+      g.beginPath();
+      g.moveTo(px, py);
+      g.lineTo(px + Math.sin(lean) * len, py - Math.cos(lean) * len);
+      g.stroke();
+    });
+  }
+  g.globalAlpha = 1;
+  // Grass tufts (on earth): little fans of green blades.
+  for (let i = 0; i < (o.tufts ?? 0) * k * k; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    wrapped(S, x, y, 12 * k, (px, py) => {
+      for (let b = 0; b < 5; b++) {
+        const a = -0.9 + b * 0.45;
+        g.strokeStyle = b % 2 ? "#6fae3e" : "#8cc757";
+        g.lineWidth = 2 * k;
+        g.beginPath();
+        g.moveTo(px, py);
+        g.lineTo(px + Math.sin(a) * 8 * k, py - Math.cos(a) * 9 * k);
+        g.stroke();
+      }
+    });
+  }
+  // Pebbles: a shadow, the stone, a highlight.
+  for (let i = 0; i < (o.pebbles ?? 0) * k * k; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    const w = (2 + r() * 2.6) * k;
+    const h = w * (0.6 + r() * 0.25);
+    const tone = 170 + Math.floor(r() * 40);
+    wrapped(S, x, y, 10 * k, (px, py) => {
+      g.fillStyle = "rgba(70,45,25,0.3)";
+      g.beginPath();
+      g.ellipse(px + 1 * k, py + 1.2 * k, w, h, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = `rgb(${tone},${tone - 14},${tone - 34})`;
+      g.beginPath();
+      g.ellipse(px, py, w, h, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = "rgba(255,255,255,0.35)";
+      g.beginPath();
+      g.ellipse(px - w * 0.3, py - h * 0.35, w * 0.4, h * 0.3, 0, 0, Math.PI * 2);
+      g.fill();
+    });
+  }
+  // Little flowers: five dots round a yellow eye.
+  const FL = ["#ffffff", "#ffe066", "#ff9cc2", "#c9a8ff"];
+  for (let i = 0; i < (o.flowers ?? 0) * k * k; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    const col = FL[Math.floor(r() * FL.length)];
+    const rad = (1.6 + r() * 0.8) * k;
+    wrapped(S, x, y, 8 * k, (px, py) => {
+      g.fillStyle = col;
+      for (let p = 0; p < 5; p++) {
+        const a = (p / 5) * Math.PI * 2;
+        g.beginPath();
+        g.arc(px + Math.cos(a) * rad, py + Math.sin(a) * rad, rad * 0.8, 0, Math.PI * 2);
+        g.fill();
+      }
+      g.fillStyle = "#f2b630";
+      g.beginPath();
+      g.arc(px, py, rad * 0.6, 0, Math.PI * 2);
+      g.fill();
+    });
+  }
+  return canvasTexture(c);
+}
+
+/** Water that tiles: blue with lighter ripple bands and a few white glints (MapView scrolls it slowly). */
+export function waterTexture(): THREE.CanvasTexture {
   const S = 256;
   const c = document.createElement("canvas");
   c.width = c.height = S;
   const g = c.getContext("2d")!;
   const r = rng(77);
-  g.fillStyle = "#f3c7dc";
+  g.fillStyle = THEME.water;
   g.fillRect(0, 0, S, S);
-  for (let i = 0; i < 26; i++) {
-    g.globalAlpha = 0.5 + r() * 0.5;
-    // Wrapped so the tile repeats without seams.
+  // Deeper and lighter patches.
+  for (let i = 0; i < 14; i++) {
     const x = r() * S;
     const y = r() * S;
-    const w = 50 + r() * 70;
-    for (const [ox, oy] of [[0, 0], [-S, 0], [S, 0], [0, -S], [0, S]]) puff(g, x + ox, y + oy, w, rng(i * 13 + 3), r() < 0.5 ? "#ffffff" : "#ffe6f1");
+    const rad = 30 + r() * 50;
+    const col = r() < 0.5 ? "#2f97c9" : "#6cc8ec";
+    wrapped(S, x, y, rad, (px, py) => {
+      const gr = g.createRadialGradient(px, py, 0, px, py, rad);
+      gr.addColorStop(0, col);
+      gr.addColorStop(1, col + "00");
+      g.globalAlpha = 0.5;
+      g.fillStyle = gr;
+      g.fillRect(px - rad, py - rad, rad * 2, rad * 2);
+    });
   }
   g.globalAlpha = 1;
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  return t;
+  // Ripples: short soft arcs.
+  g.lineCap = "round";
+  for (let i = 0; i < 70; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    const w = 10 + r() * 22;
+    g.strokeStyle = r() < 0.75 ? "rgba(170,228,250,0.75)" : "rgba(255,255,255,0.85)";
+    g.lineWidth = 2 + r() * 1.5;
+    wrapped(S, x, y, w, (px, py) => {
+      g.beginPath();
+      g.moveTo(px - w / 2, py);
+      g.quadraticCurveTo(px, py - 4, px + w / 2, py);
+      g.stroke();
+    });
+  }
+  // Glints.
+  g.fillStyle = "#ffffff";
+  for (let i = 0; i < 18; i++) {
+    const x = r() * S;
+    const y = r() * S;
+    wrapped(S, x, y, 6, (px, py) => {
+      g.beginPath();
+      g.ellipse(px, py, 2.6, 1.2, 0, 0, Math.PI * 2);
+      g.fill();
+    });
+  }
+  return canvasTexture(c);
 }
 
 /**
- * The island's sides: layers of cake, sponge and cream with a jam stripe, and frosting dripping over the top edge.
- * Repeats along the side; `v` runs from the bottom (0) to the top (1) of the slab.
+ * The plot's bank down to the river: a grass lip with blades hanging over, warm earth with stones in it, darker
+ * wet earth and boulders toward the waterline. Repeats along the side; canvas top = the top of the slab (MapView
+ * maps v so the waterline falls at about 0.5 of the canvas).
  */
-export function cakeSideTexture(): THREE.CanvasTexture {
+export function bankTexture(): THREE.CanvasTexture {
   const W = 256;
   const H = 256;
   const c = document.createElement("canvas");
@@ -153,81 +306,73 @@ export function cakeSideTexture(): THREE.CanvasTexture {
   c.height = H;
   const g = c.getContext("2d")!;
   const r = rng(5);
-  const layers: [number, string][] = [
-    [0.0, "#7a4a30"],
-    [0.18, "#f2d1a0"],
-    [0.36, "#fff6ec"],
-    [0.42, "#e8395a"],
-    [0.47, "#fff6ec"],
-    [0.53, "#e9be86"],
-    [0.74, "#fff6ec"],
-    [0.8, "#f7b6cf"],
-  ];
-  layers.forEach(([y0, col], i) => {
-    const y1 = i + 1 < layers.length ? layers[i + 1][0] : 1;
+  const earth = g.createLinearGradient(0, 0, 0, H);
+  earth.addColorStop(0, "#a8744a");
+  earth.addColorStop(0.3, "#93623c");
+  earth.addColorStop(0.5, "#7a5132");
+  earth.addColorStop(1, "#4a3424");
+  g.fillStyle = earth;
+  g.fillRect(0, 0, W, H);
+  // Soft strata.
+  for (const [y, col] of [[0.17, "rgba(190,140,90,0.45)"], [0.27, "rgba(120,80,48,0.4)"], [0.36, "rgba(180,130,85,0.35)"]] as const) {
     g.fillStyle = col;
-    g.fillRect(0, H - y1 * H, W, (y1 - y0) * H + 1);
-  });
-  // Sponge crumbs.
-  for (let i = 0; i < 500; i++) {
-    g.fillStyle = r() < 0.5 ? "rgba(150,95,50,0.25)" : "rgba(255,255,255,0.25)";
-    g.fillRect(r() * W, H - (0.18 + r() * 0.56) * H, 2, 2);
+    g.fillRect(0, y * H, W, 6);
   }
-  // Frosting drips over the top edge.
-  g.fillStyle = "#f7b6cf";
-  for (let x = 0; x < W; x += 16 + r() * 18) {
-    const len = 10 + r() * 34;
+  // Stones in the earth: grey, rounded, lit from above.
+  for (let i = 0; i < 40; i++) {
+    const x = r() * W;
+    const y = H * (0.12 + r() * 0.32);
+    const w = 4 + r() * 9;
+    const h = w * (0.6 + r() * 0.3);
+    const tone = 130 + Math.floor(r() * 60);
+    wrapped(W, x, y, 20, (px, py) => {
+      g.fillStyle = "rgba(40,25,15,0.35)";
+      g.beginPath();
+      g.ellipse(px + 1, py + 2, w, h, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = `rgb(${tone},${tone - 4},${tone - 10})`;
+      g.beginPath();
+      g.ellipse(px, py, w, h, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = "rgba(255,255,255,0.3)";
+      g.beginPath();
+      g.ellipse(px - w * 0.25, py - h * 0.35, w * 0.45, h * 0.3, 0, 0, Math.PI * 2);
+      g.fill();
+    });
+  }
+  // Boulders along the waterline.
+  for (let x = 0; x < W; x += 14 + r() * 12) {
+    const w = 10 + r() * 10;
+    const tone = 120 + Math.floor(r() * 40);
+    const y = H * (0.44 + r() * 0.06);
+    wrapped(W, x, y, 30, (px, py) => {
+      g.fillStyle = `rgb(${tone},${tone - 2},${tone - 6})`;
+      g.beginPath();
+      g.ellipse(px, py, w, w * 0.7, 0, 0, Math.PI * 2);
+      g.fill();
+      g.fillStyle = "rgba(255,255,255,0.25)";
+      g.beginPath();
+      g.ellipse(px - w * 0.2, py - w * 0.3, w * 0.5, w * 0.25, 0, 0, Math.PI * 2);
+      g.fill();
+    });
+  }
+  // The grass lip, with blades hanging over the edge.
+  g.fillStyle = THEME.meadow;
+  g.fillRect(0, 0, W, H * 0.06);
+  g.lineCap = "round";
+  for (let x = 0; x < W; x += 3) {
+    const len = 5 + r() * 14;
+    g.strokeStyle = r() < 0.5 ? "#6aae44" : "#86c95a";
+    g.lineWidth = 3;
     g.beginPath();
-    g.roundRect(x, H * 0.2 - 4, 12, len, 6);
-    g.fill();
+    g.moveTo(x, H * 0.05);
+    g.lineTo(x + (r() - 0.5) * 4, H * 0.05 + len);
+    g.stroke();
   }
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.wrapS = THREE.RepeatWrapping;
+  t.anisotropy = 4;
   return t;
 }
 
-/** A lollipop's face: a white swirl on a light ground, tinted per lollipop by its instance colour. */
-export function lollipopTexture(): THREE.CanvasTexture {
-  const S = 128;
-  const c = document.createElement("canvas");
-  c.width = c.height = S;
-  const g = c.getContext("2d")!;
-  g.fillStyle = "#ffffff";
-  g.fillRect(0, 0, S, S);
-  g.strokeStyle = "#d8c8d0";
-  g.lineWidth = 9;
-  g.beginPath();
-  for (let a = 0; a < Math.PI * 7; a += 0.08) {
-    const rad = (a / (Math.PI * 7)) * S * 0.5;
-    const x = S / 2 + Math.cos(a) * rad;
-    const y = S / 2 + Math.sin(a) * rad;
-    if (a === 0) g.moveTo(x, y);
-    else g.lineTo(x, y);
-  }
-  g.stroke();
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  return t;
-}
-
-/**
- * How much colour the land round the quarry has (Candy Miner's story: Baron Sourpuss's sour spell drained it; every
- * block freed brings some back). 0 = grey, 1 = full colour. Game sets it from the stage's progress toward the clear
- * line; the base and the candy blocks always keep their colours, so the first look is never grey.
- */
-export const landColour = { value: 1 };
-
-/** Let a material be drained toward grey by `landColour` (after its texture and instance colours). */
-export function sourable<T extends THREE.Material>(m: T): T {
-  m.onBeforeCompile = (sh) => {
-    sh.uniforms.uLandColour = landColour;
-    sh.fragmentShader =
-      "uniform float uLandColour;\n" +
-      sh.fragmentShader.replace(
-        "#include <color_fragment>",
-        "#include <color_fragment>\n  diffuseColor.rgb = mix(vec3(dot(diffuseColor.rgb, vec3(0.299, 0.587, 0.114))) * vec3(0.78, 0.8, 0.72), diffuseColor.rgb, uLandColour);",
-      );
-  };
-  return m;
-}

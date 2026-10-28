@@ -3,6 +3,7 @@ import { EQUIP, MANAGEMENT } from "../data";
 import { S, markDirty } from "../state";
 import { fmt } from "./Hud";
 import { ICON } from "./Panels";
+import economy from "../../data/game/economy.json";
 
 /** One research node of the company tree (MANAGEMENT.treeNodes). */
 export interface ResearchNode {
@@ -25,23 +26,28 @@ const PADLOCK = `<svg viewBox="0 0 40 50" aria-hidden="true"><path d="M10 23V15a
 
 /** Icons for research equipment that ICON doesn't list (every machine has its picture there). */
 const EXTRA_ICON: Record<string, string> = {
-  "Large Hand Drill": "🪛",
-  "Exo-Carrier": "🦾",
+  largeHandDrill: "🌾",
+  exoCarrier: "🪜",
 };
+/**
+ * The research data names its equipment by the economy table's own English names ("Large Hand Drill"); the
+ * player sees ours (text.json, e.g. "Power Scythe"). Economy name -> equipment key.
+ */
+const KEY_OF_NAME = new Map<string, string>(Object.entries<{ name: string }>(economy.equipment as Record<string, { name: string }>).map(([k, e]) => [e.name, k]));
 function iconOf(equipment: string): string {
-  const key = Object.values(EQUIP).find((e) => e.name === equipment)?.key;
-  return (key && ICON[key]) || EXTRA_ICON[equipment] || "🔧";
+  const key = KEY_OF_NAME.get(equipment);
+  return (key && (ICON[key] || EXTRA_ICON[key])) || "🔧";
 }
 
 const STAT_LABEL: Record<string, string> = {
-  AttackPower: "Mining Power",
-  AttackInterval: "Mining Speed",
-  Cargo: "Cargo",
+  AttackPower: "Harvest Power",
+  AttackInterval: "Harvest Speed",
+  Cargo: "Load Size",
   MoveSpeed: "Move Speed",
-  FuelEfficiency: "Fuel Efficiency",
-  FuelAmount: "Fuel Tank",
+  FuelEfficiency: "Fuel Saver",
+  FuelAmount: "Diesel Tank",
 };
-/** "PickaxeAttackPowerMulti 0.1" → "Mining Power +10%". */
+/** "PickaxeAttackPowerMulti 0.1" → "Harvest Power +10%". */
 export function effectText(e: { stat: string; value: number }): string {
   const m = /(AttackPower|AttackInterval|Cargo|MoveSpeed|FuelEfficiency|FuelAmount)(Multi|Base)$/.exec(e.stat);
   if (!m) return `${e.stat} +${e.value}`;
@@ -76,9 +82,11 @@ function floorTitle(id: number, fallback: string): string {
  *
  * z-index 39: above the HQ tower (36), below Sofia's dialogue (40) and the spotlight (45).
  */
-/** Display name of a research prerequisite (the data names equipment by name). */
+/** Display name of a research prerequisite or node (the data names equipment by its economy name). */
 function eqName(name: string | null): string {
-  return name ?? "";
+  if (!name) return "";
+  const key = KEY_OF_NAME.get(name);
+  return (key && EQUIP[key]?.name) || name;
 }
 
 export class ResearchPanel {
@@ -245,12 +253,12 @@ export class ResearchPanel {
   render(): void {
     const now = Date.now();
     const scroll = this.body.scrollTop;
-    this.titleEl.textContent = this.customTitle ?? (this.floor === "light" ? floorTitle(2, "Light Equipment Upgrade") : floorTitle(3, "Heavy Equipment Upgrade"));
+    this.titleEl.textContent = this.customTitle ?? (this.floor === "light" ? floorTitle(2, "Hand Tool Upgrades") : floorTitle(3, "Machine Upgrades"));
     this.box.classList.toggle("heavy", this.floor === "heavy");
     const open = this.floorOpen();
     const tabBtn = (t: ResearchTab, ico: string, name: string) =>
       `<button data-tab="${t}" class="${this.tab === t ? "on" : ""} ${open && this.hasAlert(this.floor, t) ? "has" : ""}"><span class="rp-ti">${ico}</span>${name}<i class="rp-bang">!</i></button>`;
-    this.tabsEl.innerHTML = tabBtn("mining", "⛏", "MINING") + tabBtn("carrying", "🛒", "CARRYING");
+    this.tabsEl.innerHTML = tabBtn("mining", "🌾", "HARVEST") + tabBtn("carrying", "🧺", "CARRYING");
     if (!open) {
       this.body.innerHTML = `<div class="rp-note"><span>${PADLOCK}</span>${this.floor === "light" ? "Opens at Stage 2." : "Opens at Stage 2 · 40%."}</div>`;
       this.sig = this.signature(now);
@@ -286,7 +294,7 @@ export class ResearchPanel {
     const lockish = st === "locked" || st === "needs";
     return `<div class="rp-node s-${st}${br ? " br" : ""}${this.fresh === n.id ? " fresh" : ""}" data-id="${n.id}">
       <div class="rp-tile"><span class="rp-emo">${iconOf(n.equipment)}</span>${lockish ? `<i class="rp-pad">${PADLOCK}</i>` : ""}${st === "applied" ? `<i class="rp-check">✔</i>` : ""}${this.alert(n, st) ? `<i class="rp-bang">!</i>` : ""}</div>
-      <div class="rp-mid"><div class="rp-eq">${n.equipment}</div><div class="rp-name">${n.title}</div><div class="rp-eff">${n.effects.map(effectText).join(" · ")}</div></div>
+      <div class="rp-mid"><div class="rp-eq">${eqName(n.equipment)}</div><div class="rp-name">${n.title}</div><div class="rp-eff">${n.effects.map(effectText).join(" · ")}</div></div>
       <div class="rp-act">${act}</div></div>`;
   }
 

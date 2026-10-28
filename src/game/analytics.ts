@@ -17,7 +17,7 @@
  *   would be a "new user".
  *   `?ga=log` keeps the calls in `window.dataLayer` without loading the script (headless checks).
  */
-// Candy Miner (like Mars Miner, 2026-10-28): empty until it has its own GA4 property (G-5SBXQR5X6G is Quarry Crush's).
+// Farm Valley (like Candy Miner, 2026-10-28): empty until it has its own GA4 property (G-5SBXQR5X6G is Quarry Crush's).
 const GA_ID = "";
 
 declare global {

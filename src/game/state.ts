@@ -9,6 +9,9 @@ export interface Transit {
   vehicles: Record<string, { items: number[]; fuel: number }>;
   furnaceQueue: number[];
   furnaceOut: number[];
+  /** The Forge's queue and tray (farm game; the Mill keeps the furnace fields). */
+  forgeQueue?: number[];
+  forgeOut?: number[];
   sellPile: number[];
   /** Cash waiting on the pallet by the SELL pad. */
   pallet: number;

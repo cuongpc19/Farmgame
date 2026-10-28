@@ -4,7 +4,7 @@ import { QUESTS, RV_BOOSTS, RV_CONFIG, ITEM_MULT } from "../data";
 import { events } from "./Events";
 import { S, addCash, markDirty } from "../state";
 import { padOutline } from "../world/props";
-import { cupcakeMesh } from "../world/candyScenery";
+import { boostPickupMesh } from "../world/farmScenery";
 import { sfx } from "../audio";
 import type { AdSim } from "../ui/Popups";
 import type { Hud } from "../ui/Hud";
@@ -66,11 +66,11 @@ interface Tile {
 
 const INFO: Record<number, { icon: string; line: string; color: number }> = {
   1001: { icon: "⚡", line: "+30% move speed", color: 0x46b4ff },
-  1002: { icon: "💥", line: "+50% mining power", color: 0xff5a4a },
-  1003: { icon: "🧲", line: "No cargo limit, wider pickup range", color: 0xb05cff },
-  5001: { icon: "🔥", line: "+100% smelting speed", color: 0xff8a2a },
-  5002: { icon: "🚚", line: "Sell 300 cargo on the spot", color: 0x4cc94a },
-  5003: { icon: "🍖", line: "Your crew never gets tired", color: 0xffd34d },
+  1002: { icon: "💥", line: "+50% harvest power", color: 0xff5a4a },
+  1003: { icon: "🧲", line: "No carry limit, wider pickup range", color: 0xb05cff },
+  5001: { icon: "🔥", line: "+100% Mill & Forge speed", color: 0xff8a2a },
+  5002: { icon: "🚚", line: "Sell 300 goods on the spot", color: 0x4cc94a },
+  5003: { icon: "🍜", line: "Your farmhands never get tired", color: 0xffd34d },
   7001: { icon: "🏧", line: "Grab some free cash from the ATM", color: 0x4cc94a },
 };
 
@@ -481,9 +481,10 @@ export class Boosts {
     const pad = padOutline(2.4, color);
     pad.fill.scale.set(1, 1, 1);
     root.add(pad.root);
-    // A cupcake frosted in the boost's colour (Candy Miner; was a canister). Spun and bobbed in update().
+    // A seed sack tied with a ribbon in the boost's colour (Farm Valley; a cupcake in Candy Miner, a canister before).
+    // Spun and bobbed in update().
     const can = new THREE.Group();
-    can.add(cupcakeMesh(color));
+    can.add(boostPickupMesh(color));
     can.position.y = 1.0;
     root.add(can);
     root.position.copy(pos);
@@ -590,7 +591,7 @@ export class Boosts {
     if (!this.pizzaSaid && !busy && this.h.hasWorkers() && this.pizzaBonus(5003)) {
       this.pizzaSaid = true;
       this.pizzaSaidAt = this.now;
-      this.h.hud.toast("🍖 Free BBQ party for your crew at the restaurant!", 4000);
+      this.h.hud.toast("🍜 Free NOODLE PARTY for your farmhands at the Noodle Stall!", 4000);
     }
     this.updateCashBonus(busy);
     if (!this.unlocked) {
@@ -646,7 +647,7 @@ export class Boosts {
     add(buffs.damageUntil, "💥", this.spans[1002]);
     add(buffs.magnetUntil, "🧲", this.spans[1003]);
     add(buffs.furnaceUntil, "🔥", 180);
-    add(buffs.staminaUntil, "🍖", 180);
+    add(buffs.staminaUntil, "🍜", 180);
     const html = items.join("");
     if (this.ring.innerHTML !== html) this.ring.innerHTML = html;
   }

@@ -16,5 +16,5 @@
  {"until": "__game.sales.moneyWaiting === 0", "timeout": 20000},
  {"wait": 800},
  {"snap": "l4_cash"},
- {"eval": "({cash: JSON.parse(localStorage.getItem('cm_save')||'{}').cash, prog: __game.progress().toFixed(2), t: __game.time.toFixed(0)})"}
+ {"eval": "({cash: JSON.parse(localStorage.getItem('fv_save')||'{}').cash, prog: __game.progress().toFixed(2), t: __game.time.toFixed(0)})"}
 ]

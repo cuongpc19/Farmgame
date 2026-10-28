@@ -71,7 +71,7 @@ export async function loadProps(): Promise<void> {
   // Decode embedded textures through <img>: the artifact viewer's CSP blocks fetch().
   loader.register((parser) => {
     parser.textureLoader = new THREE.TextureLoader(parser.options.manager);
-    return { name: "cm_img_textures" };
+    return { name: "fv_img_textures" };
   });
   await Promise.all(
     (Object.keys(SRC) as PropName[]).map(async (k) => {

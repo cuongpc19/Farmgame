@@ -144,12 +144,12 @@ export class StageClearFlow {
       .join("");
     this.m.show(`
       <div class="sc-rays"></div>
-      <div class="sc-hero">🍭</div>
+      <div class="sc-hero">🌾</div>
       <div class="sc-plate">STAGE COMPLETE</div>
-      <div class="sc-band">Shift Report</div>
+      <div class="sc-band">Harvest Report</div>
       <div class="sc-res"><div><i class="ico cash"></i><span>Cash Earned</span><b class="c1">0</b></div>
-        <div><span class="ore">⛰</span><span>Candy Freed</span><b><span class="c2">0</span> <em>[${pct}%]</em></b></div></div>
-      <div class="sc-band">Top 4 Crew <small><i class="dot mi"></i>Mining <i class="dot ha"></i>Hauling</small></div>
+        <div><span class="ore">🌾</span><span>Harvested</span><b><span class="c2">0</span> <em>[${pct}%]</em></b></div></div>
+      <div class="sc-band">Top Farmhands <small><i class="dot mi"></i>Harvest <i class="dot ha"></i>Hauling</small></div>
       <div class="sc-workers">${rows}</div>
       <div class="sc-tap">TAP TO CONTINUE</div>`);
     this.m.card.classList.add("sc");
@@ -181,18 +181,18 @@ export class StageClearFlow {
     if (!s.next) return false;
     const n = s.next;
     this.m.show(`
-      <div class="bubble">Pick your next contract!<small>You can't change it once you sign.</small></div>
-      <div class="folder pick"><div class="f-rec">Recommended</div><div class="f-name">${n.name}</div><div class="f-tag">${n.difficulty}</div><div class="f-map">🏝️</div></div>`);
+      <div class="bubble">Pick your next plot!<small>You can't change it once you sign.</small></div>
+      <div class="folder pick"><div class="f-rec">Recommended</div><div class="f-name">${n.name}</div><div class="f-tag">${n.difficulty}</div><div class="f-map">🗺️</div></div>`);
     await this.m.btn(".pick");
     this.m.show(`
-      <div class="bubble">Take this contract?<small>Look over the land details below. You can't change it once you sign.</small></div>
+      <div class="bubble">Farm this plot?<small>Look over the details below. You can't change it once you sign.</small></div>
       <div class="folder open"><div class="f-name">${n.name}</div><div class="stamp">${n.difficulty.toUpperCase()}</div>
-        <div class="c-row"><span>ORE FOUND</span><b>${n.detected}</b></div>
-        <div class="c-row"><span>MAIN RESOURCE</span><b>${n.keyOre}</b></div>
-        <div class="c-row"><span>CLIENT</span><b>${n.client}</b></div>
+        <div class="c-row"><span>TO HARVEST</span><b>${n.detected}</b></div>
+        <div class="c-row"><span>MAIN CROP</span><b>${n.keyOre}</b></div>
+        <div class="c-row"><span>DEAL</span><b>${n.client}</b></div>
         <div class="c-row"><span>BONUS</span><b>⚙️ ${n.bonus}</b></div>
         <div class="approved">APPROVED</div></div>
-      <button class="m-btn go">CONTRACT</button>`);
+      <button class="m-btn go">SIGN</button>`);
     await this.m.btn(".go");
     (this.m.card.querySelector(".go") as HTMLElement).style.visibility = "hidden";
     this.m.card.querySelector(".approved")!.classList.add("on");
@@ -202,7 +202,7 @@ export class StageClearFlow {
   }
 }
 
-/** Worker office: current applicants + hire buttons; hired count / max. */
+/** Job Board: current applicants + hire buttons; hired count / max. */
 export class WorkersPanel extends Sheet {
   applicants: { profile: WorkerProfile; until: number }[] = [];
   onHire: ((id: number) => void) | null = null;
@@ -244,7 +244,7 @@ export class WorkersPanel extends Sheet {
         return `<div class="row worker">
           ${workerPic(p.id, p.role)}
           <div class="r-mid"><div class="r-name">${p.name} <small>${"★".repeat(p.tier + 1)}</small></div>
-            <div class="r-sub">${p.role === "Mining" ? "Miner" : "Carrier"} · ${p.trait} · leaves in ${left}s</div>
+            <div class="r-sub">${p.role === "Mining" ? "Harvester" : "Hauler"} · ${p.trait} · leaves in ${left}s</div>
             <div class="w-stats"><span class="${hl("moveSpeed")}">➜${st.moveSpeed}</span><span class="${hl("staminaAmount")}">♥${st.stamina}</span><span class="${hl("attackPower")}">⚒${st.power}</span><span class="${hl("cargo")}">📦${Math.round(st.cargo * PACE.cargo)}</span></div></div>
           <div class="jb-btns"><button class="r-buy decline" data-decline="${p.id}">DECLINE</button>
           ${full
@@ -253,7 +253,7 @@ export class WorkersPanel extends Sheet {
         </div>`;
       });
     this.setTitle(`JOB BOARD [${cards.length}/3]`);
-    this.body.innerHTML = `<div class="sh-note">Hired Workers: ${hired}/${this.maxWorkers}<br><small>Hires last for this stage only. Turned-down applicants may come back.</small></div>${cards.join("") || `<div class="sh-note">No applicants right now. Check back soon.</div>`}`;
+    this.body.innerHTML = `<div class="sh-note">Farmhands: ${hired}/${this.maxWorkers}<br><small>Hires last for this stage only. Turned-down applicants may come back.</small></div>${cards.join("") || `<div class="sh-note">No applicants right now. Check back soon.</div>`}`;
   }
 
   /** Roll a batch of 3 (the first batch is the scripted onboarding pair + 1). */

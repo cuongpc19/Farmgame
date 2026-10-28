@@ -33,7 +33,7 @@ export class Hud {
       <div class="hud-top">
         <div class="hud-left">
           <button class="ic hit" data-k="settings">⚙</button>
-          <button class="ic hit" data-k="company" style="display:none">🏢</button>
+          <button class="ic hit" data-k="company" style="display:none">🏡</button>
         </div>
         <div class="hud-stage">
           <div class="st-title">Stage 1</div>

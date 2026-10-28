@@ -1,16 +1,21 @@
 import * as THREE from "three";
 import { CELL, cellToWorld, type Placed, type StageDef } from "../data";
-import { bakeColors, mat } from "../models";
+import { bakeColors } from "../models";
 import { buildYard } from "./yard";
-import { candyLamp, caneFence, chocoKnoll, chocoPillarTexture, chocoPillarUVs } from "./candyScenery";
-import { THEME, cakeSideTexture, cloudTexture, lollipopTexture, sourable } from "../theme";
+import { bushGeometry, farmLamp, reedGeometry, rockGeometry, rockMaterial, rockyKnoll, tintedInstances, tintedMaterial, woodFence } from "./farmScenery";
+import { THEME, bankTexture, groundTexture, rng, waterTexture } from "../theme";
 
 type Rect = { x0: number; z0: number; x1: number; z1: number };
 
+/** How far the water round the plot lies below the field, and how far the meadow slab goes down. */
+const WATER_Y = -2.2;
+const SLAB = 4;
+
 /**
- * Static scenery of a stage built from the decoded map: ground / home / cliff tiles,
- * roads, fence posts, plus the asteroid's crust and underside adrift in space (Mars Miner), so the quarry reads as a cliff-top
- * site. Everything here is instanced or merged: one stage is a handful of draw calls.
+ * Static scenery of a stage built from the decoded map: field / yard / rocky-hill tiles, roads, fences, lamps, and
+ * round it the plot itself (Farm Valley): a meadow with bushes and rocks, its earth-and-stone bank down to a river that
+ * runs all round and into the gaps, reeds at the water's edge. Everything here is instanced or merged: one stage is
+ * a handful of draw calls.
  */
 export class MapView {
   readonly group = new THREE.Group();
@@ -52,11 +57,25 @@ export class MapView {
     };
   }
 
+  /** Water that drifts slowly: the texture's offset follows the clock, set just before the mesh is drawn. */
+  private static flowing(mesh: THREE.Mesh, tex: THREE.Texture, speed: number): void {
+    mesh.onBeforeRender = () => {
+      const t = performance.now() / 1000;
+      tex.offset.set(t * speed, Math.sin(t * 0.3) * speed * 4);
+    };
+  }
+
+  private static waterMaterial(repeat: number): { m: THREE.MeshPhongMaterial; tex: THREE.Texture } {
+    const tex = waterTexture();
+    tex.repeat.set(repeat, repeat);
+    return { m: new THREE.MeshPhongMaterial({ map: tex, shininess: 70, specular: 0x6a8a99 }), tex };
+  }
+
   private buildBackdrop(): void {
-    // The candy island (Candy Miner): a slab of pink frosting under the whole used area, slightly below the floor, so
-    // cliff edges drop away to cake layers, then a chocolate underside; beyond it, the sky (Stage3D's backdrop).
+    // The plot: a meadow slab under the whole used area, a little below the floor, so cliff edges drop to grass; its
+    // sides are an earth-and-stone bank down to the river round it (Farm Valley; was a candy island over clouds).
     let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
-    for (const p of [...this.st.areas.ground, ...this.st.areas.home, ...this.st.areas.obstacle]) {
+    for (const p of [...this.st.areas.ground, ...this.st.areas.home, ...this.st.areas.obstacle, ...this.st.areas.lawn]) {
       const r = this.rect(p);
       x0 = Math.min(x0, r.x0); x1 = Math.max(x1, r.x1);
       z0 = Math.min(z0, r.z0); z1 = Math.max(z1, r.z1);
@@ -64,101 +83,92 @@ export class MapView {
     const pad = 30;
     const W = x1 - x0 + pad * 2;
     const D = z1 - z0 + pad * 2;
-    const crustTex = MapView.noiseTex(THEME.crust, THEME.crustDots, 90);
-    crustTex.repeat.set(W / 10, D / 10);
-    const sideX = cakeSideTexture();
-    sideX.repeat.set(W / 14, 1);
+    const meadow = groundTexture(THEME.meadow, THEME.meadowDots, { seed: 17, blades: 1000, flowers: 22 });
+    meadow.repeat.set(W / 12, D / 12);
+    const sideX = bankTexture();
+    sideX.repeat.set(W / 12, 1);
     const sideZ = sideX.clone();
-    sideZ.repeat.set(D / 14, 1);
-    // The land round the quarry is drained of colour by the sour spell until the stage is cleared (theme.ts landColour).
-    const top = sourable(new THREE.MeshLambertMaterial({ map: crustTex }));
-    const cakeX = sourable(new THREE.MeshLambertMaterial({ map: sideX }));
-    const cakeZ = sourable(new THREE.MeshLambertMaterial({ map: sideZ }));
+    sideZ.repeat.set(D / 12, 1);
+    const top = new THREE.MeshLambertMaterial({ map: meadow });
+    const bankX = new THREE.MeshLambertMaterial({ map: sideX });
+    const bankZ = new THREE.MeshLambertMaterial({ map: sideZ });
     // BoxGeometry faces: +x, -x, +y, -y, +z, -z.
-    const land = new THREE.Mesh(new THREE.BoxGeometry(W, 14, D), [cakeZ, cakeZ, top, top, cakeX, cakeX]);
-    land.position.set((x0 + x1) / 2, -7.4, (z0 + z1) / 2);
+    const land = new THREE.Mesh(new THREE.BoxGeometry(W, SLAB, D), [bankZ, bankZ, top, top, bankX, bankX]);
+    const cx = (x0 + x1) / 2;
+    const cz = (z0 + z1) / 2;
+    land.position.set(cx, -0.4 - SLAB / 2, cz);
     land.receiveShadow = true;
     this.group.add(land);
-    const under = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0 + pad, 22, z1 - z0 + pad), mat(THEME.underside));
-    under.position.set((x0 + x1) / 2, -25, (z0 + z1) / 2);
-    this.group.add(under);
-    // Gumdrops and lollipops on the frosting round the quarry (where the trees were), one colour each.
-    const gumGeo = new THREE.SphereGeometry(1.3, 14, 9, 0, Math.PI * 2, 0, Math.PI * 0.62);
-    const gumdrops = new THREE.InstancedMesh(gumGeo, sourable(new THREE.MeshPhongMaterial({ shininess: 70, specular: 0x555555 })), 90);
-    const stickGeo = new THREE.CylinderGeometry(0.09, 0.09, 2.4, 6);
-    stickGeo.translate(0, 1.2, 0);
-    const sticks = new THREE.InstancedMesh(stickGeo, mat(0xfff8f0), 40);
-    const popGeo = new THREE.CylinderGeometry(0.85, 0.85, 0.28, 20);
-    popGeo.rotateX(Math.PI / 2);
-    popGeo.translate(0, 2.75, 0);
-    const pops = new THREE.InstancedMesh(popGeo, sourable(new THREE.MeshPhongMaterial({ map: lollipopTexture(), shininess: 60, specular: 0x444444 })), 40);
-    const m4 = new THREE.Matrix4();
-    const q = new THREE.Quaternion();
-    const col = new THREE.Color();
-    let n = 0;
-    let k = 0;
-    for (let i = 0; i < 500 && (n < 90 || k < 40); i++) {
-      const x = x0 - pad + Math.random() * (x1 - x0 + pad * 2);
-      const z = z0 - pad + Math.random() * (z1 - z0 + pad * 2);
-      if (x > x0 - 4 && x < x1 + 4 && z > z0 - 4 && z < z1 + 4) continue;
-      if (Math.random() < 0.7 && n < 90) {
-        q.setFromEuler(new THREE.Euler(0, Math.random() * Math.PI * 2, 0));
-        const s = 0.6 + Math.random() * 1.0;
-        m4.compose(new THREE.Vector3(x, -0.45, z), q, new THREE.Vector3(s, s * 1.15, s));
-        gumdrops.setMatrixAt(n, m4);
-        gumdrops.setColorAt(n++, col.setHex(THEME.gumdrops[Math.floor(Math.random() * THEME.gumdrops.length)]));
-      } else if (k < 40) {
-        // Lollipops face the camera (it looks north from the south), with a little lean.
-        q.setFromEuler(new THREE.Euler(Math.random() * 0.2 - 0.1, Math.random() * 0.8 - 0.4, Math.random() * 0.2 - 0.1));
-        const s = 0.8 + Math.random() * 0.7;
-        m4.compose(new THREE.Vector3(x, -0.4, z), q, new THREE.Vector3(s, s, s));
-        sticks.setMatrixAt(k, m4);
-        pops.setMatrixAt(k, m4);
-        pops.setColorAt(k++, col.setHex(THEME.gumdrops[Math.floor(Math.random() * THEME.gumdrops.length)]).lerp(new THREE.Color(0xffffff), 0.25));
-      }
-    }
-    gumdrops.count = n;
-    sticks.count = pops.count = k;
-    gumdrops.castShadow = sticks.castShadow = pops.castShadow = true;
-    this.group.add(gumdrops, sticks, pops);
-  }
+    // The river all round, out to the haze.
+    const { m: wm, tex } = MapView.waterMaterial(60);
+    const river = new THREE.Mesh(new THREE.PlaneGeometry(720, 720), wm);
+    river.rotation.x = -Math.PI / 2;
+    river.position.set(cx, WATER_Y, cz);
+    MapView.flowing(river, tex, 0.004);
+    this.group.add(river);
 
-  /** Procedural ground texture: base colour + speckles and pebbles (no image files). */
-  private static noiseTex(base: string, dots: string[], pebbles: number, sprinkles?: string[]): THREE.CanvasTexture {
-    const c = document.createElement("canvas");
-    c.width = c.height = 256;
-    const g = c.getContext("2d")!;
-    g.fillStyle = base;
-    g.fillRect(0, 0, 256, 256);
-    for (let i = 0; i < 2600; i++) {
-      g.fillStyle = dots[i % dots.length];
-      g.globalAlpha = 0.18 + Math.random() * 0.25;
-      g.fillRect(Math.random() * 256, Math.random() * 256, 1 + Math.random() * 3, 1 + Math.random() * 3);
+    // Round the plot: bushes with flowers, mossy rocks, reeds standing in the water along the bank.
+    const r = rng(Math.round(W * 31 + D * 7));
+    const inside = (x: number, z: number, m: number) => x > x0 - m && x < x1 + m && z > z0 - m && z < z1 + m;
+    const bushes: { m: THREE.Matrix4; a: number; b: number }[] = [];
+    const e = new THREE.Euler();
+    const q = new THREE.Quaternion();
+    const v = new THREE.Vector3();
+    const sc = new THREE.Vector3();
+    for (let i = 0; i < 600 && bushes.length < 80; i++) {
+      const x = x0 - pad + 1.5 + r() * (W - 3);
+      const z = z0 - pad + 1.5 + r() * (D - 3);
+      if (inside(x, z, 3)) continue;
+      const s = 0.8 + r() * 1.1;
+      q.setFromEuler(e.set(0, r() * Math.PI * 2, 0));
+      bushes.push({
+        m: new THREE.Matrix4().compose(v.set(x, -0.45, z), q, sc.set(s, s * (0.8 + r() * 0.35), s)),
+        a: THEME.bushes[Math.floor(r() * THEME.bushes.length)],
+        b: THEME.flowers[Math.floor(r() * THEME.flowers.length)],
+      });
     }
-    for (let i = 0; i < pebbles; i++) {
-      g.globalAlpha = 0.35;
-      g.fillStyle = dots[i % dots.length];
-      g.beginPath();
-      g.ellipse(Math.random() * 256, Math.random() * 256, 3 + Math.random() * 7, 2 + Math.random() * 5, Math.random() * 3, 0, Math.PI * 2);
-      g.fill();
+    const bushMesh = tintedInstances(bushGeometry(), tintedMaterial(null, 8), bushes);
+    if (bushMesh) this.group.add(bushMesh);
+    const rocks = new THREE.InstancedMesh(rockGeometry(7, true, 10, 7), rockMaterial(), 60);
+    const col = new THREE.Color();
+    const m4 = new THREE.Matrix4();
+    let n = 0;
+    for (let i = 0; i < 400 && n < 60; i++) {
+      const x = x0 - pad + 1 + r() * (W - 2);
+      const z = z0 - pad + 1 + r() * (D - 2);
+      if (inside(x, z, 2.5)) continue;
+      const s = 0.7 + r() * 1.6;
+      q.setFromEuler(e.set(0, r() * Math.PI * 2, 0));
+      m4.compose(v.set(x, -0.6, z), q, sc.set(s * (1 + r() * 0.5), s * (0.6 + r() * 0.4), s));
+      rocks.setMatrixAt(n, m4);
+      rocks.setColorAt(n++, col.setScalar(0.92 + r() * 0.16));
     }
-    g.globalAlpha = 1;
-    // Sprinkles (Candy Miner: the quarry floor): little rounded sticks in candy colours.
-    for (let i = 0; sprinkles && i < 70; i++) {
-      g.save();
-      g.translate(Math.random() * 256, Math.random() * 256);
-      g.rotate(Math.random() * Math.PI);
-      g.fillStyle = sprinkles[i % sprinkles.length];
-      g.beginPath();
-      g.roundRect(-5, -1.6, 10, 3.2, 1.6);
-      g.fill();
-      g.restore();
+    rocks.count = n;
+    rocks.castShadow = rocks.receiveShadow = true;
+    this.group.add(rocks);
+    const reeds: { m: THREE.Matrix4; a: number; b: number }[] = [];
+    const edge = (x: number, z: number, rot: number) => {
+      const s = 0.8 + r() * 0.5;
+      q.setFromEuler(e.set(0, rot + r() * 3, 0));
+      reeds.push({ m: new THREE.Matrix4().compose(v.set(x, WATER_Y - 0.1, z), q, sc.set(s, s, s)), a: 0xffffff, b: 0xffffff });
+    };
+    const ex0 = x0 - pad;
+    const ex1 = x1 + pad;
+    const ez0 = z0 - pad;
+    const ez1 = z1 + pad;
+    for (let x = ex0 + 2; x < ex1 - 2; x += 2 + r() * 5) {
+      if (r() < 0.6) edge(x, ez1 + 0.35 + r() * 0.5, 0);
+      if (r() < 0.6) edge(x, ez0 - 0.35 - r() * 0.5, 0);
     }
-    const t = new THREE.CanvasTexture(c);
-    t.colorSpace = THREE.SRGBColorSpace;
-    t.wrapS = t.wrapT = THREE.RepeatWrapping;
-    t.anisotropy = 4;
-    return t;
+    for (let z = ez0 + 2; z < ez1 - 2; z += 2 + r() * 5) {
+      if (r() < 0.6) edge(ex1 + 0.35 + r() * 0.5, z, 0);
+      if (r() < 0.6) edge(ex0 - 0.35 - r() * 0.5, z, 0);
+    }
+    const reedMesh = tintedInstances(reedGeometry(), tintedMaterial(null, 8), reeds);
+    if (reedMesh) {
+      reedMesh.castShadow = false;
+      this.group.add(reedMesh);
+    }
   }
 
   private buildTiles(): void {
@@ -174,12 +184,15 @@ export class MapView {
     const base = new THREE.BoxGeometry(CELL * 4 - 0.3, 0.6, CELL * 4 - 0.3);
     base.translate(0, -0.55, 0);
     const m4 = new THREE.Matrix4();
-    const dirt = new THREE.MeshLambertMaterial({ map: MapView.noiseTex(THEME.floor, THEME.floorDots, 60, THEME.sprinkles) });
-    const paving = new THREE.MeshLambertMaterial({ map: MapView.noiseTex(THEME.deck, THEME.deckDots, 8) });
-    const add = (list: Placed[], color: number, y = 0) => {
-      const material = color === 0xa47b52 ? dirt : color === 0xb9b2a4 ? paving : mat(color);
+    // The field (fresh grass under the cells), the base yard (packed earth), the road (a darker earth road); the
+    // bases under them are earth, which shows at the edges as a bank.
+    const field = new THREE.MeshLambertMaterial({ map: groundTexture(THEME.field, THEME.fieldDots, { size: 512, seed: 7, blades: 1100 }) });
+    const yard = new THREE.MeshLambertMaterial({ map: groundTexture(THEME.yard, THEME.yardDots, { seed: 9, blades: 650, pebbles: 9, tufts: 16 }) });
+    const road = new THREE.MeshLambertMaterial({ map: groundTexture(THEME.roadTex, THEME.roadDots, { seed: 41, blades: 650, pebbles: 12, tufts: 4 }) });
+    const earth = new THREE.MeshLambertMaterial({ color: THEME.earth });
+    const add = (list: Placed[], material: THREE.Material, y = 0) => {
       const im = new THREE.InstancedMesh(top, material, Math.max(1, list.length));
-      const under = new THREE.InstancedMesh(base, material, Math.max(1, list.length));
+      const under = new THREE.InstancedMesh(base, earth, Math.max(1, list.length));
       list.forEach((p, i) => {
         const odd = (Math.round(p.wx / (CELL * 4)) + Math.round(p.wz / (CELL * 4))) & 1;
         m4.makeTranslation(p.wx, y + odd * 0.004, p.wz);
@@ -192,11 +205,11 @@ export class MapView {
       im.receiveShadow = under.receiveShadow = true;
       this.group.add(im, under);
     };
-    add(this.st.areas.ground, 0xa47b52);
-    add(this.st.areas.home, 0xb9b2a4, 0.02);
+    add(this.st.areas.ground, field);
+    add(this.st.areas.home, yard, 0.02);
 
-    // Water in the gaps between parts of the quarry (stages 3+: islands joined by bridges): any
-    // empty tile slot next to a ground tile. Without it the gap showed the grass slab just
+    // Water in the gaps between parts of the field (stages 3+: islands joined by bridges): any
+    // empty tile slot next to a ground tile. Without it the gap showed the meadow slab just
     // under the floor and read as a lawn, not as something a bridge has to cross.
     // A slot counts only when all 16 of its cells are empty (the road row is offset by a cell).
     const key = (x: number, z: number) => `${x},${z}`;
@@ -215,87 +228,95 @@ export class MapView {
     if (water.size) {
       const sheet = new THREE.PlaneGeometry(CELL * 4 + 0.1, CELL * 4 + 0.1);
       sheet.rotateX(-Math.PI / 2);
-      // A drop off the island (Candy Miner; was water, then space): clouds far below, unlit.
-      const wm = new THREE.InstancedMesh(sheet, new THREE.MeshBasicMaterial({ map: cloudTexture() }), water.size);
+      // A stream between the fields (Farm Valley; was clouds under a candy island, then space).
+      const { m: wmat, tex } = MapView.waterMaterial(1);
+      const wm = new THREE.InstancedMesh(sheet, wmat, water.size);
       let i = 0;
       for (const [x, z] of water.values()) {
         const c = cellToWorld(x + 1.5, z + 1.5);
-        // Just above the grass slab (its top is at -0.4) so the water hides it.
+        // Just above the meadow slab (its top is at -0.4) so the water hides it.
         m4.makeTranslation(c.x, -0.3, c.z);
         wm.setMatrixAt(i++, m4);
       }
       wm.receiveShadow = true;
+      MapView.flowing(wm, tex, 0.01);
       this.group.add(wm);
     }
 
     // No paving lines on the base: thin seams a pixel wide shimmer as the camera scrolls, which
-    // reads as the game stuttering (user, 2026-10-19). The speckled texture carries the floor.
+    // reads as the game stuttering (user, 2026-10-19). The soft texture carries the floor.
 
-    // Obstacle tiles in the southern rows are the sales-truck road (not walkable, flat
-    // asphalt); the rest are cliff: a 4×4 cluster of rock pillars of uneven height.
+    // Obstacle tiles in the southern rows are the delivery road (not walkable, a dirt road);
+    // the rest are rocky hills: big mossy boulders, two by two, and a smaller one or two.
     const minZ = Math.min(...this.st.areas.ground.map((g) => g.z), ...this.st.areas.home.map((g) => g.z));
     const roadTiles = this.st.areas.obstacle.filter((p) => p.z < minZ);
     const cliffs = this.st.areas.obstacle.filter((p) => p.z >= minZ);
-    add(roadTiles, THEME.road, -0.02);
+    add(roadTiles, road, -0.02);
     this.walk.splice(this.walk.length - roadTiles.length, roadTiles.length);
-    const rockGeo = new THREE.BoxGeometry(CELL, 1, CELL);
-    rockGeo.translate(0, 0.5, 0);
-    chocoPillarUVs(rockGeo, CELL, 1, CELL);
-    const n = cliffs.length * 16;
-    // Chocolate (Candy Miner): every pillar a rocky-road brownie, crackled crust with marshmallows on top, a fudge
-    // coat dripping down its sides; lighter or darker by the instance colour. Not a chocolate bar: those are candy
-    // blocks (Dark / Milk Chocolate, Cocoa) and can be broken, a wall must not look like one.
-    const rocks = new THREE.InstancedMesh(rockGeo, new THREE.MeshLambertMaterial({ map: chocoPillarTexture() }), Math.max(1, n));
-    const col = new THREE.Color();
-    let r = 0;
-    for (const p of cliffs)
-      for (let i = 0; i < 4; i++)
-        for (let j = 0; j < 4; j++) {
-          const x = p.wx + (i - 1.5) * CELL;
-          const z = p.wz + (j - 1.5) * CELL;
-          const h = 1.6 + ((Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1 + 1) % 1 * 2.4;
-          const rnd = ((Math.sin(x * 4.1 + z * 9.7) * 9631.7) % 1 + 1) % 1;
-          // Slight twist and width jitter break up the grid of pillars.
-          const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), (rnd - 0.5) * 0.5);
-          const w = 0.92 + rnd * 0.16;
-          m4.compose(new THREE.Vector3(x, -0.2, z), q, new THREE.Vector3(w, h, w));
-          rocks.setMatrixAt(r, m4);
-          // Dark, milk and in between (texture x colour); taller ones a little lighter.
-          const milk = Math.min(1, Math.max(0, rnd * 1.3 - 0.15 + (h - 1.6) * 0.06));
-          col.setRGB(0.72 + milk * 0.5, 0.7 + milk * 0.42, 0.7 + milk * 0.36);
-          if (rnd > 0.9) col.setRGB(1.25, 1.1, 1.0);
-          rocks.setColorAt(r, col);
-          r++;
+    const kinds = [rockGeometry(1), rockGeometry(2)];
+    const lists: THREE.Matrix4[][] = [[], []];
+    const tints: number[][] = [[], []];
+    const hash = (x: number, z: number) => ((Math.sin(x * 12.9898 + z * 78.233) * 43758.5453) % 1 + 1) % 1;
+    for (const p of cliffs) {
+      const r = rng(Math.round(p.wx * 131 + p.wz * 977));
+      const put = (x: number, z: number, w: number, h: number, d: number) => {
+        const k = r() < 0.5 ? 0 : 1;
+        const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), r() * Math.PI * 2);
+        lists[k].push(new THREE.Matrix4().compose(new THREE.Vector3(x, -0.35, z), q, new THREE.Vector3(w, h, d)));
+        tints[k].push(0.9 + r() * 0.18);
+      };
+      for (let i = 0; i < 2; i++)
+        for (let j = 0; j < 2; j++) {
+          const x = p.wx + (i - 0.5) * CELL * 2 + (r() - 0.5) * 0.8;
+          const z = p.wz + (j - 0.5) * CELL * 2 + (r() - 0.5) * 0.8;
+          const tall = 2.4 + hash(x, z) * 3.0;
+          put(x, z, 4.4 + r() * 1.2, tall, 4.4 + r() * 1.2);
         }
-    rocks.castShadow = true;
-    rocks.receiveShadow = true;
-    this.group.add(rocks);
+      const extra = 1 + Math.floor(r() * 2);
+      for (let k = 0; k < extra; k++) {
+        const s = 1.6 + r() * 1.2;
+        put(p.wx + (r() - 0.5) * CELL * 3, p.wz + (r() - 0.5) * CELL * 3, s * 1.2, s * 0.8 + 0.8, s);
+      }
+    }
+    const col = new THREE.Color();
+    kinds.forEach((geo, k) => {
+      if (!lists[k].length) return;
+      const rocks = new THREE.InstancedMesh(geo, rockMaterial(), lists[k].length);
+      lists[k].forEach((m, i) => {
+        rocks.setMatrixAt(i, m);
+        rocks.setColorAt(i, col.setScalar(tints[k][i]));
+      });
+      rocks.castShadow = true;
+      rocks.receiveShadow = true;
+      this.group.add(rocks);
+    });
   }
 
   private buildProps(): void {
     // Street furniture is baked into one vertex-coloured group (a few draw calls for every lamp and fence stretch).
     const street = new THREE.Group();
+    const roadMat = new THREE.MeshLambertMaterial({ map: groundTexture(THEME.roadTex, THEME.roadDots, { seed: 41, blades: 650, pebbles: 12, tufts: 4 }) });
     for (const p of this.st.props) {
       if (p.type === "road") {
-        const road = new THREE.Mesh(new THREE.BoxGeometry(p.w * CELL, 0.1, p.h * CELL), mat(THEME.road));
+        const road = new THREE.Mesh(new THREE.BoxGeometry(p.w * CELL, 0.1, p.h * CELL), roadMat);
         road.position.set(p.wx, 0.02, p.wz);
         road.receiveShadow = true;
         this.group.add(road);
       } else if (p.type === "metalBarrier") {
-        // A stretch of candy-cane fence (was a striped road barrier on two legs, same length).
-        const fence = caneFence(CELL * 0.9);
+        // A stretch of wooden rail fence (was a striped road barrier on two legs, same length).
+        const fence = woodFence(CELL * 0.9);
         fence.position.set(p.wx, 0, p.wz);
         fence.rotation.y = THREE.MathUtils.degToRad(p.rotY);
         street.add(fence);
       } else if (p.type === "mountain") {
-        // A chocolate mountain with icing caps inside the quarry (stage 9): not walkable (Game adds its solid).
-        const knoll = chocoKnoll(p.w * CELL, p.h * CELL);
+        // A rocky hill inside the field (stage 9): not walkable (Game adds its solid).
+        const knoll = rockyKnoll(p.w * CELL, p.h * CELL);
         knoll.position.set(p.wx, 0, p.wz);
         bakeColors(knoll);
         this.group.add(knoll);
       } else if (p.type === "streetLamp") {
-        // Our base layout's street furniture (scripts/townbase.py): a candy-cane lamp post, its bulb hanging from the hook.
-        const lamp = candyLamp();
+        // Our base layout's street furniture (scripts/townbase.py): a wooden post, its lantern hanging from the arm.
+        const lamp = farmLamp();
         lamp.position.set(p.wx, 0, p.wz);
         street.add(lamp);
       }

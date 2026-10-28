@@ -192,6 +192,6 @@
   "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
  },
  {
-  "eval": "JSON.parse(localStorage.getItem('cm_save')).dialogues"
+  "eval": "JSON.parse(localStorage.getItem('fv_save')).dialogues"
  }
 ]

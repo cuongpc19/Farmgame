@@ -7,10 +7,10 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(12, 16, 26, 0.84);
+  background: rgba(40, 26, 12, 0.84);
   pointer-events: auto;
   touch-action: none;
-  color: #2b2f36;
+  color: #3b2414;
   font-family: "Lilita One", system-ui, sans-serif;
 }
 .rp.on {
@@ -145,7 +145,7 @@
 }
 .rp-title {
   font-size: 23px;
-  color: #3b1f2b;
+  color: #3b2414;
   white-space: nowrap;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
@@ -339,7 +339,7 @@
   border-color: #b9d9a3;
 }
 .rp-node.s-complete {
-  border-color: #48c23a;
+  border-color: #5cb83a;
   box-shadow: 0 0 0 2px rgba(72, 194, 58, 0.35), 0 2px 0 rgba(0, 0, 0, 0.12);
 }
 .rp-node.fresh {
@@ -391,7 +391,7 @@
   box-sizing: border-box;
   border: 2px solid #fff;
   border-radius: 50%;
-  background: #34b52a;
+  background: #3e8f2a;
   color: #fff;
   font-size: 12px;
   font-style: normal;
@@ -447,8 +447,8 @@
   color: #fff;
   font-size: 19px;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
-  background: linear-gradient(#66e45f, #2fa52b);
-  box-shadow: 0 3px 0 #1d6b1a;
+  background: linear-gradient(#86d356, #3e8f2a);
+  box-shadow: 0 3px 0 #275e1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -457,11 +457,11 @@
 .rp-buy:active,
 .rp-apply:active {
   transform: translateY(2px);
-  box-shadow: 0 1px 0 #1d6b1a;
+  box-shadow: 0 1px 0 #275e1a;
 }
 .rp-buy.off {
-  background: linear-gradient(#bfc4cb, #949aa3);
-  box-shadow: 0 3px 0 #646a73;
+  background: linear-gradient(#cbbb9c, #a3916f);
+  box-shadow: 0 3px 0 #6e5f45;
   color: #ffe2dc;
 }
 .rp-chip {
@@ -471,7 +471,7 @@
   transform: translateX(-50%);
   padding: 1px 7px;
   border-radius: 8px;
-  background: #2b2f36;
+  background: #3b2414;
   color: #fff;
   font-size: 11px;
   white-space: nowrap;
@@ -495,8 +495,8 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px;
-  background: linear-gradient(#a3a8b0, #80868f);
-  box-shadow: 0 3px 0 #5d636b;
+  background: linear-gradient(#b8a682, #8f7d5c);
+  box-shadow: 0 3px 0 #62533b;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -521,7 +521,7 @@
   left: 0;
   bottom: 0;
   height: 5px;
-  background: #ff7fb0;
+  background: #ffc93c;
   transition: width 0.25s linear;
 }
 .rp-done {
@@ -571,7 +571,7 @@
   box-sizing: border-box;
   padding: 10px 18px;
   border-radius: 14px;
-  background: rgba(16, 20, 28, 0.86);
+  background: rgba(40, 26, 12, 0.86);
   font-size: 20px;
   line-height: 1.2;
   text-align: center;

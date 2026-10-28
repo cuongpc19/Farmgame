@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { CELL, PACE, itemColor, itemKind, oreOfItemId, type Placed } from "../data";
-import { CASH, cashMesh, shedModel, truckModel } from "../world/props";
-import { mat } from "../models";
-import { THEME } from "../theme";
+import { CASH, cashMesh, marketModel, truckModel } from "../world/props";
+import { bakeColors, mat } from "../models";
+import { THEME, groundTexture } from "../theme";
 import { Stack } from "../world/Stack";
 import { Zone } from "./Zone";
 import type { BaseCtx } from "./Ctx";
@@ -34,7 +34,7 @@ const OUTPUT_EVERY = 0.08;
 const PROCESS_SECONDS = 0.3;
 
 /**
- * Trading house (ours, user 2026-10-19): the player drops ingots on the SELL pad, a belt takes
+ * The Market (Farm Valley; the trading house, ours, user 2026-10-19): the player drops goods on the SELL pad, a belt takes
  * them inside, the house pushes them out of its front door onto the BUY dock by the road, trucks
  * load there, pay the house, and the house puts the cash on the CASH pad for the player to walk
  * over. SELL and CASH stand one above the other on the side facing the furnace (`side`, user):
@@ -85,7 +85,7 @@ export class SalesStand {
     // The house: same footprint and front line as the other entry buildings (Game adds its solid).
     const house = new THREE.Group();
     house.position.copy(H);
-    house.add(shedModel(CELL, 0xffd98a, 0xe9e4da, "SWEET SHOP"));
+    house.add(marketModel());
     ctx.scene.add(house);
     this.houseIn.position.set(H.x + side * CELL * 0.85, 1.0, H.z - 2.3);
     this.houseOut.position.set(H.x + CELL * 0.1, 1.0, H.z + 0.9);
@@ -117,20 +117,15 @@ export class SalesStand {
     this.startX = (xs.length ? Math.min(...xs) : p.wx - 40) - 6;
     this.endX = (xs.length ? Math.max(...xs) : p.wx + 40) + 6;
     this.stopX = dockAt.x + 1.2;
-    // Chocolate road strip joining the two road tiles (Candy Miner; was asphalt).
-    const lane = new THREE.Mesh(new THREE.BoxGeometry(this.endX - this.startX, 0.08, CELL * 3), new THREE.MeshLambertMaterial({ color: THEME.road }));
+    // A dirt road joining the two road tiles (Farm Valley; was a chocolate strip, before that asphalt with dashes):
+    // packed earth with pebbles.
+    const len = this.endX - this.startX;
+    const tex = groundTexture(THEME.roadTex, THEME.roadDots, { seed: 41, blades: 650, pebbles: 12, tufts: 4 });
+    tex.repeat.set(len / 10, (CELL * 3) / 10);
+    const lane = new THREE.Mesh(new THREE.BoxGeometry(len, 0.08, CELL * 3), new THREE.MeshLambertMaterial({ map: tex }));
     lane.position.set((this.startX + this.endX) / 2, 0.01, this.laneZ);
     lane.receiveShadow = true;
     ctx.scene.add(lane);
-    const dash = new THREE.InstancedMesh(new THREE.BoxGeometry(1.6, 0.02, 0.18), new THREE.MeshBasicMaterial({ color: 0xf2f2f2 }), 40);
-    const m4 = new THREE.Matrix4();
-    let n = 0;
-    for (let x = this.startX + 2; x < this.endX - 2 && n < 40; x += 4) {
-      m4.makeTranslation(x, 0.07, this.laneZ + CELL * 1.1);
-      dash.setMatrixAt(n++, m4);
-    }
-    dash.count = n;
-    ctx.scene.add(dash);
   }
 
   /** Cash waiting on the pallet. */
@@ -393,26 +388,33 @@ export class SalesStand {
   }
 }
 
-/** A short conveyor belt on the ground from `a` to `b` (Candy Miner: a pink belt, white rails, chocolate legs). */
+/** A short conveyor on the ground from `a` to `b`: a dark belt between wooden side boards on wooden trestles, baked. */
 function belt(a: THREE.Vector3, b: THREE.Vector3): THREE.Group {
   const g = new THREE.Group();
   const len = Math.max(0.5, a.distanceTo(b));
   const w = 1.0;
-  const top = new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, len), mat(0xff8fb8));
+  const top = new THREE.Mesh(new THREE.BoxGeometry(w, 0.1, len), mat(0x4a4440));
   top.position.y = 0.32;
   g.add(top);
+  // Rollers showing at the ends.
+  for (const z of [-len / 2 + 0.06, len / 2 - 0.06]) {
+    const r = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, w, 10).rotateZ(Math.PI / 2), mat(0x8f8a84));
+    r.position.set(0, 0.32, z);
+    g.add(r);
+  }
   for (const x of [-w / 2 - 0.05, w / 2 + 0.05]) {
-    const rail = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.18, len), mat(0xffffff));
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.2, len), mat(0xb47c45));
     rail.position.set(x, 0.36, 0);
     g.add(rail);
   }
   for (const z of [-len / 2 + 0.2, len / 2 - 0.2]) {
-    const leg = new THREE.Mesh(new THREE.BoxGeometry(w * 0.9, 0.3, 0.14), mat(0x6b3f2a));
+    const leg = new THREE.Mesh(new THREE.BoxGeometry(w * 0.9, 0.3, 0.14), mat(0x7a4f2a));
     leg.position.set(0, 0.13, z);
     g.add(leg);
   }
+  g.traverse((o) => ((o as THREE.Mesh).castShadow = true));
+  bakeColors(g);
   g.position.copy(a).lerp(b, 0.5);
   g.rotation.y = Math.atan2(b.x - a.x, b.z - a.z);
-  g.traverse((o) => ((o as THREE.Mesh).castShadow = true));
   return g;
 }

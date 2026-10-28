@@ -23,15 +23,18 @@ import fuelTruckPic from "../../assets/icons/fuelTruck.png?inline";
 const pic = (src: string) => `<img class="ico-pic" src="${src}" alt="">`;
 
 export const ICON: Record<string, string> = {
-  player: "🏃",
+  player: "🧑‍🌾",
   pickaxe: "⛏️",
-  sledgehammer: "🔨",
-  jackhammer: "🛠️",
-  woodenCarrier: "🪜",
+  sledgehammer: "🪓",
+  jackhammer: "🪚",
+  largeHandDrill: "🌾",
+  knuckleDriller: "🪨",
+  woodenCarrier: "🧺",
   cargoPack: "🎒",
+  exoCarrier: "🪜",
   wheelbarrow: pic(barrowPic),
   furnace: "🔥",
-  salesStand: "🚚",
+  salesStand: "🛻",
   hydraulicBreaker: pic(breakerPic),
   wheelLoader: pic(loaderPic),
   rollerCrusher: pic(rollerPic),
@@ -44,9 +47,9 @@ export const ICON: Record<string, string> = {
   wheelCrusher: pic(wheelCrusherPic),
   fuelTruck: pic(fuelTruckPic),
 };
-const OWNER_NAME: Record<string, string> = { player: "Player", furnace: "Furnace", salesStand: "Sales Trucks" };
+const OWNER_NAME: Record<string, string> = { player: "Farmer", furnace: "Mill & Forge", salesStand: "Market Trucks" };
 
-/** Bottom sheet with a yellow title bar and a red close button (reference layout). */
+/** Bottom sheet with a wooden title bar and a red close button (reference layout). */
 export class Sheet {
   readonly root: HTMLDivElement;
   readonly body: HTMLDivElement;
@@ -117,7 +120,7 @@ export class Sheet {
   }
 }
 
-/** Quarry stat upgrades (Upgrade building). */
+/** Stat upgrades (the Workshop). */
 export class UpgradePanel extends Sheet {
   onBuy: ((key: string) => void) | null = null;
   /**
@@ -127,7 +130,7 @@ export class UpgradePanel extends Sheet {
   saving: (() => string | null) | null = null;
 
   constructor(host: HTMLElement) {
-    super(host, "UPGRADE");
+    super(host, "WORKSHOP");
     this.body.addEventListener("click", (e) => {
       if (this.ghost(e)) return;
       const b = (e.target as HTMLElement).closest("[data-up]") as HTMLElement | null;
@@ -194,7 +197,7 @@ export class UpgradePanel extends Sheet {
   }
 }
 
-/** Machinery Center: buy light equipment (kept forever) / rent heavy equipment (this stage). */
+/** Farm Shop: buy hand tools (kept forever) / rent machines (this stage). */
 export class ShopPanel extends Sheet {
   private tab: "light" | "heavy" = "light";
   onBuy: ((key: string) => void) | null = null;
@@ -202,7 +205,7 @@ export class ShopPanel extends Sheet {
   onEquip: ((key: string) => void) | null = null;
 
   constructor(host: HTMLElement) {
-    super(host, "GARAGE", "shop");
+    super(host, "FARM SHOP", "shop");
     this.body.addEventListener("click", (e) => {
       if (this.ghost(e)) return;
       const t = e.target as HTMLElement;
@@ -263,7 +266,7 @@ export class ShopPanel extends Sheet {
         ${btn}
       </div>`;
     });
-    this.body.innerHTML = `<div class="tabs"><button data-tab="light" class="${this.tab === "light" ? "on" : ""}">LIGHT EQUIPMENT</button><button data-tab="heavy" class="${this.tab === "heavy" ? "on" : ""}">HEAVY EQUIPMENT</button></div>${rows.join("")}`;
+    this.body.innerHTML = `<div class="tabs"><button data-tab="light" class="${this.tab === "light" ? "on" : ""}">HAND TOOLS</button><button data-tab="heavy" class="${this.tab === "heavy" ? "on" : ""}">MACHINES</button></div>${rows.join("")}`;
   }
 }
 

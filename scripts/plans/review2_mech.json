@@ -16,15 +16,15 @@
  {"eval": "({dur: __game.furnace.dur, cur: __game.furnace.current})"},
  {"until": "__game.furnace.current === 10303", "timeout": 30000, "every": 100},
  {"eval": "({dur: __game.furnace.dur, cur: __game.furnace.current})"},
- {"eval": "(()=>{const g=__game; for(let i=0;i<80;i++) g.sales.pile.push(20101); window.__t0=g.time; window.__s0=JSON.parse(localStorage.getItem('cm_save')).run.sold; g.timeScale=8; return {t0:g.time, pile:g.sales.pile.count};})()"},
+ {"eval": "(()=>{const g=__game; for(let i=0;i<80;i++) g.sales.pile.push(20101); window.__t0=g.time; window.__s0=JSON.parse(localStorage.getItem('fv_save')).run.sold; g.timeScale=8; return {t0:g.time, pile:g.sales.pile.count};})()"},
  {"wait": 45000},
- {"eval": "(()=>{const g=__game; const sv=JSON.parse(localStorage.getItem('cm_save')); const dt=g.time-window.__t0; return {gameSec:+dt.toFixed(1), trucks: window.__trucks.length, list: window.__trucks.slice(0,12), sold: sv.run.sold, perGameSec: +((window.__trucks.reduce((a,t)=>a+t[2],0))/dt).toFixed(3), pileLeft:g.sales.pile.count, money:g.sales.moneyWaiting, progress:+g.progress().toFixed(4), expected:+(sv.run.sold/7224*100).toFixed(4)};})()"},
+ {"eval": "(()=>{const g=__game; const sv=JSON.parse(localStorage.getItem('fv_save')); const dt=g.time-window.__t0; return {gameSec:+dt.toFixed(1), trucks: window.__trucks.length, list: window.__trucks.slice(0,12), sold: sv.run.sold, perGameSec: +((window.__trucks.reduce((a,t)=>a+t[2],0))/dt).toFixed(3), pileLeft:g.sales.pile.count, money:g.sales.moneyWaiting, progress:+g.progress().toFixed(4), expected:+(sv.run.sold/7224*100).toFixed(4)};})()"},
  {"snap": "rv2_trucks"},
- {"eval": "(()=>{const g=__game; g.timeScale=1; for(let i=0;i<20;i++) g.furnace.queue.push(10101); for(let i=0;i<15;i++) g.furnace.output.push(20101); const sv=JSON.parse(localStorage.getItem('cm_save')); window.__pre={stack:g.player.stack.count, drops:g.drops.list.length, fq:g.furnace.queue.length, fo:g.furnace.output.count, pile:g.sales.pile.count, money:g.sales.moneyWaiting, cash:sv.cash, sold:sv.run.sold, remaining:g.field.remaining}; localStorage.setItem('cm_rv2_pre', JSON.stringify(window.__pre)); return window.__pre;})()"},
+ {"eval": "(()=>{const g=__game; g.timeScale=1; for(let i=0;i<20;i++) g.furnace.queue.push(10101); for(let i=0;i<15;i++) g.furnace.output.push(20101); const sv=JSON.parse(localStorage.getItem('fv_save')); window.__pre={stack:g.player.stack.count, drops:g.drops.list.length, fq:g.furnace.queue.length, fo:g.furnace.output.count, pile:g.sales.pile.count, money:g.sales.moneyWaiting, cash:sv.cash, sold:sv.run.sold, remaining:g.field.remaining}; localStorage.setItem('fv_rv2_pre', JSON.stringify(window.__pre)); return window.__pre;})()"},
  {"wait": 3000},
  {"eval": "(location.reload(), true)"},
  {"wait": 4000},
  {"until": "!!(window.__game && window.__game.ready)", "timeout": 30000},
  {"wait": 1500},
- {"eval": "(()=>{const g=__game; const sv=JSON.parse(localStorage.getItem('cm_save')); return {pre: JSON.parse(localStorage.getItem('cm_rv2_pre')), post:{stack:g.player.stack.count, drops:g.drops.list.length, fq:g.furnace.queue.length, fo:g.furnace.output.count, pile:g.sales.pile.count, money:g.sales.moneyWaiting, cash:sv.cash, sold:sv.run.sold, remaining:g.field.remaining}};})()"}
+ {"eval": "(()=>{const g=__game; const sv=JSON.parse(localStorage.getItem('fv_save')); return {pre: JSON.parse(localStorage.getItem('fv_rv2_pre')), post:{stack:g.player.stack.count, drops:g.drops.list.length, fq:g.furnace.queue.length, fo:g.furnace.output.count, pile:g.sales.pile.count, money:g.sales.moneyWaiting, cash:sv.cash, sold:sv.run.sold, remaining:g.field.remaining}};})()"}
 ]

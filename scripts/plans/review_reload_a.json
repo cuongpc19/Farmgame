@@ -54,6 +54,6 @@
   "wait": 2500
  },
  {
-  "eval": "({q: __game.debug.quest(), dlg: __game.dialogue.open, text: document.querySelector('.dlg-text')?.textContent, saved: JSON.parse(localStorage.getItem('cm_save')).dialogues, rentals: JSON.parse(localStorage.getItem('cm_save')).run.rentals})"
+  "eval": "({q: __game.debug.quest(), dlg: __game.dialogue.open, text: document.querySelector('.dlg-text')?.textContent, saved: JSON.parse(localStorage.getItem('fv_save')).dialogues, rentals: JSON.parse(localStorage.getItem('fv_save')).run.rentals})"
  }
 ]

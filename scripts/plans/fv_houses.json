@@ -1,0 +1,32 @@
+[
+ {
+  "wait": 1500
+ },
+ {
+  "until": "!!(window.__game && __game.player && __game.forge)",
+  "timeout": 90000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} const g=__game; g.debug.quiet(); const S=g.debug.state(); const d=new Date(); S.drones=Date.now(); S.daily={n:1,on:`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`}; const s=g.player.stack; s.clear(); const gold=Object.values(g.st.blocks.reduce((m,b)=>(m[b.ore.key]=b.ore,m),{})).find(o=>o.key==='gold'); const rice=Object.values(g.st.blocks.reduce((m,b)=>(m[b.ore.key]=b.ore,m),{})).find(o=>o.key==='limestone'); for(let i=0;i<3;i++){s.push(gold.mineralId); s.push(rice.mineralId);} g.player.pos.copy(g.furnace.zone.center); return s.count})()"
+ },
+ {
+  "until": "__game.player.stack.count === 3",
+  "timeout": 8000
+ },
+ {
+  "eval": "JSON.stringify({case:'the Mill takes the rice and leaves the gold', left: __game.player.stack.items.map(i=>i), millQ: __game.furnace.pending().length + __game.furnace.output.count, PASS: __game.player.stack.count===3})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.forge.zone.center), true)"
+ },
+ {
+  "until": "__game.forge.output.count >= 1",
+  "timeout": 15000
+ },
+ {
+  "eval": "JSON.stringify({case:'the Forge takes the gold and makes a bar', back: __game.player.stack.count, forgeOut: __game.forge.output.count, PASS: __game.player.stack.count===0 && __game.forge.output.count>=1})"
+ },
+ {
+  "snap": "forge_tray"
+ }
+]

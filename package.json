@@ -1,7 +1,7 @@
 {
-  "name": "candy-miner",
+  "name": "farm-valley",
   "version": "0.1.0",
-  "description": "Candy Miner - arcade idle candy mining (Three.js + TS + Vite), reskinned from Mars Miner",
+  "description": "Farm Valley - arcade idle farming game (Three.js + TS + Vite), started from Candy Miner",
   "private": true,
   "type": "module",
   "scripts": {

@@ -2,13 +2,13 @@ import { platform } from "../platform";
 
 /**
  * Persistence through the platform door (`localStorage`; on CrazyGames also their cloud save).
- * Every key carries the `mm_` prefix so this game never reads another game's progress when they
+ * Every key carries the `fv_` prefix so this game never reads another game's progress when they
  * share a domain (and vice versa).
  * ⚠ Never rename the prefix after launch: Progress Save restores keys verbatim, so renamed keys
  * would bring back a save the game no longer reads.
  * `?reset=1` in the URL wipes the save (headless test runs; not in the CrazyGames build).
  */
-const PREFIX = "cm_";
+const PREFIX = "fv_";
 
 function ls(): Storage | null {
   try {

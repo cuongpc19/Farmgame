@@ -10,9 +10,9 @@
  {"eval": "(()=>{const g=__game; const v=g.driving; const dt=g.time-window.__vb.t0; return {gameSec:+dt.toFixed(1), fuel:+v.fuel.toFixed(2), burnPerSec:+((window.__vb.f0-v.fuel)/dt).toFixed(3), broken:window.__vb.r0-g.field.remaining, blocksPerSec:+((window.__vb.r0-g.field.remaining)/dt).toFixed(2), dz:+(v.pos.z-window.__vb.z0).toFixed(1), drops:g.drops.list.length};})()"},
  {"snap": "rv2_breaker"},
  {"wait": 3000},
- {"eval": "(()=>{localStorage.setItem('cm_rv2_fuel', String(__game.driving.fuel)); location.reload(); return true;})()"},
+ {"eval": "(()=>{localStorage.setItem('fv_rv2_fuel', String(__game.driving.fuel)); location.reload(); return true;})()"},
  {"wait": 4000},
  {"until": "!!(window.__game && window.__game.ready)", "timeout": 30000},
  {"wait": 1000},
- {"eval": "({fuelBeforeReload: +localStorage.getItem('cm_rv2_fuel'), after: __game.vehicles.map(v=>v.key+' '+v.fuel.toFixed(1)+'/'+v.tank), oilLocked: __game.oil.locked, rentals: JSON.parse(localStorage.getItem('cm_save')).run.rentals})"}
+ {"eval": "({fuelBeforeReload: +localStorage.getItem('fv_rv2_fuel'), after: __game.vehicles.map(v=>v.key+' '+v.fuel.toFixed(1)+'/'+v.tank), oilLocked: __game.oil.locked, rentals: JSON.parse(localStorage.getItem('fv_save')).run.rentals})"}
 ]

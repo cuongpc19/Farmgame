@@ -27,5 +27,5 @@
  {"until": "!__game.inShop", "timeout": 10000},
  {"wait": 2500},
  {"snap": "o4_delivered"},
- {"eval": "({owned: JSON.parse(localStorage.getItem('cm_save')).owned, rentals: JSON.parse(localStorage.getItem('cm_save')).run.rentals, q: __game.debug.quest(), spot: __game.spot.open, veh: __game.vehicles.length})"}
+ {"eval": "({owned: JSON.parse(localStorage.getItem('fv_save')).owned, rentals: JSON.parse(localStorage.getItem('fv_save')).run.rentals, q: __game.debug.quest(), spot: __game.spot.open, veh: __game.vehicles.length})"}
 ]

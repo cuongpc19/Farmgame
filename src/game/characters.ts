@@ -3,7 +3,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { bakeColors, candyLivery, mat } from "./models";
+import { bakeColors, mat } from "./models";
 import { burgerMesh, cupMesh } from "./world/props";
 import { S } from "./state";
 import workerGlb from "../assets/chars/worker.glb?inline";
@@ -71,15 +71,17 @@ export async function loadCharacters(): Promise<void> {
  * chest and shoulders, thick arms, big fists (user 2026-10-22: "more muscular workers").
  * Bones not listed stay as modelled.
  */
+// Farm game (user 2026-10-28: "look more like a farmer"; reference sheet docs/concept/characters.jpg): about a third
+// of Quarry Crush's bulk, ordinary working people rather than bodybuilders.
 const BULK: [RegExp, number][] = [
-  [/^Shoulder[LR]$/, 0.03],
-  [/^Chest$/, 0.026],
-  [/^UpperArm[LR]$/, 0.026],
-  [/^LowerArm[LR]$/, 0.02],
-  [/^(Wrist|Thumb|Index|Middle|Ring|Pinky)\d?[LR]$/, 0.008],
-  [/^Torso$/, 0.016],
-  [/^Neck$/, 0.012],
-  [/^UpperLeg[LR]$/, 0.008],
+  [/^Shoulder[LR]$/, 0.01],
+  [/^Chest$/, 0.01],
+  [/^UpperArm[LR]$/, 0.008],
+  [/^LowerArm[LR]$/, 0.006],
+  [/^(Wrist|Thumb|Index|Middle|Ring|Pinky)\d?[LR]$/, 0.003],
+  [/^Torso$/, 0.008],
+  [/^Neck$/, 0.004],
+  [/^UpperLeg[LR]$/, 0.004],
 ];
 
 /**
@@ -206,24 +208,26 @@ interface Look {
   moustache: boolean;
 }
 /**
- * Candy makers (Candy Miner; Mars Miner had space suits): a white chef's jacket, an apron (the model's vest) in a candy
- * colour, chocolate trousers.
+ * Farmers (farm game, user 2026-10-28: "the character should look more like a farmer"; reference sheet
+ * docs/concept/characters.jpg): a work shirt (the model's bare arms become its sleeves, `Style.sleeves`), overalls or
+ * a vest (the model's vest), work trousers, a straw hat or a conical leaf hat.
  */
-const CHEF = 0xfffaf4;
-const CHOCO_LEGS = 0x6b3f2a;
-const PLAYER_LOOK: Look = { vest: 0xff6fa5, shirt: CHEF, pants: CHOCO_LEGS, hat: 0xffffff, skin: 0xf0c08e, moustache: false };
-const VESTS = [0xff6fa5, 0x4fd1a5, 0xffc93c, 0x9b7bff, 0x5fb8ff, 0xff8a3d];
+const DENIM = 0x3f6db0;
+const STRAW = 0xe2bc66;
+const PLAYER_LOOK: Look = { vest: DENIM, shirt: 0xd2463c, pants: DENIM, hat: STRAW, skin: 0xf0c08e, moustache: false };
+const SHIRTS = [0xd2463c, 0x7fb3e0, 0x8fbf5a, 0xf2c84a, 0xf2ebdc, 0xe8843a];
+const OVERALLS = [DENIM, 0x7a5a3a, 0x6b7a3e, 0x8a6e4a];
 const SKINS = [0xf0c08e, 0xd9a066, 0xa86b3c, 0x6e4426];
-const HATS = [0xffc928, 0xf4f4f0, 0xff8a1f];
 
 function workerLook(seed: number): Look {
   const r = (n: number, k: number) => Math.abs(Math.imul(seed + 7, 2654435761 + k * 40503)) % n;
-  return { vest: VESTS[r(VESTS.length, 1)], shirt: CHEF, pants: CHOCO_LEGS, hat: HATS[r(HATS.length, 3)], skin: SKINS[r(SKINS.length, 4)], moustache: r(2, 5) === 0 };
+  const vest = OVERALLS[r(OVERALLS.length, 1)];
+  return { vest, shirt: SHIRTS[r(SHIRTS.length, 2)], pants: r(2, 6) ? vest : 0x4a3a2c, hat: STRAW, skin: SKINS[r(SKINS.length, 4)], moustache: r(2, 5) === 0 };
 }
 
-/** A candy maker in a chef's hat for anyone without a CREW entry (the player, unknown worker ids). */
-function candyMaker(look: Look): Style {
-  return { look, head: "chef", hair: "none", hairColor: 0x2b1d10, beard: look.moustache ? "moustache" : "none", face: "smile", tall: 1, wide: 1, sleeves: true };
+/** A farmer in a straw hat for anyone without a CREW entry (the player, unknown worker ids). */
+function farmer(look: Look, hairColor = 0x3a2616): Style {
+  return { look, head: "straw", hair: "short", hairColor, beard: look.moustache ? "moustache" : "none", face: "smile", tall: 1, wide: 1, sleeves: "rolled" };
 }
 
 /* ---------- crew styles ---------- */
@@ -237,9 +241,14 @@ function candyMaker(look: Look): Style {
 interface Style {
   look: Look;
   /** What sits on the head; anything but the hard hat replaces the model's hat (`dress`, `headwear`). */
-  head: "hardhat" | "cap" | "beanie" | "bandana" | "hair" | "helmet" | "chef";
-  /** The arms are jacket sleeves in the shirt colour (the model's arms are bare skin); hands stay skin. */
-  sleeves?: boolean;
+  head: "hardhat" | "cap" | "beanie" | "bandana" | "hair" | "straw" | "conical";
+  /**
+   * The arms are shirt sleeves in the shirt colour (the model's arms are bare skin): down to the wrists (true) or
+   * rolled up to the elbows ("rolled"); hands stay skin.
+   */
+  sleeves?: boolean | "rolled";
+  /** The ribbon round a straw hat. */
+  band?: number;
   hair: "none" | "short" | "ponytail" | "bun";
   hairColor: number;
   beard: "none" | "moustache" | "goatee" | "full";
@@ -254,19 +263,19 @@ interface Style {
   wide: number;
 }
 const CREW: Record<number, Style> = {
-  // Candy Miner: the Quarry Crush crew's hair, beards, glasses and builds, as candy makers: chef's hats for most,
-  // a cap, beanie or bandana in a candy colour for a few, aprons in candy colours, chocolate or berry trousers.
-  1: { look: { vest: 0xff6fa5, shirt: CHEF, pants: 0x6b3f2a, hat: 0xffffff, skin: 0xf0c08e, moustache: true }, head: "chef", hair: "none", hairColor: 0xcfcac0, beard: "full", face: "content", tall: 1.02, wide: 1.14, sleeves: true },
-  2: { look: { vest: 0x4fd1a5, shirt: CHEF, pants: 0x5a3324, hat: 0xffffff, skin: 0xd9a066, moustache: false }, head: "chef", hair: "none", hairColor: 0x2b1d10, beard: "none", glasses: "specs", face: "smile", tall: 1, wide: 0.94, sleeves: true },
-  3: { look: { vest: 0x5fb8ff, shirt: CHEF, pants: 0x4a5fd8, hat: 0xff6fa5, skin: 0x6e4426, moustache: true }, head: "cap", hair: "short", hairColor: 0x1e1712, beard: "moustache", face: "content", tall: 1, wide: 1.1 },
-  4: { look: { vest: 0xffc93c, shirt: CHEF, pants: 0x8a4fb0, hat: 0xff8fb8, skin: 0xf0c08e, moustache: false }, head: "bandana", hair: "ponytail", hairColor: 0x6b3a1c, beard: "none", face: "smile", tall: 0.94, wide: 0.92 },
-  5: { look: { vest: 0x9b7bff, shirt: CHEF, pants: 0x3d2a40, hat: 0x5e3424, skin: 0xd9a066, moustache: false }, head: "beanie", hair: "short", hairColor: 0x2b1d10, beard: "goatee", face: "smile", tall: 1, wide: 1 },
-  6: { look: { vest: 0xe8395a, shirt: CHEF, pants: 0x6b3f2a, hat: 0xffffff, skin: 0xd9a066, moustache: false }, head: "chef", hair: "ponytail", hairColor: 0x1e1712, beard: "none", face: "smile", tall: 0.95, wide: 0.92, sleeves: true },
-  7: { look: { vest: 0x4fd1a5, shirt: CHEF, pants: 0x5a3324, hat: 0xffc93c, skin: 0x6e4426, moustache: false }, head: "cap", hair: "bun", hairColor: 0x1e1712, beard: "none", face: "smile", tall: 0.97, wide: 0.95 },
-  8: { look: { vest: 0xff8fb8, shirt: CHEF, pants: 0x4a5fd8, hat: 0xffffff, skin: 0xf0c08e, moustache: false }, head: "chef", hair: "ponytail", hairColor: 0xe6c46a, beard: "none", glasses: "specs", face: "smile", tall: 0.97, wide: 0.95, sleeves: true },
-  9: { look: { vest: 0xff8a3d, shirt: CHEF, pants: 0x6b3f2a, hat: 0xffffff, skin: 0xa86b3c, moustache: true }, head: "chef", hair: "none", hairColor: 0x1e1712, beard: "moustache", face: "smile", tall: 0.98, wide: 1.05, sleeves: true },
-  10: { look: { vest: 0xe8395a, shirt: CHEF, pants: 0x3d2a40, hat: 0xe8c870, skin: 0xf3d2b0, moustache: true }, head: "hair", hair: "short", hairColor: 0xe8c870, beard: "full", face: "content", tall: 1.08, wide: 1.18, sleeves: true },
-  11: { look: { vest: 0x9fe36a, shirt: CHEF, pants: 0x8a4fb0, hat: 0xff6fa5, skin: 0xf3d2b0, moustache: false }, head: "beanie", hair: "short", hairColor: 0x1e1712, beard: "none", pompom: 0xffffff, face: "smile", tall: 0.94, wide: 0.92 },
+  // Farm game: the Quarry Crush crew's hair, beards, glasses and builds, as farmhands (reference sheet
+  // docs/concept/characters.jpg): straw hats, conical leaf hats, caps and bandanas, work shirts, overalls and vests.
+  1: { look: { vest: DENIM, shirt: 0xc8453a, pants: DENIM, hat: STRAW, skin: 0xf0c08e, moustache: true }, head: "straw", band: 0x7a4a2a, hair: "none", hairColor: 0xcfcac0, beard: "full", face: "content", tall: 1.02, wide: 1.14, sleeves: "rolled" },
+  2: { look: { vest: 0x7fb3e0, shirt: 0x9cc8ec, pants: 0x3a3a40, hat: 0xead7a0, skin: 0xd9a066, moustache: false }, head: "conical", hair: "short", hairColor: 0x2b1d10, beard: "none", glasses: "specs", face: "smile", tall: 1, wide: 0.94, sleeves: true },
+  3: { look: { vest: 0x6b7a3e, shirt: 0xe8dcc0, pants: 0x6e4a2e, hat: 0x5f8a4a, skin: 0x6e4426, moustache: true }, head: "cap", hair: "short", hairColor: 0x1e1712, beard: "moustache", face: "content", tall: 1, wide: 1.1, sleeves: true },
+  4: { look: { vest: 0x4f7a3a, shirt: 0xf2c84a, pants: 0x55703a, hat: 0xf08a2a, skin: 0xf0c08e, moustache: false }, head: "bandana", hair: "ponytail", hairColor: 0x6b3a1c, beard: "none", face: "smile", tall: 0.94, wide: 0.92, sleeves: "rolled" },
+  5: { look: { vest: DENIM, shirt: 0xf2ebdc, pants: DENIM, hat: 0xc8453a, skin: 0xd9a066, moustache: false }, head: "cap", hair: "short", hairColor: 0x2b1d10, beard: "goatee", face: "smile", tall: 1, wide: 1, sleeves: "rolled" },
+  6: { look: { vest: 0xf2ebdc, shirt: 0xf09ab4, pants: 0x3a3a40, hat: 0xead7a0, skin: 0xd9a066, moustache: false }, head: "conical", hair: "ponytail", hairColor: 0x1e1712, beard: "none", face: "smile", tall: 0.95, wide: 0.92, sleeves: true },
+  7: { look: { vest: 0xf2ebdc, shirt: 0xf2a0b8, pants: 0x5a78a8, hat: STRAW, skin: 0x6e4426, moustache: false }, head: "straw", band: 0xe0506e, hair: "bun", hairColor: 0x1e1712, beard: "none", face: "smile", tall: 0.97, wide: 0.95, sleeves: "rolled" },
+  8: { look: { vest: DENIM, shirt: 0xf2ebdc, pants: DENIM, hat: 0x5a9ad8, skin: 0xf0c08e, moustache: false }, head: "bandana", hair: "ponytail", hairColor: 0xe6c46a, beard: "none", glasses: "specs", face: "smile", tall: 0.97, wide: 0.95, sleeves: "rolled" },
+  9: { look: { vest: 0x7a5a3a, shirt: 0x8fbf5a, pants: 0x6e4a2e, hat: STRAW, skin: 0xa86b3c, moustache: true }, head: "straw", band: 0x3f6db0, hair: "none", hairColor: 0x1e1712, beard: "moustache", face: "smile", tall: 0.98, wide: 1.05, sleeves: true },
+  10: { look: { vest: 0x8a6e4a, shirt: 0x4a78c0, pants: DENIM, hat: 0xe8c870, skin: 0xf3d2b0, moustache: true }, head: "hair", hair: "short", hairColor: 0xe8c870, beard: "full", face: "content", tall: 1.08, wide: 1.18, sleeves: "rolled" },
+  11: { look: { vest: DENIM, shirt: 0xf2c84a, pants: 0x6e4a2e, hat: 0x4f9a4a, skin: 0xf3d2b0, moustache: false }, head: "beanie", hair: "short", hairColor: 0x1e1712, beard: "none", pompom: 0xffffff, face: "smile", tall: 0.94, wide: 0.92, sleeves: true },
 };
 
 /** A colour a little darker (or lighter, k > 1). */
@@ -408,52 +417,30 @@ function headwear(st: Style): THREE.Mesh | null {
     case "hair":
       // The model's own hair: nothing to add.
       break;
-    case "chef": {
-      // A chef's toque (Candy Miner): a white band round the head and a puffy top of overlapping puffs, a little
-      // wider than the band and leaning back, so it reads at a glance from the 3/4 camera.
-      const R = Math.max(hx, hz) * 0.98;
-      const bandH = hs.y * 0.85;
-      add(new THREE.CylinderGeometry(1, 1, 1, 16), 0xffffff, new THREE.Vector3(hc.x, base + bandH / 2, hc.z), new THREE.Vector3(R, bandH, R));
-      add(new THREE.CylinderGeometry(1, 1, 1, 16), 0xf1e8de, new THREE.Vector3(hc.x, base + bandH * 0.12, hc.z), new THREE.Vector3(R * 1.03, bandH * 0.2, R * 1.03));
-      const py = base + bandH + hs.y * 0.5;
-      const lean = -f * R * 0.12;
-      add(new THREE.SphereGeometry(1, 12, 9), 0xffffff, new THREE.Vector3(hc.x, py, hc.z + lean), new THREE.Vector3(R * 1.3, hs.y * 0.85, R * 1.3));
-      for (let k = 0; k < 6; k++) {
-        const a = (k / 6) * Math.PI * 2;
-        add(new THREE.SphereGeometry(1, 8, 6), k % 2 ? 0xfaf4ee : 0xffffff, new THREE.Vector3(hc.x + Math.cos(a) * R * 0.85, py + hs.y * 0.18, hc.z + lean + Math.sin(a) * R * 0.85), new THREE.Vector3(R * 0.62, hs.y * 0.62, R * 0.62));
-      }
+    case "straw": {
+      // A woven straw hat (farm game): a round crown with a ribbon and a wide brim, tipped back a little so the face
+      // shows from the high game camera.
+      const R = Math.max(hx, hz);
+      const tilt = new THREE.Euler(-f * 0.14, 0, 0);
+      const lift = base + hs.y * 0.05;
+      add(new THREE.CylinderGeometry(1.7, 1.7, 1, 22), shade(hatC, 0.96), new THREE.Vector3(hc.x, lift, hc.z), new THREE.Vector3(R, hs.y * 0.07, R), tilt);
+      add(new THREE.CylinderGeometry(0.8, 0.95, 1, 18), hatC, new THREE.Vector3(hc.x, lift + hs.y * 0.42, hc.z - f * R * 0.06), new THREE.Vector3(R, hs.y * 0.8, R), tilt);
+      add(new THREE.SphereGeometry(1, 18, 6, 0, Math.PI * 2, 0, Math.PI / 2), hatC, new THREE.Vector3(hc.x, lift + hs.y * 0.8, hc.z - f * R * 0.11), new THREE.Vector3(R * 0.8, hs.y * 0.3, R * 0.8), tilt);
+      add(new THREE.CylinderGeometry(0.97, 1, 1, 18), st.band ?? 0x8a4a2a, new THREE.Vector3(hc.x, lift + hs.y * 0.16, hc.z - f * R * 0.02), new THREE.Vector3(R, hs.y * 0.2, R), tilt);
       break;
     }
-    case "helmet": {
-      // Astronaut helmet (Mars Miner): a white shell round the whole head with the face window open, a stripe in the
-      // person's colour round it, a gold visor pushed up over the window, an antenna with a light, a collar ring.
-      const R = Math.max(hx, hz, ss.x / 2, ss.z / 2) * 1.3;
-      const top = H.hat.max.y;
-      const ry = ((top - H.skull.min.y) / 2) * 1.2;
-      const ctr = new THREE.Vector3(sk.x, (top + H.skull.min.y) / 2 + ry * 0.04, sk.z - f * R * 0.06);
-      const shell = 0xf2f4f7;
-      const scale = new THREE.Vector3(R, ry, R * 1.04);
-      // Window: ±0.95 rad round the face, from just over the brows (theta 0.36 pi) to below the chin.
-      const face = f > 0 ? Math.PI / 2 : (3 * Math.PI) / 2;
-      const gap = 0.95;
-      add(new THREE.SphereGeometry(1, 16, 5, 0, Math.PI * 2, 0, Math.PI * 0.36), shell, ctr, scale);
-      add(new THREE.SphereGeometry(1, 16, 7, face + gap, Math.PI * 2 - gap * 2, Math.PI * 0.36, Math.PI * 0.5), shell, ctr, scale);
-      // Stripe at the seam, and the visor pushed up: a gold band over the window's top.
-      const seam = ctr.y + ry * Math.cos(Math.PI * 0.36);
-      const seamR = R * Math.sin(Math.PI * 0.36) * 1.0;
-      add(new THREE.TorusGeometry(1, 0.045, 4, 20), st.look.vest, new THREE.Vector3(ctr.x, seam, ctr.z), new THREE.Vector3(seamR, seamR * 1.04, seamR), new THREE.Euler(Math.PI / 2, 0, 0));
-      add(new THREE.SphereGeometry(1, 10, 2, face - gap, gap * 2, Math.PI * 0.27, Math.PI * 0.09), 0xffc23a, ctr, new THREE.Vector3(R * 1.012, ry * 1.012, R * 1.05));
-      // Antenna on the right with a light.
-      const ax = ctr.x + R * 0.62;
-      add(new THREE.CylinderGeometry(1, 1, 1, 5), 0x8e939c, new THREE.Vector3(ax, top + ry * 0.12, ctr.z - f * R * 0.2), new THREE.Vector3(R * 0.04, ry * 0.45, R * 0.04));
-      add(new THREE.SphereGeometry(1, 6, 4), 0xff5a3a, new THREE.Vector3(ax, top + ry * 0.36, ctr.z - f * R * 0.2), new THREE.Vector3(R * 0.1, R * 0.1, R * 0.1));
-      // Collar ring at the neck.
-      add(new THREE.TorusGeometry(1, 0.22, 5, 16), 0xc5cbd4, new THREE.Vector3(ctr.x, H.skull.min.y - ry * 0.12, ctr.z), new THREE.Vector3(R * 0.8, R * 0.8, R * 0.8), new THREE.Euler(Math.PI / 2, 0, 0));
+    case "conical": {
+      // A conical leaf hat (non la): a shallow cone over the head, wide enough to shade the shoulders, with rings.
+      const R = Math.max(hx, hz) * 2.05;
+      const h = hs.y * 1.45;
+      const y0 = base + hs.y * 0.05;
+      add(new THREE.ConeGeometry(1, 1, 24, 1), hatC, new THREE.Vector3(hc.x, y0 + h / 2, hc.z), new THREE.Vector3(R, h, R), new THREE.Euler(-f * 0.1, 0, 0));
+      for (const k of [0.35, 0.68]) add(new THREE.TorusGeometry(1, 0.025, 3, 24), shade(hatC, 0.86), new THREE.Vector3(hc.x, y0 + h * k, hc.z - f * R * 0.1 * k), new THREE.Vector3(R * (1 - k), R * (1 - k), R * (1 - k)), new THREE.Euler(Math.PI / 2 - f * 0.1, 0, 0));
       break;
     }
   }
   // Short hair shows under a cap or a beanie: sideburns.
-  if (st.hair === "short" && (st.head === "cap" || st.head === "beanie"))
+  if (st.hair === "short" && (st.head === "cap" || st.head === "beanie" || st.head === "straw" || st.head === "conical"))
     for (const s of [-1, 1]) add(new THREE.BoxGeometry(1, 1, 1), st.hairColor, new THREE.Vector3(sk.x + s * rx * 0.98, brow - ss.y * 0.06, sk.z + f * rz * 0.05), new THREE.Vector3(rx * 0.12, ss.y * 0.2, rz * 0.5));
   // Ponytail and bun hang off the back of the head, just under the headwear.
   const nape = hc.z - f * hz * 0.72;
@@ -525,12 +512,6 @@ function headwear(st: Style): THREE.Mesh | null {
   return mesh;
 }
 
-/** Trim on a styled worker's apron (the model paints it with the hard hat's yellow): white stitching. */
-const TRIM = new THREE.Color(0xffffff);
-/** Under a helmet the arms are suit sleeves and the hands gloves (the model's arms are bare skin). */
-const SLEEVE = new THREE.Color(0xeef1f5);
-const GLOVE = new THREE.Color(0x8e939c);
-
 /**
  * This person's colours: vertex colours on merged parts, Lambert materials on any others. With a crew
  * style, the vest trim keeps its yellow whatever the hat, brows and moustache take the hair colour, and
@@ -563,18 +544,17 @@ function dress(model: THREE.Object3D, look: Look, st?: Style): void {
       const si = g.getAttribute("skinIndex") as THREE.BufferAttribute;
       const sw = g.getAttribute("skinWeight") as THREE.BufferAttribute;
       const onHat = (i: number) => hb >= 0 && part.getX(i) === yellow && mainBone(si, sw, i) === hb;
-      // Sleeves: skin on the arms becomes the jacket (Candy Miner chefs; a helmet's suit has gloves too, Mars Miner).
+      // Sleeves: skin on the arms becomes the shirt, to the wrists or rolled up to the elbows (farm game).
       const skinPart = parts.findIndex((x) => x.name === "Skin");
-      const helmet = st?.head === "helmet";
-      const sleeve = helmet ? SLEEVE : new THREE.Color(look.shirt);
-      const boneNames = (helmet || st?.sleeves) && m.isSkinnedMesh ? m.skeleton.bones.map((b) => b.name) : null;
+      const sleeve = new THREE.Color(look.shirt);
+      const arm = st?.sleeves === "rolled" ? /^(Shoulder|UpperArm)/ : /^(Shoulder|UpperArm|LowerArm)/;
+      const boneNames = st?.sleeves && m.isSkinnedMesh ? m.skeleton.bones.map((b) => b.name) : null;
       const suit = (i: number): THREE.Color | null => {
         if (!boneNames || part.getX(i) !== skinPart) return null;
-        const b = boneNames[mainBone(si, sw, i)] ?? "";
-        if (/^(Shoulder|UpperArm|LowerArm)/.test(b)) return sleeve;
-        if (helmet && /^(Wrist|Index|Middle|Ring|Pinky|Thumb)/.test(b)) return GLOVE;
-        return null;
+        return arm.test(boneNames[mainBone(si, sw, i)] ?? "") ? sleeve : null;
       };
+      // The model paints its vest's trim in the hard hat's yellow: on overalls it is a darker stitching.
+      const trim = new THREE.Color(look.vest).multiplyScalar(0.72);
       if (st && st.head !== "hardhat" && hb >= 0) {
         const pos = g.getAttribute("position") as THREE.BufferAttribute;
         const c = new THREE.Vector3();
@@ -602,7 +582,7 @@ function dress(model: THREE.Object3D, look: Look, st?: Style): void {
       }
       const col = new Float32Array(part.count * 3);
       for (let i = 0; i < part.count; i++) {
-        const c = suit(i) ?? (st && part.getX(i) === yellow && !onHat(i) ? TRIM : table[part.getX(i)]);
+        const c = suit(i) ?? (st && part.getX(i) === yellow && !onHat(i) ? trim : table[part.getX(i)]);
         col[i * 3] = c.r;
         col[i * 3 + 1] = c.g;
         col[i * 3 + 2] = c.b;
@@ -627,49 +607,88 @@ function dress(model: THREE.Object3D, look: Look, st?: Style): void {
 
 /* ---------- props ---------- */
 
-/**
- * Pickaxe in tool space: handle along +Y from the grip (origin), head across ±Z at the top. Candy Miner's Candy Pick:
- * a candy-cane handle (red and white bands) and a pink head with white tips.
- */
-function pickaxe(): THREE.Group {
+/** Tool colours by tier: the starting Farm Tools (wooden handles), then steel tools (the sledgehammer's slot). */
+const TIERS = [
+  { handle: 0x9a6a3a, steel: 0xc9ced6, size: 1 },
+  { handle: 0xb8432f, steel: 0x8f98a3, size: 1.12 },
+];
+
+/** Pickaxe in tool space: handle along +Y from the grip (origin), head across ±Z at the top. */
+function pickaxe(tier = 0): THREE.Group {
+  const t = TIERS[tier];
   const g = new THREE.Group();
-  const bands = 8;
-  for (let i = 0; i < bands; i++) {
-    const band = new THREE.Mesh(new THREE.CylinderGeometry(0.048, 0.05, 1.25 / bands, 7), mat(i % 2 ? 0xffffff : 0xe8395a));
-    band.position.y = 0.32 - 0.625 + (i + 0.5) * (1.25 / bands);
-    g.add(band);
-  }
-  const pink = mat(0xff6fa5);
-  const icing = mat(0xffffff);
-  const head = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.14, 0.62), pink);
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 1.25, 8), mat(t.handle));
+  handle.position.y = 0.32;
+  const steel = mat(t.steel);
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.13, 0.5), steel);
   head.position.y = 0.92;
-  const tipA = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.3, 6), icing);
+  const tipA = new THREE.Mesh(new THREE.ConeGeometry(0.065, 0.32, 6), steel);
   tipA.rotation.x = Math.PI / 2;
-  tipA.position.set(0, 0.9, 0.45);
-  const tipB = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.2, 6), icing);
+  tipA.position.set(0, 0.9, 0.4);
+  const tipB = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.22, 6), steel);
   tipB.rotation.x = -Math.PI / 2;
-  tipB.position.set(0, 0.92, -0.4);
-  g.add(head, tipA, tipB);
-  // One vertex-coloured mesh: the striped handle is eleven parts (every miner carries one).
-  bakeColors(g);
-  g.traverse((o) => (o.castShadow = true));
-  return g;
+  tipB.position.set(0, 0.92, -0.34);
+  g.add(handle, head, tipA, tipB);
+  return finishTool(g, t.size);
 }
 
-/** Sledgehammer: the pickaxe's handle with a heavy block head across ±Z. */
-function sledgehammer(): THREE.Group {
+/** A flat shape drawn in (forward, up) = (+Z, +Y), `depth` thick across X. */
+function blade(shape: THREE.Shape, depth: number, color: number): THREE.Mesh {
+  const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 10 });
+  geo.rotateY(-Math.PI / 2);
+  geo.translate(depth / 2, 0, 0);
+  return new THREE.Mesh(geo, mat(color));
+}
+
+/**
+ * Sickle (farm game, user 2026-10-28: "the first tool is a sickle for the harvest"): a short handle along +Y and a
+ * crescent blade from its top, curving forward (+Z) and round, the edge inside.
+ */
+function sickle(tier = 0): THREE.Group {
+  const t = TIERS[tier];
   const g = new THREE.Group();
-  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 1.2, 7), mat(0x8a5a2b));
-  handle.position.y = 0.3;
-  const head = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.24, 0.52), mat(0x4a4f58));
-  head.position.y = 0.92;
-  g.add(handle, head);
-  for (const z of [-0.27, 0.27]) {
-    const face = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.26, 0.04), mat(0x8a9099));
-    face.position.set(0, 0.92, z);
-    g.add(face);
-  }
-  for (const o of g.children) o.castShadow = true;
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.048, 0.44, 8), mat(t.handle));
+  handle.position.y = 0.1;
+  const ferrule = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.06, 8), mat(0x6b6f76));
+  ferrule.position.y = 0.34;
+  const sh = new THREE.Shape();
+  sh.absarc(0.25, 0.02, 0.27, Math.PI, -0.4, true);
+  sh.absarc(0.27, 0.06, 0.2, -0.22, Math.PI * 0.95, false);
+  sh.closePath();
+  const b = blade(sh, 0.026, t.steel);
+  b.position.y = 0.36;
+  g.add(handle, ferrule, b);
+  return finishTool(g, t.size);
+}
+
+/** Axe: a long handle along +Y and a wedge head at the top, the edge forward (+Z), a short poll behind. */
+function axe(tier = 0): THREE.Group {
+  const t = TIERS[tier];
+  const g = new THREE.Group();
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.05, 1.08, 8), mat(t.handle));
+  handle.position.y = 0.36;
+  const steel = t.steel;
+  const eye = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.16, 0.12), mat(shade(steel, 0.8)));
+  eye.position.set(0, 0.84, 0.0);
+  const sh = new THREE.Shape();
+  sh.moveTo(0.05, -0.07);
+  sh.lineTo(0.2, -0.15);
+  sh.quadraticCurveTo(0.29, 0, 0.2, 0.15);
+  sh.lineTo(0.05, 0.07);
+  sh.closePath();
+  const b = blade(sh, 0.06, steel);
+  b.position.y = 0.84;
+  const poll = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.12, 0.08), mat(shade(steel, 0.8)));
+  poll.position.set(0, 0.84, -0.09);
+  g.add(handle, eye, b, poll);
+  return finishTool(g, t.size);
+}
+
+/** One vertex-coloured mesh per tool (every farmhand carries one), scaled to its tier. */
+function finishTool(g: THREE.Group, size: number): THREE.Group {
+  bakeColors(g);
+  g.scale.setScalar(size);
+  g.traverse((o) => (o.castShadow = true));
   return g;
 }
 
@@ -824,8 +843,14 @@ function carrier(): THREE.Group {
 
 /* ---------- gear: which prop each equipment key shows ---------- */
 
-/** "swing": two-handed overhead swing (pickaxe, sledgehammer); "drill": held forward in both hands, buzzing. */
+/** "swing": swung by hand (sickle, axe, pickaxe; how depends on the `Motion`); "drill": held forward in both hands, buzzing. */
 type Grip = "swing" | "drill";
+/**
+ * How a hand tool is swung, by what is in front of the person (farm game, user 2026-10-28: "harvesting moves
+ * differently from chopping"): "reap" a low one-handed sweep of the sickle through rice, "chop" a two-handed slanting
+ * axe blow into a trunk, "dig" the pickaxe's overhead strike into rock.
+ */
+export type Motion = "reap" | "chop" | "dig";
 interface ToolProp {
   g: THREE.Group;
   grip: Grip;
@@ -837,18 +862,11 @@ interface ToolProp {
 const HEAT_COOL = new THREE.Color(0x5c6068);
 const HEAT_HOT = new THREE.Color(0xffc070);
 
-/** Every tool in candy colours (Candy Miner; the pickaxe is drawn in them already). */
-function makeTool(key: string): ToolProp {
-  const t = makeToolModel(key);
-  if (key in TOOL_LIVERY) candyLivery(t.g);
-  return t;
-}
-const TOOL_LIVERY: Record<string, true> = { sledgehammer: true, jackhammer: true, largeHandDrill: true, titanDrill: true, knuckleDriller: true };
+const DRILLS: Record<string, true> = { jackhammer: true, largeHandDrill: true, titanDrill: true, knuckleDriller: true };
 
-function makeToolModel(key: string): ToolProp {
+/** The prop for a mining-slot key. Hand tools are a set (sickle, axe, pickaxe): `motion` picks the one in hand. */
+function makeTool(key: string, motion: Motion = "chop"): ToolProp {
   switch (key) {
-    case "sledgehammer":
-      return { g: sledgehammer(), grip: "swing", bit: null, heat: null };
     case "jackhammer":
       return { ...jackhammer(), grip: "drill", heat: null };
     case "largeHandDrill":
@@ -859,15 +877,16 @@ function makeToolModel(key: string): ToolProp {
       heat.userData.own = true;
       return { ...knuckleDriller(heat), grip: "drill", heat };
     }
-    default:
-      return { g: pickaxe(), grip: "swing", bit: null, heat: null };
+    default: {
+      const tier = key === "sledgehammer" ? 1 : 0;
+      const g = motion === "reap" ? sickle(tier) : motion === "dig" ? pickaxe(tier) : axe(tier);
+      return { g, grip: "swing", bit: null, heat: null };
+    }
   }
 }
 
 function makeBack(key: string): THREE.Group {
-  const g = key === "cargoPack" ? cargoPack() : key === "exoCarrier" ? exoFrame() : carrier();
-  candyLivery(g);
-  return g;
+  return key === "cargoPack" ? cargoPack() : key === "exoCarrier" ? exoFrame() : carrier();
 }
 
 /**
@@ -927,8 +946,28 @@ export const SWING_LEAD = HIT;
 const ARM_KEYS: [number, number][] = [[0, -50], [WINDUP, -200], [HIT, -98], [HIT + 0.06, -110], [SWING_END, -50]].map(([t, v]) => [t, D(v)]);
 const TORSO_KEYS: [number, number][] = [[0, 4], [WINDUP, -14], [HIT, 16], [HIT + 0.08, 10], [SWING_END, 4]].map(([t, v]) => [t, D(v)]);
 const ELBOW_KEYS: [number, number][] = [[0, -20], [WINDUP, -40], [HIT, -4], [SWING_END, -20]].map(([t, v]) => [t, D(v)]);
+const keys = (k: [number, number][]): [number, number][] => k.map(([t, v]) => [t, D(v)]);
+/**
+ * The other two motions (farm game). Chop: the axe comes from high on the right, the torso twisting through, and bites
+ * the trunk at chest height. Reap: bent forward, the sickle sweeps low from the right across to the left in the right
+ * hand, the left hand reaching for the stalks.
+ */
+const CHOP = {
+  arm: keys([[0, -50], [WINDUP, -150], [HIT, -86], [HIT + 0.06, -80], [SWING_END, -50]]),
+  elbow: keys([[0, -20], [WINDUP, -60], [HIT, -6], [SWING_END, -20]]),
+  pitch: keys([[0, 4], [WINDUP, -6], [HIT, 12], [SWING_END, 4]]),
+  yaw: keys([[0, 0], [WINDUP, -48], [HIT, 16], [HIT + 0.08, 22], [SWING_END, 0]]),
+};
+const REAP = {
+  arm: keys([[0, -40], [WINDUP, -42], [HIT, -62], [HIT + 0.08, -58], [SWING_END, -40]]),
+  out: keys([[0, 0], [WINDUP, -50], [HIT, 30], [HIT + 0.08, 40], [SWING_END, 0]]),
+  elbow: keys([[0, -20], [WINDUP, -25], [HIT, -8], [SWING_END, -20]]),
+  pitch: keys([[0, 8], [WINDUP, 26], [HIT, 32], [SWING_END, 8]]),
+  yaw: keys([[0, 0], [WINDUP, -30], [HIT, 26], [HIT + 0.08, 30], [SWING_END, 0]]),
+};
 
 const X = new THREE.Vector3(1, 0, 0);
+const Y = new THREE.Vector3(0, 1, 0);
 const Z = new THREE.Vector3(0, 0, 1);
 /** Handle direction (towards the head) while the pickaxe is just carried. */
 const HOLD_DIR = new THREE.Vector3(0, 0.55, 0.85).normalize();
@@ -970,6 +1009,8 @@ export class Character {
   activity: "eat" | "drink" | "rest" | null = null;
   /** Walk/run clip speed multiplier (match the clip to the ground speed). */
   stride = 1;
+  /** Which hand tool and swing for what is in front (set by the owner from the target cell). */
+  motion: Motion = "chop";
   private model: THREE.Object3D;
   private mixer: THREE.AnimationMixer;
   private lower = new Map<Pose, THREE.AnimationAction>();
@@ -1020,8 +1061,8 @@ export class Character {
     this.gearId = String(seed);
     if (!template) throw new Error("characters not loaded");
     this.model = cloneSkinned(template);
-    // A hired worker's own style (CREW); the player and unknown ids are candy makers in the plain looks (Candy Miner).
-    const st = kind === "worker" ? CREW[seed] ?? candyMaker(workerLook(seed)) : candyMaker(PLAYER_LOOK);
+    // A hired worker's own style (CREW); the player and unknown ids are farmers in a straw hat.
+    const st = kind === "worker" ? CREW[seed] ?? farmer(workerLook(seed)) : farmer(PLAYER_LOOK, 0x5a3a22);
     const height = (opts.height ?? PLAYER_HEIGHT) * (st?.tall ?? 1);
     this.model.scale.multiplyScalar(height / modelHeight);
     if (st) (this.model.scale.x *= st.wide), (this.model.scale.z *= st.wide);
@@ -1102,11 +1143,13 @@ export class Character {
   }
 
   private wear(mining: string, carrying: string): void {
-    if (mining !== this.toolKey) {
-      this.toolKey = mining;
+    // Hand tools follow the motion (sickle / axe / pickaxe); drills are one prop.
+    const key = mining in DRILLS ? mining : `${mining}|${this.motion}`;
+    if (key !== this.toolKey) {
+      this.toolKey = key;
       for (const o of this.tool.children) dispose(o);
       this.tool.clear();
-      const t = makeTool(mining);
+      const t = makeTool(mining, this.motion);
       this.tool.add(t.g);
       this.grip = t.grip;
       this.bit = t.bit;
@@ -1211,7 +1254,9 @@ export class Character {
     // Hands forward for the wheelbarrow, unless swinging.
     const busy = Math.max(sw, dw);
     const holdW = this.holdW * (1 - busy);
-    if (busy > 0 || holdW > 0.01) {
+    const motion = this.grip === "swing" ? this.motion : "dig";
+    if (sw > 0 && motion !== "dig") this.swingMotion(motion, sw, t);
+    else if (busy > 0 || holdW > 0.01) {
       const shake = this.buzz > 0 ? Math.sin(this.clock * 95) * D(1.6) : 0;
       const arm = sw * curve(ARM_KEYS, t) + dw * (D(-52) + shake) + holdW * D(-38);
       const elbow = sw * curve(ELBOW_KEYS, t) + dw * D(-58) + holdW * D(-25);
@@ -1226,6 +1271,28 @@ export class Character {
     }
     if (this.grip === "drill") this.placeDrill(dw);
     else this.placeTool(sw);
+  }
+
+  /** The chop and the reap (the dig is the pickaxe's overhead strike in `update`). */
+  private swingMotion(motion: Motion, sw: number, t: number): void {
+    const k = motion === "reap" ? REAP : CHOP;
+    this.turn(this.bones.Chest, Y, sw * curve(k.yaw, t));
+    this.turn(this.bones.Chest, X, sw * curve(k.pitch, t));
+    if (motion === "chop") {
+      for (const side of ["L", "R"] as const) {
+        const s = side === "L" ? 1 : -1;
+        this.turn(this.bones[`UpperArm${side}`], Z, -s * D(14) * sw);
+        this.turn(this.bones[`UpperArm${side}`], X, sw * curve(CHOP.arm, t));
+        this.turn(this.bones[`LowerArm${side}`], X, sw * curve(CHOP.elbow, t));
+      }
+      return;
+    }
+    // Reap: the right arm sweeps (out to the right, then across), the left reaches forward and down for the stalks.
+    this.turn(this.bones.UpperArmR, Z, sw * curve(REAP.out, t));
+    this.turn(this.bones.UpperArmR, X, sw * curve(REAP.arm, t));
+    this.turn(this.bones.LowerArmR, X, sw * curve(REAP.elbow, t));
+    this.turn(this.bones.UpperArmL, X, sw * D(-48));
+    this.turn(this.bones.LowerArmL, X, sw * D(-30));
   }
 
   /** Rotate a bone by `angle` about a character-space axis (independent of the rig's axes). */
@@ -1355,13 +1422,29 @@ export class Character {
     const r = this.root;
     const hands = va.addVectors(this.bones.WristL.getWorldPosition(vb), this.bones.WristR.getWorldPosition(vc)).multiplyScalar(0.5);
     r.worldToLocal(hands);
-    if (sw > 0.5) {
+    if (sw > 0.5 && this.motion === "reap") {
+      // The sickle in the right hand along the forearm, the blade facing the way it sweeps (to the left).
+      const wrist = this.bones.WristR.getWorldPosition(vb);
+      const dir = vc.subVectors(wrist, this.bones.LowerArmR.getWorldPosition(va)).normalize();
+      r.worldToLocal(wrist);
+      r.getWorldQuaternion(qa);
+      dir.applyQuaternion(qa.invert());
+      const lead = va.crossVectors(Y, dir).normalize();
+      m4.makeBasis(new THREE.Vector3().crossVectors(dir, lead).normalize(), dir, lead);
+      this.tool.quaternion.setFromRotationMatrix(m4);
+      this.tool.position.copy(wrist);
+    } else if (sw > 0.5) {
       const shoulders = vb.addVectors(this.bones.UpperArmL.getWorldPosition(vb), this.bones.UpperArmR.getWorldPosition(vc)).multiplyScalar(0.5);
       r.worldToLocal(shoulders);
       const dir = vc.subVectors(hands, shoulders).normalize();
-      // Handle continues the arms; the pick head leads in the swing plane.
-      const lead = vb.crossVectors(X, dir).normalize();
-      m4.makeBasis(X, dir, lead);
+      // Handle continues the arms; the pick head leads in the swing plane; the axe's edge faces across, into the trunk.
+      if (this.motion === "chop") {
+        const lead = vb.crossVectors(Y, dir).normalize();
+        m4.makeBasis(new THREE.Vector3().crossVectors(dir, lead).normalize(), dir, lead);
+      } else {
+        const lead = vb.crossVectors(X, dir).normalize();
+        m4.makeBasis(X, dir, lead);
+      }
       this.tool.quaternion.setFromRotationMatrix(m4);
       this.tool.position.copy(hands).addScaledVector(dir, -0.12);
     } else {

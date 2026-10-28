@@ -1,6 +1,6 @@
 // Check src/data/text.json against the copy in git HEAD: same keys in every section (new sections allowed), dialogue
-// entries with the same number of lines, the same {0}-style placeholders in each string, no Mars Miner (or older
-// Quarry Crush) words left. Candy Miner names: docs/CANDY.md.
+// entries with the same number of lines, the same {0}-style placeholders in each string, no Candy Miner, Mars Miner
+// or Quarry Crush words left. Farm Valley names: docs/FARM.md.
 //
 //   node scripts/check-text.mjs
 import { execFileSync } from "node:child_process";
@@ -30,20 +30,26 @@ const walk = (a, b, path) => {
   }
 };
 walk(old, now, "text");
-// Mars Miner's space words (people, places, machines, fuel, ore names), then the Quarry Crush words before it.
-// Not "truck": Candy Miner's machines are Smash Truck, Scoop Truck, … (docs/CANDY.md).
+// Candy Miner's candy words, Mars Miner's space words (people, places, machines, ore names), then the Quarry Crush
+// words before them. Allowed again on the farm (docs/FARM.md): truck, fuel (the FUEL pad, diesel cans), pickaxe (one of
+// the Farm Tools), wheelbarrow, ore, bars (ore chunk -> bar).
 const banned = new RegExp(
   [
+    "candy", "sugar", "caramel", "chocolate", "choco", "cocoa", String.raw`\bcoco\b`, "gummy", String.raw`\bgum\b`, "gumdrop", "lollipop", "lolli",
+    String.raw`\bsweet`, "frosting", "icing", "sprinkle", String.raw`\btreats?\b`, "granny", "gigi", "sourpuss", String.raw`\bsour`, "baron",
+    "syrup", String.raw`\bcook`, String.raw`\bjars?\b`, "toffee", "licorice", "marshmallow", "jawbreaker", "peppermint", String.raw`\bmint\b`, "cupcake",
+    String.raw`\bcakes?\b`, "cookie", "biscuit", "wafer", "jelly", "bonbon", "dessert", "pastry", "honeycomb", "butterscotch", "unicorn",
+    "fizz", "whisk", String.raw`\bboss\b`, String.raw`\bmixer`, "picnic", "factory", "garage", "kitchen", String.raw`\bbees?\b`,
     String.raw`\brex\b`, String.raw`\bnova\b`, "captain", "commander", "rookie", "asteroid", "dig site", String.raw`\brovers?\b`,
-    "hangar", "refin", "fuel", "regolith", "meteor", "space", String.raw`\bmars\b`, "cargo", "trade post", "canteen",
+    "hangar", "refin", "regolith", "meteor", "space", String.raw`\bmars\b`, "cargo", "trade post", "canteen",
     "drone", "orbit", "crater", String.raw`\bmission\b`, String.raw`\bcrew quarters\b`, String.raw`\bupgrade lab\b`, String.raw`\blab\b`,
     String.raw`\bastro`, String.raw`\bmoons?\b`, String.raw`\bcomets?\b`, String.raw`\bplanet`, String.raw`\bgalax`, String.raw`\brocket`,
     String.raw`\bthruster`, String.raw`\bplasma\b`, String.raw`\blaser`, String.raw`\breactor`, String.raw`\blaunch`, String.raw`\bgrav`,
     String.raw`zero-?g\b`, String.raw`\btitan\b`, String.raw`\bion\b`, String.raw`\bpods?\b`, String.raw`\bbeam`, String.raw`\bxeno`,
-    String.raw`\bvoid\b`, String.raw`\bexo\b`, String.raw`\bcadet`, String.raw`\bpilot`, String.raw`\bstation\b`, String.raw`\bbars?\b`,
-    String.raw`\bores?\b`, "glowstone", "olivine",
+    String.raw`\bvoid\b`, String.raw`\bexo\b`, String.raw`\bcadet`, String.raw`\bpilot`, String.raw`\bstation\b`,
+    "glowstone", "olivine",
     "quarry", "furnace", "machinery center", "foreman", String.raw`\bgus\b`, String.raw`\bmia\b`, "pizza", String.raw`\boil\b`,
-    "wheelbarrow", "pickaxe", "sledgehammer", "jackhammer", "bulldozer",
+    "sledgehammer", "jackhammer", "bulldozer",
   ].join("|"),
   "i",
 );

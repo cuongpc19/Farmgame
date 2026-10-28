@@ -1,0 +1,8 @@
+[
+ {"wait":1500},
+ {"eval":"(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); return n})()"},
+ {"wait":2500},
+ {"eval":"(()=>{const i=__game.stage.renderer.info; return JSON.stringify({at:'base start', calls:i.render.calls, triangles:i.render.triangles, shadows: __game.stage.renderer.shadowMap.enabled})})()"},
+ {"eval":"(()=>{const g=__game; const out=[]; for(const c of g.scene.children){ let m=0,t=0; c.traverseVisible(o=>{ if(o.isMesh||o.isSprite){ m++; const geo=o.geometry; const n=geo&&geo.index?geo.index.count/3:(geo&&geo.attributes.position?geo.attributes.position.count/3:0); t+=n*(o.isInstancedMesh?o.count:1);} }); if(m) out.push([c.type+(c.isInstancedMesh?'I':'')+'@'+c.position.x.toFixed(0)+','+c.position.z.toFixed(0)+(c===g.map?.group?' MAP':''), m, Math.round(t)]); } out.sort((a,b)=>b[1]-a[1]); return JSON.stringify(out.slice(0,40))})()"},
+ {"eval":"(()=>{const g=__game; const grp=g.map.group; const out=[]; for(const c of grp.children){ let m=0; c.traverseVisible(o=>{ if(o.isMesh) m++; }); const geo=c.geometry; out.push((c.isInstancedMesh?'I:'+c.count:'M')+':'+(geo?geo.type:'grp')+':'+m); } return JSON.stringify(out)})()"}
+]

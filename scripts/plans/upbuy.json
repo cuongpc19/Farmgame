@@ -3,7 +3,7 @@
   "wait": 800
  },
  {
-  "eval": "(localStorage.setItem('cm_settings', JSON.stringify({music:true,sfx:true,vibration:true,perfMode:false})), setTimeout(()=>location.reload(), 100), true)"
+  "eval": "(localStorage.setItem('fv_settings', JSON.stringify({music:true,sfx:true,vibration:true,perfMode:false})), setTimeout(()=>location.reload(), 100), true)"
  },
  {
   "wait": 2500

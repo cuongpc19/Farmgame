@@ -218,7 +218,7 @@ export class Minecart {
       }
     }
     this.stack.update(dt);
-    this.ctx.labels.set(this.label, `CARGO [${this.stack.count}/${this.stack.capacity}]`);
+    this.ctx.labels.set(this.label, `LOAD [${this.stack.count}/${this.stack.capacity}]`);
     // Screen-space depart button above the cart while it has a load and sits idle.
     const show = this.state === "idle" && this.stack.count > 0;
     this.button.style.display = show ? "" : "none";

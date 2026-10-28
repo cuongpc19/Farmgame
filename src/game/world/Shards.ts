@@ -1,55 +1,32 @@
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { candyUVs } from "./candyTex";
 
 /**
- * Candy pieces, shared by every shard (Candy Miner; Quarry Crush and Mars Miner threw jagged rock wedges and lumps).
- * The big pieces (`wedge` in `burst`, the name kept) are little petit-fours: a rounded cube with the block's
- * frosting on top and its cake side round it, so a block falls apart into mini cakes. The small ones are sugar cubes
- * and round drops wearing the frosting all over (sprinkles included). Big pieces come first in the list.
+ * Irregular rock-chunk shapes, shared by every shard: jittered icosahedra (lumps) and jittered
+ * triangular slabs (the wedges a block splits into, reference; user 2026-10-22: bigger pieces).
+ * Wedges come first in the list (`burst` with `wedge` picks from them).
  */
 const WEDGES = 4;
-/** Every face shows the block's frosting (the top half of its atlas), a patch of it per face. */
-function frostedUVs(g: THREE.BufferGeometry): void {
-  const nor = g.getAttribute("normal") as THREE.BufferAttribute;
-  const pos = g.getAttribute("position") as THREE.BufferAttribute;
-  const uv = new Float32Array(pos.count * 2);
-  for (let i = 0; i < pos.count; i++) {
-    const ax = Math.abs(nor.getX(i));
-    const ay = Math.abs(nor.getY(i));
-    const az = Math.abs(nor.getZ(i));
-    // Project along the strongest normal axis.
-    const [a, b] = ay >= ax && ay >= az ? [pos.getX(i), pos.getZ(i)] : ax >= az ? [pos.getZ(i), pos.getY(i)] : [pos.getX(i), pos.getY(i)];
-    uv[i * 2] = 0.5 + a * 0.55;
-    uv[i * 2 + 1] = 0.75 + b * 0.28;
-  }
-  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
-}
 function chunkGeometries(): THREE.BufferGeometry[] {
   const out: THREE.BufferGeometry[] = [];
   let seed = 7;
   const r = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  for (let k = 0; k < WEDGES; k++) {
-    const w = 0.85 + r() * 0.3;
-    const h = 0.6 + r() * 0.25;
-    const d = 0.8 + r() * 0.3;
-    const g = new RoundedBoxGeometry(w, h, d, 2, 0.13);
-    // candyUVs reads heights from the bottom face up.
-    g.translate(0, h / 2, 0);
-    candyUVs(g, w, h, d);
-    g.translate(0, -h / 2, 0);
-    out.push(g);
-  }
-  for (let k = 0; k < 6; k++) {
-    let g: THREE.BufferGeometry;
-    if (k % 2 === 0) {
-      const e = 0.6 + r() * 0.2;
-      g = new RoundedBoxGeometry(e, e * (0.8 + r() * 0.2), e, 2, 0.12);
-    } else {
-      g = new THREE.SphereGeometry(0.4, 12, 9);
-      g.scale(1, 0.75 + r() * 0.2, 1);
+  for (let k = 0; k < 6 + WEDGES; k++) {
+    const wedge = k < WEDGES;
+    const g = wedge ? new THREE.CylinderGeometry(0.62, 0.62, 0.5, 3, 1) : new THREE.IcosahedronGeometry(0.5, 0);
+    const pos = g.getAttribute("position") as THREE.BufferAttribute;
+    const sx = wedge ? 0.9 + r() * 0.4 : 0.75 + r() * 0.5;
+    const sy = wedge ? 0.6 + r() * 0.5 : 0.45 + r() * 0.4;
+    const sz = wedge ? 0.7 + r() * 0.5 : 0.75 + r() * 0.5;
+    // Same jitter for vertices that coincide, so the chunk stays closed.
+    const jit = new Map<string, [number, number, number]>();
+    for (let i = 0; i < pos.count; i++) {
+      const key = `${pos.getX(i).toFixed(3)},${pos.getY(i).toFixed(3)},${pos.getZ(i).toFixed(3)}`;
+      if (!jit.has(key)) jit.set(key, [(r() - 0.5) * 0.22, (r() - 0.5) * 0.22, (r() - 0.5) * 0.22]);
+      const [jx, jy, jz] = jit.get(key)!;
+      pos.setXYZ(i, pos.getX(i) * sx + jx, pos.getY(i) * sy + jy, pos.getZ(i) * sz + jz);
     }
-    frostedUVs(g);
+    if (wedge) g.rotateZ(Math.PI / 2); // lying on its long face, the triangle standing up
+    g.computeVertexNormals();
     out.push(g);
   }
   return out;
@@ -65,9 +42,9 @@ interface Shard {
 }
 
 /**
- * Candy pieces that fly out of a block (reference: the block splits into a handful of big
+ * Chunks of rock that fly out of a block (reference: the block splits into a handful of big
  * textured pieces that tumble out, bounce and vanish; each hit also flicks small chips toward
- * the miner). Pieces use the block's own material, so they carry its frosting and tint.
+ * the miner). Pieces use the block's own material, so they carry its stone / ore pattern.
  * Pooled meshes, simple ballistic motion with a ground bounce — no physics engine.
  */
 export class Shards {

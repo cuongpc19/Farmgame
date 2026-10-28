@@ -71,7 +71,7 @@ FURNACE_C = (FURNACE["x"] + FURNACE["w"] / 2, FURNACE["z"] + FURNACE["h"] / 2)
 # (2026-10-19) had the apex on the mouth at x 503 with 5 cells of bare ground: the first rock was
 # 5 rows in and the narrow tip held few blocks, so most of the quarry was a long walk.
 FAN_CX, FAN_BACK, FAN_APRON = 506.0, 4.0, 2.0
-LAYOUT_V = 3            # bump whenever the cells change: saves of another layout restart this quarry
+LAYOUT_V = 4            # bump whenever the cells change: saves of another layout restart this quarry
 # The ore ladder (Mars Miner, user 2026-10-28: "two hits and a limestone is done at first; only a while later do
 # players meet the other rocks"): (nearest blocks to the base, the hardest ore allowed among them, in HP). The
 # first 200 are limestone only (2 hits with the starting pickaxe), then sandstone and copper (150 HP; quest 1025
@@ -79,6 +79,7 @@ LAYOUT_V = 3            # bump whenever the cells change: saves of another layou
 # diamond only past 700. Same count per ore as the original. Before: limestone for 100 blocks with 4 soft accents,
 # then the original's profile (iron at block 103, silver 111, gold 181).
 LADDER = ((200, 50), (350, 150), (500, 400), (700, 800))
+TREE_MIX = (("dunite", 100), ("obsidian", 50), ("coal", 30))
 ORE_HP = {k: o["hp"] for k, o in json.load(open(os.path.join(ROOT, "src/data/orig/economy.json"), encoding="utf-8"))["ores"].items()}
 
 def fan(angle_deg, cx=FAN_CX, back=FAN_BACK, apron=FAN_APRON, seed=1):
@@ -140,6 +141,13 @@ def fan(angle_deg, cx=FAN_CX, back=FAN_BACK, apron=FAN_APRON, seed=1):
     d = bfs(set(cand) | ground | HOME_CELLS, list(HOME_CELLS))
     cand = sorted((c for c in cand if c in d), key=lambda c: (d[c], c[0] * 1e-3))[:N]
     ores = list(PROFILE)
+    # Farm game (user 2026-10-28: "trees of many kinds; old trees take long to chop"): part of the bamboo (sandstone,
+    # 150 HP) becomes orange trees (dunite, 200), pines (obsidian, 450) and maples (coal, 500), spread evenly over the
+    # bamboo; the LADDER below then puts the older trees further out. Same 1,204 cells.
+    bamboo = [i for i, o in enumerate(ores) if o == "sandstone"]
+    swap = [k for k, n in TREE_MIX for _ in range(n)]
+    for k, key in enumerate(swap):
+        ores[bamboo[(k * len(bamboo)) // len(swap)]] = key
     rr = random.Random(seed)
     for i in range(N):
         j = min(N - 1, max(0, i + rr.randint(-30, 30)))

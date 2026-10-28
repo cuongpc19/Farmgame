@@ -1,0 +1,21 @@
+[
+ {"wait":1500},
+ {"eval":"(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); return n})()"},
+ {"wait":2500},
+ {"eval":"(()=>{const i=__game.stage.renderer.info; return JSON.stringify({at:'base start', calls:i.render.calls, triangles:i.render.triangles})})()"},
+ {"snap":"fv_base"},
+ {"eval":"(()=>{const g=__game; g.stage.zoom(2.2); return true})()"},
+ {"wait":2500},
+ {"eval":"(()=>{const i=__game.stage.renderer.info; return JSON.stringify({at:'base wide', calls:i.render.calls, triangles:i.render.triangles})})()"},
+ {"snap":"fv_base_wide"},
+ {"eval":"(()=>{const g=__game; g.stage.zoom(1); return true})()"},
+ {"eval":"(()=>{const g=__game; g.player.pos.set(g.player.pos.x, 0, g.player.pos.z - 14); g.stage.follow(g.player.pos, true); return true})()"},
+ {"wait":2500},
+ {"snap":"fv_quarry"},
+ {"eval":"(()=>{const g=__game; g.player.pos.set(g.player.pos.x + 30, 0, g.player.pos.z); g.stage.follow(g.player.pos, true); return true})()"},
+ {"wait":2500},
+ {"snap":"fv_edge"},
+ {"eval":"(()=>{const g=__game; g.stage.zoom(3.2); return true})()"},
+ {"wait":2500},
+ {"snap":"fv_far"}
+]

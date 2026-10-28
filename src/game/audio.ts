@@ -237,20 +237,57 @@ function noise(dur: number, vol: number, cutoff: number, delay = 0): void {
   src.start(t);
 }
 
+/** A band of noise swept from one frequency to another (the swish of a blade through stalks). */
+function sweep(dur: number, vol: number, from: number, to: number, delay = 0): void {
+  const out = sfxOut();
+  if (!ctx || !out) return;
+  const t = ctx.currentTime + delay;
+  const len = Math.floor(ctx.sampleRate * dur);
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.sin((Math.PI * i) / len);
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const f = ctx.createBiquadFilter();
+  f.type = "bandpass";
+  f.Q.value = 1.4;
+  f.frequency.setValueAtTime(from, t);
+  f.frequency.exponentialRampToValueAtTime(to, t + dur);
+  const g = ctx.createGain();
+  g.gain.value = vol;
+  src.connect(f).connect(g).connect(out);
+  src.start(t);
+}
+
 export const sfx = {
-  // Candy Miner: a bright crunch on every hit and a pop with a sparkle when a block breaks (the rock ones were a
-  // low thud and a rumble).
+  /** Farm game: each kind of work has its own sound (a sickle's swish, an axe's knock, a pickaxe's clink). */
+  reap(): void {
+    if (!gate("reap", 70)) return;
+    sweep(0.16, 0.5, 2600, 6200);
+    noise(0.05, 0.12, 2400, 0.05);
+  },
+  chop(): void {
+    if (!gate("chop", 55)) return;
+    tone(170 + Math.random() * 30, 0.09, "triangle", 0.28, 95);
+    noise(0.06, 0.26, 1500);
+  },
+  /** A tree toppling: a creak, then the thump of it landing (Felled lands ~0.6 s later). */
+  fall(): void {
+    if (!gate("fall", 120)) return;
+    tone(260, 0.28, "sawtooth", 0.035, 140);
+    noise(0.18, 0.3, 700, 0.58);
+    tone(80, 0.2, "sine", 0.3, 50, 0.58);
+  },
   hit(): void {
     if (!gate("hit", 55)) return;
-    noise(0.05, 0.3, 4200);
-    tone(460 + Math.random() * 80, 0.05, "triangle", 0.09, 320);
+    noise(0.04, 0.24, 5200);
+    tone(1250 + Math.random() * 150, 0.06, "triangle", 0.07, 900);
   },
   breakBlock(): void {
     if (!gate("break", 40)) return;
-    noise(0.1, 0.32, 3600);
-    tone(360, 0.13, "sine", 0.2, 900);
-    tone(1320, 0.07, "triangle", 0.06, undefined, 0.07);
-    tone(1760, 0.09, "triangle", 0.05, undefined, 0.12);
+    noise(0.16, 0.36, 2200);
+    tone(140, 0.14, "sine", 0.24, 70);
+    tone(1500, 0.08, "triangle", 0.05, undefined, 0.05);
   },
   pickup(): void {
     if (!gate("pickup", 45)) return;

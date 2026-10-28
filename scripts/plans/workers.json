@@ -40,7 +40,7 @@
   "wait": 300
  },
  {
-  "eval": "({workers: __game.workers.map(w=>w.profile.name+':'+w.profile.role), cash: Math.round(JSON.parse(localStorage.getItem('cm_save')).cash)})"
+  "eval": "({workers: __game.workers.map(w=>w.profile.name+':'+w.profile.role), cash: Math.round(JSON.parse(localStorage.getItem('fv_save')).cash)})"
  },
  {
   "eval": "(__game.player.pos.set(2,0,14), __game.timeScale = 5, true)"

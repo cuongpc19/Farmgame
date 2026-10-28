@@ -4,9 +4,10 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import { prop, propSize } from "./props3d";
 
 /**
- * Procedural low-poly models (no model files). Everything is built from primitives with
- * flat-shaded Lambert materials: cheap on mobile, and the toy look suits the genre.
- * Materials are shared through `mat()` so 200 meshes of one colour cost one material.
+ * Procedural models (no model files). Everything is built from primitives with smooth-shaded
+ * Lambert materials (Farm Valley, user 2026-10-28: a smooth cartoon look, not flat-shaded low-poly;
+ * boxes keep their crisp faces): cheap on mobile. Materials are shared through `mat()` so 200
+ * meshes of one colour cost one material.
  */
 const mats = new Map<string, THREE.MeshLambertMaterial>();
 export function mat(color: number, opts: { emissive?: number; transparent?: boolean; opacity?: number } = {}): THREE.MeshLambertMaterial {
@@ -16,7 +17,6 @@ export function mat(color: number, opts: { emissive?: number; transparent?: bool
     m = new THREE.MeshLambertMaterial({
       color,
       emissive: opts.emissive ?? 0,
-      flatShading: true,
       transparent: opts.transparent ?? (opts.opacity ?? 1) < 1,
       opacity: opts.opacity ?? 1,
     });
@@ -52,32 +52,58 @@ function kenneyWheel(d: number): THREE.Group {
 }
 
 export function makeCart(): CartModel {
-  // Candy cart (Candy Miner): a bubblegum-pink tub with cream trim and rim, a peppermint swirl on each side,
-  // a chocolate inside, on four Kenney wheels. The body is baked (three draws, the two swirls one more).
+  // A wooden mine cart (Farm Valley): a plank tub with iron corner straps and an iron rim, a darker inside, on four
+  // Kenney wheels. The body is baked (a few draws).
   const root = new THREE.Group();
-  const tub = new THREE.Mesh(new RoundedBoxGeometry(1.15, 0.62, 1.5, 2, 0.12), mat(0xff8fb8));
-  tub.position.y = 0.66;
+  const W = 1.15;
+  const H = 0.62;
+  const D = 1.5;
+  const y0 = 0.35;
+  const tub = new THREE.Mesh(new RoundedBoxGeometry(W - 0.06, H - 0.04, D - 0.06, 2, 0.06), mat(0x9a6a3c));
+  tub.position.y = y0 + H / 2;
   tub.castShadow = true;
-  const inside = mesh(box(0.92, 0.05, 1.26), 0x4a2a1e);
-  inside.position.y = 0.98;
-  root.add(tub, inside);
-  // Cream rim round the top edge (a frame: the load shows inside).
-  for (const [w, d, x, z] of [[1.25, 0.12, 0, 0.74], [1.25, 0.12, 0, -0.74], [0.12, 1.6, 0.565, 0], [0.12, 1.6, -0.565, 0]] as const) {
-    const rim = new THREE.Mesh(new RoundedBoxGeometry(w, 0.12, d, 2, 0.05), mat(0xfff3e2));
-    rim.position.set(x, 0.98, z);
+  root.add(tub);
+  // Planks on the sides and ends: horizontal boards in two tones.
+  for (let i = 0; i < 3; i++) {
+    const y = y0 + (H / 3) * (i + 0.5);
+    const tone = i % 2 ? 0xa8743f : 0xb8844c;
+    for (const sx of [-1, 1]) {
+      const b = mesh(box(0.05, H / 3 - 0.03, D - 0.1), tone);
+      b.position.set((sx * W) / 2, y, 0);
+      root.add(b);
+    }
+    for (const sz of [-1, 1]) {
+      const b = mesh(box(W - 0.1, H / 3 - 0.03, 0.05), tone);
+      b.position.set(0, y, (sz * D) / 2);
+      root.add(b);
+    }
+  }
+  const inside = mesh(box(W - 0.2, 0.05, D - 0.2), 0x4a3424);
+  inside.position.y = y0 + H - 0.02;
+  root.add(inside);
+  // Iron: rim round the top, straps at the corners, a band low down, rivets.
+  for (const [w, d, x, z] of [[W + 0.1, 0.1, 0, D / 2], [W + 0.1, 0.1, 0, -D / 2], [0.1, D + 0.1, W / 2, 0], [0.1, D + 0.1, -W / 2, 0]] as const) {
+    const rim = new THREE.Mesh(new RoundedBoxGeometry(w, 0.1, d, 2, 0.04), mat(0x4a4642));
+    rim.position.set(x, y0 + H, z);
     rim.castShadow = true;
     root.add(rim);
   }
+  for (const sx of [-1, 1])
+    for (const sz of [-1, 1]) {
+      const st = mesh(box(0.1, H, 0.1), 0x4a4642);
+      st.position.set((sx * W) / 2, y0 + H / 2, (sz * D) / 2);
+      root.add(st);
+    }
   for (const z of [-0.45, 0.45]) {
-    const b = new THREE.Mesh(box(1.25, 0.14, 0.14), mat(0xfff3e2));
-    b.position.set(0, 0.6, z);
-    b.castShadow = true;
+    const b = mesh(box(W + 0.1, 0.12, 0.12), 0x4a4642);
+    b.position.set(0, y0 + 0.12, z);
     root.add(b);
   }
-  // Peppermint swirls (red and white) on both sides, one mesh.
-  const discs = [-0.585, 0.585].map((x) => cyl(0.2, 0.2, 0.04, 16).rotateZ(Math.PI / 2).translate(x, 0.72, 0));
-  root.add(new THREE.Mesh(mergeGeometries(discs)!, cartMint()));
-  for (const d of discs) d.dispose();
+  const axle = mesh(cyl(0.05, 0.05, 1.2, 8).rotateZ(Math.PI / 2), 0x3a3632);
+  axle.position.set(0, 0.21, 0.45);
+  const axle2 = axle.clone();
+  axle2.position.z = -0.45;
+  root.add(axle, axle2);
   const wheels: THREE.Object3D[] = [];
   for (const [x, z] of [[-0.5, 0.45], [0.5, 0.45], [-0.5, -0.45], [0.5, -0.45]] as const) {
     const w = kenneyWheel(0.42);
@@ -87,62 +113,42 @@ export function makeCart(): CartModel {
   }
   const stackAnchor = new THREE.Object3D();
   stackAnchor.position.set(0, 0.45, 0);
-  root.add(stackAnchor);
-  bake(root, [...wheels, stackAnchor]);
+  // Bake the body into vertex colours (one draw); the wheels turn, so they are set aside meanwhile.
+  for (const w of wheels) w.removeFromParent();
+  bakeColors(root);
+  root.add(...wheels, stackAnchor);
   return { root, stackAnchor, wheels };
 }
 
-let mintMat: THREE.MeshLambertMaterial | null = null;
-/** A peppermint candy's face: six red wedges on white, a red centre. */
-function cartMint(): THREE.MeshLambertMaterial {
-  if (mintMat) return mintMat;
-  const S = 64;
-  const c = document.createElement("canvas");
-  c.width = c.height = S;
-  const g = c.getContext("2d")!;
-  g.fillStyle = "#ffffff";
-  g.fillRect(0, 0, S, S);
-  g.fillStyle = "#e8395a";
-  for (let k = 0; k < 6; k++) {
-    const a = (k / 6) * Math.PI * 2;
-    g.beginPath();
-    g.moveTo(S / 2, S / 2);
-    g.arc(S / 2, S / 2, S / 2, a, a + Math.PI / 6);
-    g.closePath();
-    g.fill();
-  }
-  g.beginPath();
-  g.arc(S / 2, S / 2, S * 0.1, 0, Math.PI * 2);
-  g.fill();
-  const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace;
-  mintMat = new THREE.MeshLambertMaterial({ map: t });
-  return mintMat;
-}
-
-let caneMat: THREE.MeshLambertMaterial | null = null;
-/** Candy-cane stripes for the rails: red bands on white, repeating along u. */
+let railM: THREE.MeshLambertMaterial | null = null;
+/** Iron rails: steel grey with a brighter running top (u along the rail, v round it). */
 function railMat(): THREE.MeshLambertMaterial {
-  if (caneMat) return caneMat;
+  if (railM) return railM;
   const c = document.createElement("canvas");
-  c.width = 64;
-  c.height = 8;
+  c.width = 8;
+  c.height = 32;
   const g = c.getContext("2d")!;
-  g.fillStyle = "#fff8f4";
-  g.fillRect(0, 0, 64, 8);
-  g.fillStyle = "#e8395a";
-  g.fillRect(0, 0, 30, 8);
+  const grad = g.createLinearGradient(0, 0, 0, 32);
+  grad.addColorStop(0, "#5a5652");
+  grad.addColorStop(0.35, "#8f8a84");
+  grad.addColorStop(0.5, "#d2ccc4");
+  grad.addColorStop(0.65, "#8f8a84");
+  grad.addColorStop(1, "#5a5652");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 8, 32);
   const t = new THREE.CanvasTexture(c);
   t.colorSpace = THREE.SRGBColorSpace;
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  caneMat = new THREE.MeshLambertMaterial({ map: t });
-  return caneMat;
+  railM = new THREE.MeshLambertMaterial({ map: t });
+  return railM;
 }
 
 let sleeper: { geo: THREE.BufferGeometry; m: THREE.MeshLambertMaterial } | null = null;
 function sleeperParts() {
   if (sleeper) return sleeper;
-  const coloured = (geo: THREE.BufferGeometry, hex: number) => {
+  // Non-indexed throughout: the rounded tie is non-indexed, the plates are not, and merging needs one kind.
+  const coloured = (src: THREE.BufferGeometry, hex: number) => {
+    const geo = src.index ? src.toNonIndexed() : src;
     const c = new THREE.Color(hex);
     const n = geo.attributes.position.count;
     const col = new Float32Array(n * 3);
@@ -150,35 +156,39 @@ function sleeperParts() {
     geo.deleteAttribute("uv");
     return geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
   };
-  const geo = mergeGeometries([coloured(box(1.15, 0.08, 0.24), 0x6b3f2a), coloured(box(1.0, 0.02, 0.06).translate(0, 0.05, 0), 0xfff3e2)])!;
-  sleeper = { geo, m: new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true }) };
+  const geo = mergeGeometries([
+    coloured(new RoundedBoxGeometry(1.15, 0.1, 0.26, 1, 0.03), 0x8a5c34),
+    coloured(box(0.12, 0.03, 0.14).translate(-0.42, 0.06, 0), 0x4a4642),
+    coloured(box(0.12, 0.03, 0.14).translate(0.42, 0.06, 0), 0x4a4642),
+  ])!;
+  sleeper = { geo, m: new THREE.MeshLambertMaterial({ vertexColors: true }) };
   return sleeper;
 }
 const sleeperGeo = () => sleeperParts().geo;
 const sleeperMat = () => sleeperParts().m;
 
-/** Straight track from a to b (XZ): candy-cane rails on chocolate-bar sleepers with a line of icing. */
+/** Straight track from a to b (XZ): iron rails on wooden sleepers with iron tie plates. */
 export function makeRails(a: THREE.Vector3, b: THREE.Vector3): THREE.Group {
   const g = new THREE.Group();
   const dir = new THREE.Vector3().subVectors(b, a);
   const len = dir.length();
   const ang = Math.atan2(dir.x, dir.z);
   const mid = new THREE.Vector3().addVectors(a, b).multiplyScalar(0.5);
-  // Round rails, the stripes slanting round them (u runs along the rail, shifted by the angle round it); both in one mesh.
+  // Round iron rails, lighter along the top (v runs round the rail); both in one mesh.
   const rails = [-0.42, 0.42].map((x) => {
-    const r = new THREE.CylinderGeometry(0.06, 0.06, len, 8, 1, true);
+    const r = new THREE.CylinderGeometry(0.055, 0.055, len, 8, 1, true);
     r.rotateX(Math.PI / 2);
     const pos = r.getAttribute("position");
     const uv = r.getAttribute("uv");
-    for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getZ(i) / 0.42 + Math.atan2(pos.getY(i), pos.getX(i)) / (Math.PI * 2), 0.5);
-    return r.translate(x, 0.13, 0);
+    for (let i = 0; i < pos.count; i++) uv.setXY(i, 0.5, 0.5 - Math.atan2(pos.getX(i), pos.getY(i)) / (Math.PI * 2));
+    return r.translate(x, 0.14, 0);
   });
   const railMesh = new THREE.Mesh(mergeGeometries(rails)!, railMat());
   for (const r of rails) r.dispose();
   railMesh.castShadow = true;
   railMesh.receiveShadow = true;
   g.add(railMesh);
-  // Sleepers: a chocolate bar with a line of icing on it, one instanced mesh.
+  // Sleepers: wooden ties with iron plates under the rails, one instanced mesh.
   const n = Math.max(2, Math.floor(len / 0.6));
   const sl = new THREE.InstancedMesh(sleeperGeo(), sleeperMat(), n);
   const m4 = new THREE.Matrix4();
@@ -500,7 +510,7 @@ export function bakeColors(group: THREE.Object3D): void {
     const key = `${m.opacity}|${m.emissive.getHex()}|${me.castShadow}|${me.receiveShadow}`;
     let mm = vcMats.get(key);
     if (!mm) {
-      mm = new THREE.MeshLambertMaterial({ vertexColors: true, flatShading: true, emissive: m.emissive.getHex(), transparent: m.opacity < 1, opacity: m.opacity });
+      mm = new THREE.MeshLambertMaterial({ vertexColors: true, emissive: m.emissive.getHex(), transparent: m.opacity < 1, opacity: m.opacity, depthWrite: m.opacity >= 1 });
       vcMats.set(key, mm);
     }
     const p = parts.get(key);
@@ -782,43 +792,80 @@ export function makeVehicleModel(key: string): VehicleModel {
       default: return makeLoader();
     }
   })();
-  candyLivery(v.root);
+  const [scheme, greys] = SCHEME[key] ?? ["red"];
+  farmLivery(v.root, scheme, greys ?? false);
   return v;
 }
 
-/* ---------- Candy Miner livery (Mars Miner: white / orange / teal) ---------- */
+/* ---------- Farm Valley livery (Candy Miner: pink / cream / mint; Mars Miner: white / orange / teal) ---------- */
 
-const LIVERY = {
-  body: new THREE.Color(0xff92c0),
-  trim: new THREE.Color(0xfff3e2),
-  accent: new THREE.Color(0x5fd3b5),
-  light: new THREE.Color(0xffe0ec),
-  mid: new THREE.Color(0xa8705a),
-  dark: new THREE.Color(0x4a2a1e),
+/** Paint schemes for farm machines: a body colour, its trim and an accent; neutrals stay as they are. */
+const SCHEMES = {
+  /** Classic red tractor, cream trim, green accents. */
+  red: { body: 0xd8432f, trim: 0xfff1d6, accent: 0x4f9a3a },
+  /** Green tractor with yellow trim. */
+  green: { body: 0x3f9a3a, trim: 0xf6c431, accent: 0xf6c431 },
+  /** Yellow machine with red trim. */
+  yellow: { body: 0xf2b51a, trim: 0xd8432f, accent: 0x3f9a3a },
+  /** Blue body, cream trim (the odd one out on a farm, for variety). */
+  blue: { body: 0x3f74c4, trim: 0xfff1d6, accent: 0xf6c431 },
+} as const;
+export type LiveryScheme = keyof typeof SCHEMES;
+type Scheme = (typeof SCHEMES)[LiveryScheme];
+
+/** Which scheme each machine wears (equipment keys), and whether its light grey panels take the body colour too
+ * (Kenney's tractor and pickup are grey, their yellow is only trim); anything else is red. */
+const SCHEME: Record<string, [LiveryScheme, boolean?]> = {
+  wheelbarrow: ["green"],
+  hydraulicBreaker: ["red", true],
+  wheelLoader: ["green"],
+  rollerCrusher: ["yellow", true],
+  dumpTruck: ["red"],
+  allTerrainVehicle: ["green"],
+  drillCrusher: ["yellow"],
+  crushHammer: ["blue"],
+  infernoBreaker: ["red"],
+  haulTruck: ["green"],
+  wheelCrusher: ["yellow"],
+  fuelTruck: ["red"],
 };
 
-/**
- * Where a colour goes in the livery: yellow bodies bubblegum pink, reds and oranges cream, blues and greens mint;
- * whites cream, light greys pale pink, darker greys and browns milk and dark chocolate.
- */
-function liveryOf(c: THREE.Color): THREE.Color {
-  const hsl = { h: 0, s: 0, l: 0 };
-  c.getHSL(hsl);
-  if (hsl.l < 0.06) return LIVERY.dark;
-  // Dark browns (wood, leather, rust) go grey rather than orange.
-  if (hsl.h >= 0.02 && hsl.h < 0.12 && hsl.l < 0.4) return hsl.l > 0.25 ? LIVERY.mid : LIVERY.dark;
-  if (hsl.s > 0.35 && hsl.l > 0.12) {
-    if (hsl.h >= 0.09 && hsl.h < 0.2) return LIVERY.body;
-    if (hsl.h < 0.09 || hsl.h >= 0.9) return LIVERY.trim;
-    return LIVERY.accent;
-  }
-  return hsl.l > 0.55 ? LIVERY.trim : hsl.l > 0.3 ? LIVERY.light : hsl.l > 0.12 ? LIVERY.mid : LIVERY.dark;
+interface Paint {
+  sc: Scheme;
+  /** The machine's own main paint hue (0..1): that colour becomes the body. */
+  main: number;
+  greys: boolean;
 }
 
-const liveried = new Map<THREE.Material, THREE.Material>();
+const hueGap = (a: number, b: number) => Math.min(Math.abs(a - b), 1 - Math.abs(a - b));
 
-/** A texture whose every pixel is put through `liveryOf` (the Kenney car kit's colour atlas). */
-function liveryTexture(src: THREE.Texture): THREE.Texture {
+/**
+ * Where a colour goes in the livery: the machine's main paint becomes the body colour, other reds the trim, any
+ * other paint the accent; light greys become the body too when `greys`; whites, darker greys, blacks and browns
+ * (steel, glass, tyres, wood) stay as they are. The model's light and shade carry over. Lightness and saturation
+ * are judged as seen (sRGB): in linear terms Kenney's mid-grey tractor read as dark and kept its grey.
+ */
+function liveryOf(c: THREE.Color, p: Paint): THREE.Color {
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl, THREE.SRGBColorSpace);
+  let target: number | null = null;
+  if (p.greys && hsl.s < 0.22 && hsl.l > 0.42 && hsl.l < 0.9) target = p.sc.body;
+  else if (hsl.l < 0.15 || hsl.l > 0.92 || hsl.s <= 0.3) return c;
+  // Dark browns (wood, leather, rust) stay.
+  else if (hsl.h >= 0.02 && hsl.h < 0.12 && hsl.l < 0.45) return c;
+  else if (hueGap(hsl.h, p.main) < 0.05) target = p.sc.body;
+  else if (hsl.h < 0.04 || hsl.h >= 0.92) target = p.sc.trim;
+  else target = p.sc.accent;
+  const out = new THREE.Color(target);
+  const o = { h: 0, s: 0, l: 0 };
+  out.getHSL(o, THREE.SRGBColorSpace);
+  return out.setHSL(o.h, o.s, THREE.MathUtils.clamp(o.l + (hsl.l - 0.6) * 0.45, 0.15, 0.85), THREE.SRGBColorSpace);
+}
+
+const liveried = new Map<string, THREE.Material>();
+
+/** A texture whose every pixel is put through liveryOf (the Kenney kits' colour atlas). */
+function liveryTexture(src: THREE.Texture, p: Paint): THREE.Texture {
   const img = src.image as CanvasImageSource & { width: number; height: number };
   const c = document.createElement("canvas");
   c.width = img.width;
@@ -830,7 +877,7 @@ function liveryTexture(src: THREE.Texture): THREE.Texture {
   const col = new THREE.Color();
   for (let i = 0; i < px.length; i += 4) {
     col.setRGB(px[i] / 255, px[i + 1] / 255, px[i + 2] / 255, THREE.SRGBColorSpace);
-    const out = liveryOf(col);
+    const out = liveryOf(col, p);
     const rgb = { r: 0, g: 0, b: 0 };
     out.getRGB(rgb, THREE.SRGBColorSpace);
     px[i] = Math.round(rgb.r * 255);
@@ -846,28 +893,56 @@ function liveryTexture(src: THREE.Texture): THREE.Texture {
   return t;
 }
 
+/** The hue most of a machine's plain painted surface shares (Kenney's yellow when it is all texture). */
+function mainHue(root: THREE.Object3D): number {
+  const count = new Map<number, number>();
+  const hsl = { h: 0, s: 0, l: 0 };
+  root.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh) return;
+    for (const x of Array.isArray(m.material) ? m.material : [m.material]) {
+      const lm = x as THREE.MeshLambertMaterial;
+      if (!lm.color || lm.map || (lm.emissive && lm.emissive.getHex() !== 0)) continue;
+      lm.color.getHSL(hsl, THREE.SRGBColorSpace);
+      if (hsl.s <= 0.3 || hsl.l < 0.15 || hsl.l > 0.92) continue;
+      // Weighed by size (vertices): baked machines have one mesh per colour.
+      const k = Math.round(hsl.h * 24) % 24;
+      count.set(k, (count.get(k) ?? 0) + (m.geometry.attributes.position?.count ?? 1));
+    }
+  });
+  let best = -1;
+  let n = 0;
+  for (const [k, c] of count) if (c > n) (best = k), (n = c);
+  return best < 0 ? 0.12 : best / 24;
+}
+
 /**
- * Repaint a machine in candy colours (Candy Miner; the models are construction machines in yellow): each
- * material once, by its colour, or pixel by pixel for a texture. Copies, so shared `mat()` materials elsewhere keep
- * their colours; emissive parts (lights, the glow of a heat-tinted drill) are left alone.
+ * Repaint a machine in farm colours (the models are construction machines): each material once per scheme, by its
+ * colour, or pixel by pixel for a texture. Copies, so shared mat() materials elsewhere keep their colours; emissive
+ * parts (lights, the glow of a heat-tinted drill) are left alone.
  */
-export function candyLivery(root: THREE.Object3D): void {
+export function farmLivery(root: THREE.Object3D, scheme: LiveryScheme = "red", greys = false): void {
+  const p: Paint = { sc: SCHEMES[scheme], main: mainHue(root), greys };
+  const tag = `|${scheme}|${p.main}|${greys}`;
   root.traverse((o) => {
     const m = o as THREE.Mesh;
     if (!m.isMesh) return;
     const paint = (x: THREE.Material): THREE.Material => {
       const lm = x as THREE.MeshLambertMaterial;
       if (!lm.color || (lm.emissive && lm.emissive.getHex() !== 0)) return x;
-      let out = liveried.get(x);
+      let out = liveried.get(x.uuid + tag);
       if (!out) {
         const copy = x.clone() as THREE.MeshLambertMaterial;
-        if (lm.map?.image) copy.map = liveryTexture(lm.map);
-        else copy.color.copy(liveryOf(lm.color));
+        if (lm.map?.image) copy.map = liveryTexture(lm.map, p);
+        else copy.color.copy(liveryOf(lm.color, p));
         out = copy;
-        liveried.set(x, out);
+        liveried.set(x.uuid + tag, out);
+        // A material already painted this way stays as it is.
+        liveried.set(out.uuid + tag, out);
       }
       return out;
     };
     m.material = Array.isArray(m.material) ? m.material.map(paint) : paint(m.material);
   });
 }
+

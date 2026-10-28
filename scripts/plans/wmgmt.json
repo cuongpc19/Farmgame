@@ -46,7 +46,7 @@
   "snap": "wmgmt"
  },
  {
-  "eval": "(()=>{const w=__game.workers.find(w=>w.profile.role==='Mining'); if(!w) return 'no miner'; __game.assignGear(w.profile.id,'sledgehammer'); return {power: w.power, interval: w.interval, playerTool: JSON.parse(localStorage.getItem('cm_save')).equipMining, chip: document.querySelector('.newcand')?.textContent};})()"
+  "eval": "(()=>{const w=__game.workers.find(w=>w.profile.role==='Mining'); if(!w) return 'no miner'; __game.assignGear(w.profile.id,'sledgehammer'); return {power: w.power, interval: w.interval, playerTool: JSON.parse(localStorage.getItem('fv_save')).equipMining, chip: document.querySelector('.newcand')?.textContent};})()"
  },
  {
   "eval": "(__game.equip('sledgehammer'), (()=>{const w=__game.workers.find(w=>w.profile.role==='Mining'); return w ? {power: w.power} : null;})())"

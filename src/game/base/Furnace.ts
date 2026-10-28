@@ -10,13 +10,16 @@ import { events, Ticker } from "../systems/Events";
 import { upValue, UNLOAD_TRANSFER, PICKUP_TRANSFER } from "./common";
 import { PACE } from "../data";
 import { sfx } from "../audio";
+import { houseOf, type House } from "../farm";
 import type { Label } from "../ui/Labels";
 
 /**
- * Furnace = REFINING pad + smelter + output tray.
- * Minerals dropped on the pad queue up; the smelter works one at a time
- * (time = ore smelt seconds / Furnace Processing Speed) and piles ingots on the tray,
+ * A processing house = drop pad + machine + output tray (Quarry Crush's furnace).
+ * Raw items dropped on the pad queue up; the machine works one at a time
+ * (time = ore smelt seconds / Furnace Processing Speed) and piles products on the tray,
  * where anyone with free cargo standing next to it picks them up.
+ * Farm game (user 2026-10-28): two of them, the Mill (rice, wood, fruit: ores of category rock) and the Forge (metals,
+ * gems); each pad only takes its own raw items (`takes`).
  */
 export class Furnace {
   readonly zone: Zone;
@@ -44,14 +47,14 @@ export class Furnace {
   /** Fires the first time a smelt completes (tutorial). */
   onSmelt: (() => void) | null = null;
 
-  constructor(private ctx: BaseCtx, p: Placed) {
+  constructor(private ctx: BaseCtx, p: Placed, readonly house: House = "mill") {
     const root = new THREE.Group();
     root.position.set(p.wx, 0, p.wz);
     ctx.scene.add(root);
-    this.model = furnaceModel(CELL);
+    this.model = furnaceModel(CELL, house);
     root.add(this.model.root);
     // REFINING pad on the south-west cell of the footprint.
-    this.zone = new Zone(ctx.scene, new THREE.Vector3(p.wx - CELL, 0, p.wz + CELL * 0.95), CELL * 1.3, "COOK");
+    this.zone = new Zone(ctx.scene, new THREE.Vector3(p.wx - CELL, 0, p.wz + CELL * 0.95), CELL * 1.3, house === "mill" ? "MILL" : "FORGE");
     this.output = new Stack(this.model.tray, 9999, itemColor, { cols: 3, rows: 2, size: 0.55, maxShown: 36 });
     // The hall never moves; the ingot pile on the tray bumps as ingots land, so it stays live.
     freeze(root, [this.model.tray]);
@@ -70,6 +73,13 @@ export class Furnace {
     }
   }
 
+  /** Whether this house processes a raw item (the Mill: farm goods; the Forge: metals and gems). */
+  takes(item: number): boolean {
+    if (itemKind(item) !== "mineral") return false;
+    const ore = oreOfItemId(item);
+    return !!ore && houseOf(ore) === this.house;
+  }
+
   get busy(): boolean {
     return this.current !== null || this.queue.length > 0;
   }
@@ -84,7 +94,7 @@ export class Furnace {
       let tk = this.inTick.get(a);
       if (!tk) this.inTick.set(a, (tk = new Ticker()));
       tk.tick(dt, UNLOAD_TRANSFER, () => {
-        const it = a.stack.take((i) => itemKind(i) === "mineral");
+        const it = a.stack.take((i) => this.takes(i));
         if (it === null) return false;
         const from = a.stack.topWorld();
         this.ctx.flyers.launch(from, this.model.mouth, itemColor(it), () => {

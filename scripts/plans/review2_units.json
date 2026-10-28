@@ -13,7 +13,7 @@
  {"wait": 300},
  {"eval": "(document.querySelector('[data-hire]')?.click(), true)"},
  {"wait": 300},
- {"eval": "({hired: __game.workers.map(w=>w.profile.name+' '+w.profile.role+' cap'+w.stack.capacity+' sta'+w.stamina), cash: JSON.parse(localStorage.getItem('cm_save')).cash})"},
+ {"eval": "({hired: __game.workers.map(w=>w.profile.name+' '+w.profile.role+' cap'+w.stack.capacity+' sta'+w.stamina), cash: JSON.parse(localStorage.getItem('fv_save')).cash})"},
  {"eval": "(()=>{const g=__game; g.workersPanel.close(); g.rent('hydraulicBreaker'); g.rent('allTerrainVehicle'); return g.vehicles.map(v=>v.key+' fuel'+v.fuel.toFixed(1)+'/'+v.tank+' cap'+v.stack.capacity);})()"},
  {"wait": 1500},
  {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<50){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},

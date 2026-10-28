@@ -19,7 +19,11 @@ TILE = 4
 # building, the shop, then the Upgrade building beside the furnace; the oil station (syrup pump) moves down to the road
 # row, left of the trading house; the worker building's old spot beside the furnace is left open (vehicles park there).
 # Quarry Crush / Mars Miner: shop (5, 5), oil (9, 5), Upgrade (13, 5), trading house (13, 1), worker building fixed.
-MOVES = {"workerBuilding": (5, 5), "machineryShop": (9, 5), "upgradeBuilding": (13, 5), "salesStand": (13, 1), "oilStation": (7, 1)}
+# Farm game (user 2026-10-28: two processing houses, rice and wood in one, gold, ores and gems in the other): the Forge
+# (new building type "forge") stands in the north row beside the Mill (the stage's furnace), where the Upgrade building
+# was; the Upgrade building and the shop move one step left, the worker building (Farmhands' House) goes down to the
+# road row's west end.
+MOVES = {"workerBuilding": (1, 1), "machineryShop": (5, 5), "upgradeBuilding": (9, 5), "forge": (13, 5), "salesStand": (13, 1), "oilStation": (7, 1)}
 
 def cells(x, z, w=1, h=1):
     return {(x + i, z + j) for i in range(w) for j in range(h)}
@@ -52,9 +56,9 @@ def moves(st, hx, hz):
         if not need & fixed: break
     else:
         raise SystemExit("town_base: no room for the Upgrade building")
-    if u == MOVES["upgradeBuilding"][0] and fx == 18: return MOVES
-    shop = u - 4
-    return {"workerBuilding": (max(0, shop - 4), 5), "machineryShop": (shop, 5), "upgradeBuilding": (u, 5), "salesStand": (u, 1), "oilStation": (max(0, u - 6), 1)}
+    # `u` is the column of the building right above the trading house: the Forge.
+    if u == MOVES["forge"][0] and fx == 18: return MOVES
+    return {"workerBuilding": (max(0, u - 12), 1), "machineryShop": (u - 8, 5), "upgradeBuilding": (u - 4, 5), "forge": (u, 5), "salesStand": (u, 1), "oilStation": (max(0, u - 6), 1)}
 
 def town_base(st):
     home = st["areas"]["home"]
@@ -62,6 +66,8 @@ def town_base(st):
     # Base rows only: below the first quarry row (and never more than 12 rows up from home).
     mouth = min(min(b["z"] for b in st["blocks"]), hz + 12)
     walk = {c for c in tiles(st["areas"]["ground"] + home) if c[1] < mouth} - tiles([r for r in st["areas"]["obstacle"]])
+    if not any(b["type"] == "forge" for b in st["buildings"]):
+        st["buildings"].append({"type": "forge", "x": 0, "z": 0, "w": 3, "h": 3, "rotY": 0})
     by = {b["type"]: b for b in st["buildings"]}
     for t, (dx, dz) in moves(st, hx, hz).items():
         b = by[t]
@@ -122,11 +128,15 @@ def town_base(st):
     # Upgrade building, and lamps along it and at the avenue's top corners.
     keep = [p for p in st["props"] if p["type"] not in ("metalBarrier", "priceSign")]
     o = by["oilStation"]
-    gap = range(min(s["x"] - 5, o["x"] - 1), s["x"] + 9)
+    w = by["workerBuilding"]
+    gap = set(range(min(s["x"] - 5, o["x"] - 1), s["x"] + 9))
+    # The road row's buildings keep their pads clear of the fence and the lamps.
+    if w["z"] == hz + 1: gap |= set(range(w["x"] - 1, w["x"] + 4))
     fence = [{"type": "metalBarrier", "x": x, "z": hz, "w": 1, "h": 1, "rotY": 90} for x in range(hx, hx + 28, 2) if x not in gap]
     # Road-side lamps stand on the fence line (decor, never in the way); the avenue pair must be on open ground.
     lamps = [(hx + 1, hz), (min(s["x"] - 6, o["x"] - 2), hz), (s["x"] + 10, hz), (hx + 27, hz)] + [
         c for c in ((s["x"] - 1, hz + 8), (fx - 1, hz + 8)) if c in walk]
+    lamps = [(x, z) for x, z in lamps if not (z == hz and w["z"] == hz + 1 and w["x"] - 1 <= x <= w["x"] + 3)]
     lamp = [{"type": "streetLamp", "x": x, "z": z, "w": 1, "h": 1, "rotY": 0} for x, z in lamps]
     st["props"] = keep + fence + lamp
     return st

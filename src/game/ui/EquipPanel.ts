@@ -31,7 +31,7 @@ export class EquipPanel extends Sheet {
       .map((e) => {
         const on = S.equipMining === e.key || S.equipCarrying === e.key;
         const stat = e.sub === "MiningTool" ? `⚒ ${+power(e.key).toFixed(1)} · ⏱ ${+interval(e.key).toFixed(2)}s` : `📦 ${cargo(e.key)}`;
-        return `<div class="row"><div class="r-ico">${ICON[e.key] ?? "🔧"}</div><div class="r-mid"><div class="r-name">${e.name}</div><div class="r-sub">${e.sub === "MiningTool" ? "Mining tool" : "Carrying tool"}</div><div class="r-stats">${stat}</div></div>
+        return `<div class="row"><div class="r-ico">${ICON[e.key] ?? "🔧"}</div><div class="r-mid"><div class="r-name">${e.name}</div><div class="r-sub">${e.sub === "MiningTool" ? "Harvest tool" : "Carrying tool"}</div><div class="r-stats">${stat}</div></div>
           <button class="r-buy ${on ? "off eq" : ""}" data-eq="${e.key}">${on ? "EQUIPPED" : "EQUIP"}</button></div>`;
       });
     const rentals = S.run.rentals.map((k) => EQUIP[k]?.name ?? k).join(", ") || "none";
@@ -51,7 +51,7 @@ export class SettingsPanel extends Sheet {
   private privacy: PrivacyPanel;
 
   constructor(host: HTMLElement) {
-    super(host, "Setting", "settings");
+    super(host, "Settings", "settings");
     this.privacy = new PrivacyPanel(host);
     this.body.addEventListener("click", (e) => {
       if (this.ghost(e)) return;
@@ -96,8 +96,8 @@ export class SettingsPanel extends Sheet {
     const restart = Stage3D.restartPending() ? `<div class="set-warn">Edge smoothing applies after restart</div>` : "";
     this.body.innerHTML = `
       ${this.toggle("perfMode", "⚡", "Perf. Mode", "Lower resolution, no shadows, 30 fps", restart)}
-      ${this.toggle("music", "🎵", "Music", "Workshop groove")}
-      ${this.toggle("sfx", "🔊", "SFX", "Mining, coins &amp; buttons")}
+      ${this.toggle("music", "🎵", "Music", "Country groove")}
+      ${this.toggle("sfx", "🔊", "SFX", "Chopping, coins &amp; buttons")}
       <div class="set-btns"><button class="set-blue" data-k="privacy">PRIVACY &amp; CREDITS</button></div>
       <div class="set-row"><div class="set-ico">🗑️</div><div class="set-mid"><div class="set-name">Reset progress</div><div class="set-sub">Start again from Stage 1</div></div>
         <button class="set-danger ${this.armed ? "armed" : ""}" data-k="reset">${this.armed ? "TAP AGAIN" : "RESET"}</button></div>

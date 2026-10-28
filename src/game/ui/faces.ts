@@ -32,7 +32,7 @@ export function faceByName(name: string, cls?: string): string {
 
 /** The picture slot of a worker row: the face with the role in a corner, or the role alone. */
 export function workerPic(id: number, role: string): string {
-  const roleIco = role === "Mining" ? "⛏️" : "📦";
+  const roleIco = role === "Mining" ? "🌾" : "🧺";
   const img = face(id);
   return img ? `<div class="r-ico r-face">${img}<i class="r-role">${roleIco}</i></div>` : `<div class="r-ico">${roleIco}</div>`;
 }

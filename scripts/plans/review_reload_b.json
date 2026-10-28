@@ -30,6 +30,6 @@
   "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
  },
  {
-  "eval": "({veh: __game.vehicles.map(v=>v.key+'@'+v.pos.x.toFixed(1)+','+v.pos.z.toFixed(1)+' y='+v.model.root.position.y.toFixed(1)), dialogues: JSON.parse(localStorage.getItem('cm_save')).dialogues})"
+  "eval": "({veh: __game.vehicles.map(v=>v.key+'@'+v.pos.x.toFixed(1)+','+v.pos.z.toFixed(1)+' y='+v.model.root.position.y.toFixed(1)), dialogues: JSON.parse(localStorage.getItem('fv_save')).dialogues})"
  }
 ]

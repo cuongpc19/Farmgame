@@ -13,7 +13,7 @@
  {"eval":"(document.querySelector('[data-k=settings]').click(), true)"},
  {"wait":700},
  {"eval":"(document.querySelector('.settings button[data-set=music]').click(), __game.debug.music() + ' / ' + document.querySelector('.settings button[data-set=music]').textContent)"},
- {"eval":"(document.querySelector('.settings button[data-set=music]').click(), __game.debug.music() + ' / ' + document.querySelector('.settings button[data-set=music]').textContent + ' / ' + localStorage.getItem('cm_settings'))"},
+ {"eval":"(document.querySelector('.settings button[data-set=music]').click(), __game.debug.music() + ' / ' + document.querySelector('.settings button[data-set=music]').textContent + ' / ' + localStorage.getItem('fv_settings'))"},
  {"snap":"music_settings"},
  {"eval":"(window.__mt0=performance.now(), __game.debug.music())"},
  {"wait":8000},

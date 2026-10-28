@@ -31,7 +31,7 @@ export class WorkerMgmtPanel extends Sheet {
   private picking: number | null = null;
 
   constructor(host: HTMLElement) {
-    super(host, "CREW COTTAGE");
+    super(host, "FARMHANDS");
     this.body.addEventListener("click", (e) => {
       if (this.ghost(e)) return;
       const t = e.target as HTMLElement;
@@ -73,14 +73,14 @@ export class WorkerMgmtPanel extends Sheet {
       const basic = key === BASIC_GEAR[p!.role];
       return `<div class="row worker">
         ${workerPic(p!.id, p!.role)}
-        <div class="r-mid"><div class="r-name">${p!.name}</div><div class="r-sub">${p!.role === "Mining" ? "Miner" : "Carrier"} · ${p!.trait}</div>
+        <div class="r-mid"><div class="r-name">${p!.name}</div><div class="r-sub">${p!.role === "Mining" ? "Harvester" : "Hauler"} · ${p!.trait}</div>
           <div class="r-stats">${ICON[key] ?? "🔧"} ${EQUIP[key]?.name ?? key}${basic ? " <small>(basic)</small>" : ""}</div></div>
         <button class="r-buy ${basic ? "" : "eq"}" data-slot="${p!.id}">${basic ? "EQUIP" : "CHANGE"}</button></div>`;
     });
-    const empty = `<div class="sh-note">No crew yet.</div>`;
+    const empty = `<div class="sh-note">No farmhands yet.</div>`;
     const badge = this.applicants > 0 ? ` <b class="wm-badge">${this.applicants}</b>` : "";
-    this.body.innerHTML = `<div class="sh-note">Hired Workers: ${hired.length}/${this.maxWorkers} · this stage only</div>${rows.join("") || empty}
-      <div class="wm-actions"><button class="r-buy" data-board="1">GROW YOUR CREW!</button><button class="r-buy blue" data-board="1">Check Applications${badge}</button></div>`;
+    this.body.innerHTML = `<div class="sh-note">Farmhands: ${hired.length}/${this.maxWorkers} · this stage only</div>${rows.join("") || empty}
+      <div class="wm-actions"><button class="r-buy" data-board="1">HIRE MORE HANDS!</button><button class="r-buy blue" data-board="1">Check Applications${badge}</button></div>`;
   }
 
   private renderPicker(workerId: number): void {
@@ -102,7 +102,7 @@ export class WorkerMgmtPanel extends Sheet {
     });
     const basic = BASIC_GEAR[p.role];
     const back = current ? `<div class="row"><div class="r-ico">${ICON[basic] ?? "🔧"}</div><div class="r-mid"><div class="r-name">${EQUIP[basic]?.name ?? basic} <small>(basic)</small></div><div class="r-sub">Return the tool to you</div></div><button class="r-buy" data-pick="">TAKE BACK</button></div>` : "";
-    const none = `<div class="sh-note">No ${p.role === "Mining" ? "mining" : "carrying"} tools to lend yet — buy some at the Machinery Center.</div>`;
+    const none = `<div class="sh-note">No ${p.role === "Mining" ? "harvest" : "carrying"} tools to lend yet. Buy some at the Farm Shop.</div>`;
     this.body.innerHTML = `<button class="wm-back" data-back="1">◂ ${p.name}</button>${rows.join("") || none}${back}`;
   }
 }

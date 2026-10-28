@@ -6,7 +6,8 @@ import { Modal } from "../ui/Popups";
 import { fmt, type Hud } from "../ui/Hud";
 
 /**
- * Reasons to come back tomorrow (Mars Miner, user 2026-10-28; Quarry Crush kept 3-6 % of new players to the next day):
+ * Reasons to come back tomorrow (Mars Miner, user 2026-10-28; Quarry Crush kept 3-6 % of new players to the next day).
+ * On the farm the "drones" are hens (🐔 HEN HOUSE: eggs worth cash) and the daily supply is DAILY HARVEST (a gift basket):
  * - **Supply drones** mine cash in real time, played or not, up to DRONE_CAP; the 🛸 button shows the store, a tap
  *   collects it, and a load with a full enough store opens a welcome-back card. The original's Research Laboratory
  *   (RndRewardData: 15 cash a minute, RND_MAX_SECOND 6 h), which it opens on stage 4; ours with the calendar.
@@ -78,7 +79,7 @@ export class Comeback {
     this.col = document.createElement("div");
     this.col.className = "cb-col";
     this.col.innerHTML = `
-      <button class="cb-btn hit drones"><span>🐝</span><small>$0</small><i class="cb-fill"><i></i></i></button>
+      <button class="cb-btn hit drones"><span>🐔</span><small>$0</small><i class="cb-fill"><i></i></i></button>
       <button class="cb-btn hit daily"><span>📅</span><small>DAY 1</small></button>`;
     host.appendChild(this.col);
     const q = <T extends Element>(s: string) => this.col.querySelector(s) as T;
@@ -140,7 +141,7 @@ export class Comeback {
     this.dronesBtn.classList.add("cb-new");
     this.queue.push(async () => {
       await this.calendar();
-      this.h.hud.toast("🐝 Sugar bees are buzzing!\nThey gather cash for you, even while you're away", 4500);
+      this.h.hud.toast("🐔 Your hens are laying!\nTheir eggs earn cash, even while you're away", 4500);
     });
   }
 
@@ -178,12 +179,12 @@ export class Comeback {
     const secs = this.filling();
     const left = DRONE_CAP - secs;
     this.m.show(`
-      <div class="sc-hero">🐝</div>
-      <div class="sc-plate blue">${welcome ? "WELCOME BACK!" : "SUGAR BEES"}</div>
-      <div class="m-sub">${welcome ? `Your sugar bees kept busy for ${hms(secs)}` : "They gather cash for you, even while you're away"}</div>
+      <div class="sc-hero">🐔</div>
+      <div class="sc-plate blue">${welcome ? "WELCOME BACK!" : "HEN HOUSE"}</div>
+      <div class="m-sub">${welcome ? `Your hens kept laying for ${hms(secs)}` : "Their eggs earn cash, even while you're away"}</div>
       <div class="cb-store"><b>$${n.toLocaleString("en-US")}</b>
         <div class="cb-bar"><i style="width:${(secs / DRONE_CAP) * 100}%"></i></div>
-        <small>${left <= 0 ? "Full! Collect it so they keep buzzing" : `Full in ${hms(left)} · holds ${DRONE_CAP / 3600} hours`}</small></div>
+        <small>${left <= 0 ? "Full! Collect the eggs so they keep laying" : `Full in ${hms(left)} · holds ${DRONE_CAP / 3600} hours`}</small></div>
       <button class="m-btn go">${n > 0 ? "COLLECT" : "OK"}</button>`);
     await this.m.btn(".go");
     if (n <= 0) return;
@@ -201,7 +202,7 @@ export class Comeback {
     const state = i < got ? "got" : i === got ? (claimable ? "today" : "next") : "later";
     const tag = state === "got" ? "✔" : state === "today" ? "TODAY" : state === "next" ? "TOMORROW" : `DAY ${i + 1}`;
     const extra = d.boosts ? `<em>+${d.boosts.map((b) => BOOST_ICON[b]).join("")} ${d.mins}m</em>` : "";
-    return `<div class="cb-day ${state}${i === 6 ? " big" : ""}"><small>${tag}</small><i>${i === 6 ? "🎁" : "💰"}</i><b>$${fmt(Math.round(d.cash * cashMul()))}</b>${extra}</div>`;
+    return `<div class="cb-day ${state}${i === 6 ? " big" : ""}"><small>${tag}</small><i>${i === 6 ? "🧺" : "💰"}</i><b>$${fmt(Math.round(d.cash * cashMul()))}</b>${extra}</div>`;
   }
 
   /** The week's crates; CLAIM takes today's, then the card says what tomorrow brings. */
@@ -211,8 +212,8 @@ export class Comeback {
       const claimable = this.claimable;
       this.m.show(`
         <div class="sc-hero">📅</div>
-        <div class="sc-plate">DAILY TREATS</div>
-        <div class="m-sub">A free treat box every day you play</div>
+        <div class="sc-plate">DAILY HARVEST</div>
+        <div class="m-sub">A free gift basket every day you play</div>
         <div class="cb-days">${DAYS.map((_, i) => this.dayHtml(i, got, claimable)).join("")}</div>
         <div class="cb-note">${note}</div>
         <button class="m-btn go">${btn}</button>`);

@@ -22,13 +22,12 @@ import stage8Raw from "../data/game/stage8.json";
 import stage9Raw from "../data/game/stage9.json";
 import stage10Raw from "../data/game/stage10.json";
 import economyRaw from "../data/game/economy.json";
+import { farmLook } from "./farm";
 // Our own wording: the only source of quest, dialogue, blurb, worker, boost, HQ and stage texts.
 import textRaw from "../data/text.json";
 
 export const CELL = 2.5;
 export const ORIGIN = 500;
-
-import type { CandyPattern } from "./world/candyTex";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const E = economyRaw as any;
@@ -44,58 +43,20 @@ export interface OreDef {
   ingotId: number;
   ingotPrice: number;
   smeltSeconds: number;
-  /** Our own palette (not from the original). */
+  /**
+   * Colours (farm.ts FARM): `rock` the model's main colour (stalk, bark, stone), `vein` the raw item's (sheaf, log,
+   * fruit, ore, crystal), `ingot` the product's (sack, planks, crate, bar, cut gem).
+   */
   rock: number;
   vein?: number;
   ingot: number;
-  /** Candy Miner: the block's candy pattern and its second colour (world/candyTex.ts). */
-  pattern: CandyPattern;
-  accent?: number;
-  /** Colours the blocks of this kind are tinted with, one per block (sugar cubes). */
-  tints?: number[];
 }
-
-/**
- * Visual palette per ore key: the candy each block is (Candy Miner; names in docs/CANDY.md). `rock` is the candy's
- * main colour, `accent` the second colour of its pattern, `vein` the colour of the little sweets stuck on the blocks
- * worth more (BlockField nuggets; hard and gem candies), `ingot` the cooked treat bar.
- */
-const PALETTE: Record<string, { rock: number; vein?: number; ingot: number; pattern: CandyPattern; accent?: number; tints?: number[] }> = {
-  // Sugar cubes in pastel colours, one per block (BlockField tints): the first 200 blocks are all sugar (the ladder).
-  limestone: { pattern: "sugar", rock: 0xfdfbf8, ingot: 0xffd6e6, tints: [0xffb8d4, 0xaeeccf, 0xffe58f, 0xd2bdff, 0xaad8ff, 0xffc7a6] },
-  sandstone: { pattern: "caramel", rock: 0xe9a55a, ingot: 0xf2b46a },
-  dunite: { pattern: "swirl", rock: 0xeafff6, accent: 0x3fcf9a, ingot: 0x7fe8c0 },
-  ice: { pattern: "crystal", rock: 0xcdefff, ingot: 0xe0f6ff },
-  copper: { pattern: "caramel", rock: 0xc87a3e, accent: 0xffe2a8, vein: 0xffd08a, ingot: 0xdc8c4c },
-  iron: { pattern: "licorice", rock: 0x2e2529, accent: 0xff6f9a, vein: 0xff6f9a, ingot: 0x45363e },
-  manganese: { pattern: "gummy", rock: 0x9b5de5, vein: 0xe6d0ff, ingot: 0xb07cf0 },
-  silver: { pattern: "pearl", rock: 0xdde3ee, vein: 0xffffff, ingot: 0xeef2fa },
-  gold: { pattern: "honeycomb", rock: 0xf2b636, vein: 0xfff0b0, ingot: 0xffcc4a },
-  amber: { pattern: "gummy", rock: 0xf29a2a, vein: 0xffd890, ingot: 0xffae45 },
-  amethyst: { pattern: "gummy", rock: 0x8e3fb0, vein: 0xf2b0ff, ingot: 0xb05ad6 },
-  emerald: { pattern: "gummy", rock: 0x5ed34a, vein: 0xdcffb8, ingot: 0x7ae866 },
-  diamond: { pattern: "crystal", rock: 0xbff2ff, vein: 0xffffff, ingot: 0xd6f8ff },
-  // Stages 3-10.
-  bronzite: { pattern: "caramel", rock: 0xd29a4a, accent: 0x8a5a2a, vein: 0xf2d090, ingot: 0xdcaa5a },
-  obsidian: { pattern: "choco", rock: 0x3d2319, vein: 0xff8fb8, ingot: 0x4e2d20 },
-  bismuth: { pattern: "sprinkle", rock: 0xfff0fa, vein: 0xff8ad8, ingot: 0xffb8e6 },
-  basalt: { pattern: "choco", rock: 0x7d4a2c, ingot: 0x8f5834 },
-  aquamarine: { pattern: "gummy", rock: 0x3fb8f0, vein: 0xd0f4ff, ingot: 0x6ccaf6 },
-  yooperlite: { pattern: "glow", rock: 0x2c2440, accent: 0xffa040, vein: 0xffb04a, ingot: 0xffa04a },
-  opal: { pattern: "sprinkle", rock: 0xffe6f6, vein: 0xc8f0ff, ingot: 0xf6e0ff },
-  zircon: { pattern: "swirl", rock: 0xd4f046, accent: 0xffffff, vein: 0xfbff9a, ingot: 0xe0f46a },
-  ruby: { pattern: "swirl", rock: 0xe8243f, accent: 0xffffff, vein: 0xffb0c0, ingot: 0xf04060 },
-  coal: { pattern: "choco", rock: 0x4a2a1e, ingot: 0x5c3424 },
-  quartz: { pattern: "crystal", rock: 0xf4f8ff, vein: 0xffffff, ingot: 0xfafcff },
-  lapisLazuli: { pattern: "gummy", rock: 0x4a5fd8, vein: 0xc8d0ff, ingot: 0x6a7ee8 },
-  tanzanite: { pattern: "swirl", rock: 0xf6e8ff, accent: 0x7a4be0, vein: 0xd8c8ff, ingot: 0x9a74f0 },
-  mystery: { pattern: "sprinkle", rock: 0xff8fd0, vein: 0xffe14a, ingot: 0xffe14a },
-};
 
 export const ORES: Record<string, OreDef> = {};
 export const ORE_BY_ID = new Map<number, OreDef>();
 for (const [key, o] of Object.entries<any>(E.ores)) {
-  const pal = PALETTE[key] ?? { pattern: "sugar" as CandyPattern, rock: 0xffffff, ingot: 0xffe0ec };
+  const fl = farmLook(key);
+  const pal = { rock: fl.main, vein: fl.raw, ingot: fl.product };
   const def: OreDef = {
     key,
     id: o.id,
@@ -111,6 +72,13 @@ for (const [key, o] of Object.entries<any>(E.ores)) {
   };
   ORES[key] = def;
   ORE_BY_ID.set(def.id, def);
+}
+
+/** How a hand tool is swung at a cell of this ore (characters.ts Motion): sickle, axe or pickaxe. */
+export function motionOfOre(oreId: number): "reap" | "chop" | "dig" {
+  const o = ORE_BY_ID.get(oreId);
+  const k = o ? farmLook(o.key).kind : "ore";
+  return k === "crop" ? "reap" : k === "wood" || k === "fruit" ? "chop" : "dig";
 }
 
 export const OIL_ITEM = 30000;
@@ -134,9 +102,13 @@ export function itemColor(item: number): number {
   return itemKind(item) === "ingot" ? o.ingot : (o.vein ?? o.rock);
 }
 export function itemName(item: number): string {
-  if (item === OIL_ITEM) return "Syrup Jar";
+  if (item === OIL_ITEM) return "Fuel Can";
   const o = oreOfItem.get(item);
-  return o ? `${o.name}${itemKind(item) === "ingot" ? " Ingot" : ""}` : "?";
+  if (!o) return "?";
+  if (itemKind(item) !== "ingot") return o.name;
+  // Products by what they are made of (farm game): a rice sack, planks, a crate of fruit, a bar, a cut gem.
+  const kind = farmLook(o.key).kind;
+  return kind === "crop" ? `${o.name} Sack` : kind === "wood" ? `${o.name} Planks` : kind === "fruit" ? `${o.name} Crate` : kind === "ore" ? `${o.name} Bar` : kind === "gem" ? `Cut ${o.name}` : `${o.name} Coins`;
 }
 
 /* ---------- stages ---------- */
@@ -264,7 +236,16 @@ const TEXT = textRaw as {
  *   counts of 5 and under stay. Upgrade, hire and stage-progress quests are unchanged.
  * - `reward`: quest rewards paid in cash are this many times the decoded amount.
  */
-export const PACE = { price: 0.5, mining: 1.25, truck: 2, pickup: 1.5, unload: 1.5, plant: 2, cargo: 1.5, quest: 0.5, reward: 3 };
+// Farm game (user 2026-10-28: "level 1 much faster than the old game"): every knob up again from Mars Miner's
+// { price 0.5, mining 1.25, truck 2, pickup 1.5, unload 1.5, plant 2, cargo 1.5, quest 0.5, reward 3 }.
+export const PACE = { price: 0.4, mining: 1.5, truck: 3, pickup: 2.5, unload: 2.5, plant: 3, cargo: 2, quest: 0.4, reward: 4 };
+
+/**
+ * On top of PACE, every stage level (same day; then "this pace for every level, level 1 first"): trees and rocks give
+ * way sooner (HP x `hp`; rice is one cut anyway), the farmer runs faster (`walk`), and a stage clears at `clear` %
+ * of its cells instead of the data's 80 %.
+ */
+export const EASE = { hp: 0.6, walk: 1.2, clear: 65 };
 
 export function cheaper(p: number): number {
   if (!(p > 0) || PACE.price === 1) return p;

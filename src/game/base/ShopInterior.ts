@@ -1,13 +1,52 @@
 import * as THREE from "three";
 import { EQUIP, CELL, type EquipDef } from "../data";
-import { mat, makeVehicleModel } from "../models";
+import { bakeColors, mat, makeVehicleModel } from "../models";
+import { C, add, boards, rbox, woodSign } from "../world/farmHouses";
+import { haybaleGeometry, tintedInstances, tintedMaterial } from "../world/farmScenery";
 import { gearModel } from "../characters";
-import { floorText, signBoard } from "../world/props";
+import { floorText } from "../world/props";
 import { Zone } from "./Zone";
 import { S, equipPrice, stageNumber } from "../state";
 import { fmt } from "../ui/Hud";
 import type { Stage3D } from "../engine/Stage3D";
 import { events } from "../systems/Events";
+
+/** Wide plank flooring (the barn's floor): boards along x with soft seams, grain and nail heads; repeats. */
+function plankTexture(rx: number, ry: number): THREE.CanvasTexture {
+  const S = 256;
+  const c = document.createElement("canvas");
+  c.width = c.height = S;
+  const g = c.getContext("2d")!;
+  const tones = ["#b07a46", "#a8713f", "#bb8550", "#a06a3a"];
+  const n = 6;
+  const h = S / n;
+  for (let i = 0; i < n; i++) {
+    g.fillStyle = tones[i % tones.length];
+    g.fillRect(0, i * h, S, h);
+    g.strokeStyle = "rgba(70,40,15,0.22)";
+    g.lineWidth = 2;
+    for (let k = 0; k < 3; k++) {
+      const y = i * h + h * (0.25 + k * 0.25);
+      g.beginPath();
+      g.moveTo(0, y);
+      g.bezierCurveTo(S * 0.3, y + 3, S * 0.6, y - 3, S, y);
+      g.stroke();
+    }
+    g.fillStyle = "rgba(50,28,10,0.5)";
+    g.fillRect(0, i * h, S, 3);
+    // A board joint, staggered, with nails.
+    const jx = ((i * 97) % 5) * (S / 5) + S / 10;
+    g.fillRect(jx, i * h, 3, h);
+    g.fillStyle = "rgba(40,30,20,0.7)";
+    for (const dx of [-6, 8]) for (const dy of [0.3, 0.7]) g.fillRect(jx + dx, i * h + h * dy, 3, 3);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(rx, ry);
+  t.anisotropy = 4;
+  return t;
+}
 
 /** Where the interior is built: far from the map so it never shows from the quarry. */
 export const SHOP_ORIGIN = new THREE.Vector3(400, 0, 400);
@@ -54,8 +93,8 @@ function lightDisplay(key: string): THREE.Group {
 }
 
 /**
- * Machinery Center interior (reference): a concrete hall with a wooden back wall and a big
- * SHOP sign. Back row = stage 1-2 heavy equipment for rent (this stage), middle row = the
+ * The Farm Shop's interior (the reference's Machinery Center): a barn hall (Farm Valley) with a plank
+ * floor, red board walls with white trim, a big painted FARM SHOP sign, hay bales and lanterns. Back row = stage 1-2 heavy equipment for rent (this stage), middle row = the
  * stage 3+ machines, front counters = light equipment for sale (yours forever). Standing on an
  * item's floor plate pops its card (name, subtitle, stars, flavour, price / lock / SOLD OUT);
  * tap the price to buy. Locked items sit in padlocked FRAGILE crates stencilled with the stage
@@ -82,30 +121,56 @@ export class ShopInterior {
     // Three rows from the back wall: stage 1-2 machines, stage 3+ machines, light-tool counters.
     const W = 30;
     const D = 28;
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(W, 0.4, D), mat(0x9a6248));
+    const floor = new THREE.Mesh(new THREE.BoxGeometry(W, 0.4, D), new THREE.MeshLambertMaterial({ map: plankTexture(W / 4, D / 4) }));
     floor.position.y = -0.2;
     floor.receiveShadow = true;
-    const back = new THREE.Mesh(new THREE.BoxGeometry(W, 6, 0.5), mat(0x6b3f2a));
-    back.position.set(0, 3, -D / 2);
-    const sideL = new THREE.Mesh(new THREE.BoxGeometry(0.5, 3, D), mat(0xff8fb8));
-    sideL.position.set(-W / 2, 1.5, 0);
-    const sideR = sideL.clone();
-    sideR.position.x = W / 2;
-    const sign = signBoard(["GARAGE"], 7, 1.6, "#ff6fa5", "#ffffff");
-    sign.position.set(0, 4.5, -D / 2 + 0.3);
-    // Dark surround so the far-away sea never shows around the hall.
-    const void_ = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshBasicMaterial({ color: 0x2a1620 }));
+    // The barn's walls (baked): red boards with white trim, a hayloft beam, bales and lanterns.
+    const hall = new THREE.Group();
+    add(hall, new THREE.BoxGeometry(W, 6, 0.5), C.barnRed, 0, 3, -D / 2);
+    boards(hall, -W / 2, W / 2, 0, 6, -D / 2 + 0.25, C.barnRed, { size: 0.5, t: 0.06, seed: 3 });
+    for (const sx of [-1, 1]) {
+      add(hall, new THREE.BoxGeometry(0.5, 3, D), C.barnRed, (sx * W) / 2, 1.5, 0);
+      boards(hall, -D / 2, D / 2, 0, 3, 0, C.barnRed, { size: 0.5, t: 0.05, seed: 5 });
+      const side = hall.children.slice(-Math.round(D / 0.5));
+      for (const b of side) {
+        b.position.set((sx * W) / 2 - sx * 0.28, b.position.y, b.position.x);
+        b.rotation.y = Math.PI / 2;
+      }
+      add(hall, rbox(0.3, 3.1, 0.3, 0.06), C.trim, (sx * W) / 2 - sx * 0.1, 1.55, -D / 2 + 0.4);
+      add(hall, rbox(0.3, 0.2, D, 0.06), C.trim, (sx * W) / 2 - sx * 0.1, 3.0, 0);
+    }
+    add(hall, rbox(W, 0.24, 0.3, 0.06), C.trim, 0, 3.0, -D / 2 + 0.3);
+    add(hall, rbox(W, 0.24, 0.3, 0.06), C.trim, 0, 5.9, -D / 2 + 0.3);
+    for (const x of [-W / 2 + 0.4, -6, 6, W / 2 - 0.4]) add(hall, rbox(0.3, 6, 0.3, 0.06), C.trim, x, 3, -D / 2 + 0.35);
+    // Lanterns on the side walls.
+    for (const sx of [-1, 1])
+      for (const z of [-6, 2, 9]) {
+        add(hall, new THREE.BoxGeometry(0.1, 0.1, 0.5), C.iron, (sx * W) / 2 - sx * 0.45, 2.6, z).rotation.y = Math.PI / 2;
+        add(hall, new THREE.CylinderGeometry(0.16, 0.13, 0.36, 10), 0xffe2a0, (sx * W) / 2 - sx * 0.7, 2.3, z, { emissive: 0xffa53a });
+        add(hall, new THREE.ConeGeometry(0.22, 0.16, 10), C.iron, (sx * W) / 2 - sx * 0.7, 2.56, z);
+      }
+    bakeColors(hall);
+    this.root.add(hall);
+    // Hay bales stacked in the back corners (one instanced mesh).
+    const bales: { m: THREE.Matrix4; a: number; b: number }[] = [];
+    const bale = (x: number, y: number, z: number, r: number) =>
+      bales.push({ m: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), r), new THREE.Vector3(1, 1, 1)), a: 0xf0c85a, b: 0xd8572f });
+    for (const sx of [-1, 1]) {
+      for (let i = 0; i < 3; i++) bale(sx * (W / 2 - 1.3), i * 0.8, D / 2 - 1.2 - i * 0.05, Math.PI / 2 + i * 0.05);
+      for (let i = 0; i < 2; i++) bale(sx * (W / 2 - 2.5), i * 0.8, D / 2 - 1.4, Math.PI / 2 - 0.08);
+      bale(sx * (W / 2 - 1.3), 0, D / 2 - 3.0, 0.1);
+    }
+    const hay = tintedInstances(haybaleGeometry(), tintedMaterial("straw", 6), bales);
+    if (hay) this.root.add(hay);
+    const sign = woodSign(["FARM SHOP"], 7, 1.6);
+    sign.position.set(0, 4.5, -D / 2 + 0.4);
+    // Dark surround so the far-away farm never shows around the hall.
+    const void_ = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshBasicMaterial({ color: 0x241a12 }));
     void_.rotation.x = -Math.PI / 2;
     void_.position.y = -0.45;
-    this.root.add(floor, back, sideL, sideR, sign, void_);
-    // Plank lines on the back wall.
-    for (let i = 0; i < 6; i++) {
-      const plank = new THREE.Mesh(new THREE.BoxGeometry(W, 0.06, 0.1), mat(0xfff3e2));
-      plank.position.set(0, 0.6 + i, -D / 2 + 0.3);
-      this.root.add(plank);
-    }
-    // ATM at the left (closed in stage 1).
-    const atm = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.6, 1), mat(0x4fd1a5));
+    this.root.add(floor, sign, void_);
+    // The cash box at the left (an ATM before; closed in stage 1): a wooden cabinet with brass trim.
+    const atm = new THREE.Mesh(new THREE.BoxGeometry(1.6, 2.6, 1), mat(0x8a5a32));
     atm.position.set(-W / 2 + 1.6, 1.3, -D / 2 + 1.2);
     const led = floorText(stageNumber() >= 2 ? "ATM" : "ATM CLOSED", 1.4, 0.4, { color: "#ff4a3a" });
     led.rotation.x = 0;
@@ -160,10 +225,12 @@ export class ShopInterior {
       fw = Math.max(fw, Math.min(3.4, size.x));
       fd = Math.max(fd, size.z);
     } else {
-      // Light tools on a yellow counter.
-      const counter = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.0, 1.6), mat(0xffd166));
-      counter.position.y = 0.5;
-      display.add(counter);
+      // Light tools on a wooden counter.
+      const counter = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.92, 1.6), mat(C.wood));
+      counter.position.y = 0.46;
+      const top = new THREE.Mesh(rbox(2.75, 0.1, 1.72, 0.04), mat(C.woodLight));
+      top.position.y = 0.96;
+      display.add(counter, top);
       display.add(lightDisplay(key));
       fd = 1.7;
     }
@@ -171,10 +238,19 @@ export class ShopInterior {
     display.rotation.y = heavy ? 0 : 0.3;
     this.root.add(display);
     const crate = new THREE.Group();
-    const box = new THREE.Mesh(new THREE.BoxGeometry(2.6, 2.2, 2.4), mat(0xc9b0ff));
+    // A wooden crate: pale boards, darker frame, an iron padlock.
+    const box = new THREE.Mesh(new THREE.BoxGeometry(2.6, 2.2, 2.4), mat(0xd2a066));
     box.position.y = 1.1;
-    const lock = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.6, 0.15), mat(0xff6fa5));
+    for (const [w, h, x, y] of [[2.66, 0.2, 0, 0.12], [2.66, 0.2, 0, 2.1], [0.2, 2.2, -1.22, 1.1], [0.2, 2.2, 1.22, 1.1]] as const) {
+      const f = new THREE.Mesh(new THREE.BoxGeometry(w, h, 2.46), mat(0x9a6a3c));
+      f.position.set(x, y, 0);
+      crate.add(f);
+    }
+    const lock = new THREE.Mesh(rbox(0.55, 0.5, 0.15, 0.06), mat(0x4a4642));
     lock.position.set(0, 1.2, 1.25);
+    const shackle = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.05, 6, 12, Math.PI), mat(0xe2b443));
+    shackle.position.set(0, 1.45, 1.25);
+    crate.add(shackle);
     const label = floorText("FRAGILE", 2.2, 0.5, { color: "#6b3f2a" });
     label.rotation.x = 0;
     label.position.set(0, 1.9, 1.21);
@@ -186,6 +262,8 @@ export class ShopInterior {
       st.position.set(0, 0.55, 1.21);
       crate.add(st);
     }
+    // The crate's plain parts bake into one mesh (its stencils keep their textures).
+    bakeColors(crate);
     crate.position.copy(local);
     this.root.add(crate);
     // The plate sits just in front of the item (long machines push it forward).
@@ -230,7 +308,7 @@ export class ShopInterior {
     const price = equipPrice(s.key);
     const stars = Array.from({ length: 5 }, (_, i) => `<i class="${i <= d.tier ? "on" : ""}">★</i>`).join("");
     let btn: string;
-    if (this.soldOut(s)) btn = `<div class="ic-sold">SOLD OUT${d.rental ? "<small>It's waiting at base camp.</small>" : ""}</div>`;
+    if (this.soldOut(s)) btn = `<div class="ic-sold">SOLD OUT${d.rental ? "<small>It's waiting at the farm.</small>" : ""}</div>`;
     else if (lock) btn = `<div class="ic-lock">${lock}</div>`;
     else btn = `<button class="ic-buy ${S.cash >= price ? "" : "off"}" data-buy="1"><i class="ico cash"></i>${fmt(price)}</button>`;
     this.card.innerHTML = `${d.rental ? `<div class="ic-rent">Rent</div>` : ""}<div class="ic-name">${d.name}</div><div class="ic-sub">${d.desc}</div><div class="ic-stars">${stars}</div><div class="ic-flavor">${d.detail}</div>${btn}`;

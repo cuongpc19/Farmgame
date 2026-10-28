@@ -46,7 +46,7 @@ export class Stage3D {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     host.appendChild(this.renderer.domElement);
 
-    // A pastel sky behind the candy island (Candy Miner); the fog fades the far frosting into its colour.
+    // A blue sky with soft clouds behind the farm (theme.ts); the fog fades the far meadow and river into its haze.
     this.scene.background = skyBackdrop();
     this.scene.fog = new THREE.Fog(THEME.sky, THEME.fogNear, THEME.fogFar);
 

@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { Stage3D } from "./engine/Stage3D";
 import { Input } from "./engine/Input";
 import { initAudio, musicState, sfx } from "./audio";
-import { CELL, DIALOGUE, EQUIP, EQUIP_BY_ID, GAMEPLAY, OIL_ITEM, ORES, QUESTS, STAGES, WORKER_PROFILES, WORKER_RULES, itemColor, itemKind, oreOfItemId, stageIndexOf, stageMult, STRUCTURE_INFO, type StageDef, type QuestDef, type EquipDef } from "./data";
+import { CELL, DIALOGUE, EQUIP, EQUIP_BY_ID, GAMEPLAY, OIL_ITEM, ORES, QUESTS, STAGES, EASE, WORKER_PROFILES, WORKER_RULES, itemColor, itemKind, motionOfOre, oreOfItemId, stageIndexOf, stageMult, STRUCTURE_INFO, type StageDef, type QuestDef, type EquipDef, type OreDef } from "./data";
 import { BlockField, type Block } from "./world/BlockField";
 import { Drops } from "./world/Drops";
 import { Flyers } from "./world/Flyers";
@@ -28,15 +28,12 @@ import { ResearchPanel } from "./ui/ResearchPanel";
 import { EquipPanel, SettingsPanel } from "./ui/EquipPanel";
 import { WorkerMgmtPanel, gearHolder } from "./ui/WorkerMgmt";
 import { Spotlight } from "./ui/Spotlight";
-import { Mining } from "./systems/Mining";
+import { Mining, type Miner } from "./systems/Mining";
 import { events, Ticker } from "./systems/Events";
 import { Quests } from "./systems/Quests";
 import { Boosts, buffs, buffClock } from "./systems/Boosts";
 import { Comeback } from "./systems/Comeback";
-import { landColour } from "./theme";
 
-/** Rainbow sprinkles that fly off candy as it is hit and broken (Candy Miner). */
-const SPRINKLE_COLOURS = [0xff5c8a, 0x4fd1a5, 0xffc93c, 0x9b7bff, 0x5fb8ff];
 import { Player } from "./actors/Player";
 import { Vehicle } from "./actors/Vehicle";
 import { WorkerUnit, type WorkerWorld } from "./actors/WorkerUnit";
@@ -49,6 +46,9 @@ import { Nav } from "./world/Nav";
 import type { Actor } from "./base/Actor";
 import type { BaseCtx } from "./base/Ctx";
 import { Furnace } from "./base/Furnace";
+import { farmLook, houseOf, isCrop } from "./farm";
+import { SpriteNodes } from "./world/spriteNodes";
+import { Felled } from "./world/Felled";
 import { SalesStand } from "./base/SalesStand";
 import { EntryBuilding, OilStation, OreStorage, Cafeteria } from "./base/Buildings";
 import { priceBoard } from "./base/PriceBoard";
@@ -80,7 +80,7 @@ const AUTO_MINE_IDLE = 90;
 const AUTO_MINE_TIP_AFTER = 600;
 /** The bubble over a resting worker: icon, words and height above their feet, by what they do at the restaurant. */
 const REST_BUBBLE: Record<"eat" | "drink" | "rest" | "wait", [string, string, number]> = {
-  eat: ["🍔", "EATING", 3.0],
+  eat: ["🍜", "EATING", 3.0],
   drink: ["🥤", "DRINKING", 3.0],
   rest: ["💤", "RESTING", 3.0],
   wait: ["🪑", "NO SEAT", 3.5],
@@ -155,9 +155,16 @@ export class Game implements BaseCtx {
   shards!: Shards;
   fx!: Fx;
   cracks!: Cracks;
+  /** Trees toppling and rice folding down after the last blow. */
+  felled!: Felled;
   mining!: Mining;
   player!: Player;
+  /** The Mill (rice, wood, fruit); the stage's furnace spot. */
   furnace!: Furnace;
+  /** The Forge (metals, gems), beside the Mill. */
+  forge!: Furnace;
+  /** Both processing houses. */
+  houses: Furnace[] = [];
   sales!: SalesStand;
   upgradeB!: EntryBuilding;
   shopB!: EntryBuilding;
@@ -260,7 +267,7 @@ export class Game implements BaseCtx {
         if (v) this.directCamera(v.pos);
       } else if (t.closest("[data-vinfo]")) {
         const lines = this.vehicles.map((v) => `${EQUIP[v.key]?.name ?? v.key}: ${v.fuelled ? `fuel ${Math.round((v.fuel / Math.max(1, v.tank)) * 100)}%` : "no fuel needed"}${v.carries ? ` · cargo ${v.stack.count}/${v.stack.capacity}` : ""}`);
-        this.hud.toast(lines.join("  ·  ") || "No vehicles rented", 3500);
+        this.hud.toast(lines.join("  ·  ") || "No machines rented", 3500);
       }
     });
     uiRoot.appendChild(this.vtab);
@@ -309,8 +316,6 @@ export class Game implements BaseCtx {
     quest: () => QUESTS[S.quest.index]?.id ?? null,
     quests: () => QUESTS.map((q) => [q.id, q.text]),
     state: () => S,
-    /** The land round the quarry: how much colour it has back (theme.ts landColour). */
-    landColour: () => landColour.value,
     /** Store captures: every dialogue counts as seen (no lines pop up mid-take). */
     quiet: () => {
       for (const d of DIALOGUE) if (!S.dialogues.includes(d.id)) S.dialogues.push(d.id);
@@ -451,7 +456,7 @@ export class Game implements BaseCtx {
     this.workersPanel.onHire = (id) => this.hire(id);
     this.workersPanel.onFull = () => {
       sfx.deny();
-      this.hud.toast(`Crew full: ${S.run.workers.length}/${this.st.maxWorkers} workers`);
+      this.hud.toast(`Team full: ${S.run.workers.length}/${this.st.maxWorkers} farmhands`);
     };
     this.workersPanel.priceOf = (p) => this.hirePrice(p.price);
     this.hqPanel.onResearch = (id) => this.research(id);
@@ -479,16 +484,18 @@ export class Game implements BaseCtx {
   private loadStage(): void {
     const scene = this.scene;
     this.st = stageDef();
+    this.st.clearPercent = Math.min(this.st.clearPercent, EASE.clear);
     this.map = new MapView(scene, this.st);
     const lookByOre = new Map(this.st.blocks.map((b) => [b.ore.id, b.ore]));
     this.field = new BlockField(
       scene,
-      this.st.blocks.map((b) => ({ cx: b.cx, cz: b.cz, ore: b.ore.id, hp: b.ore.hp * this.st.oreHpMult * stageMult(stageNumber()).oreHpMultiplier })),
+      this.st.blocks.map((b) => ({ cx: b.cx, cz: b.cz, ore: b.ore.id, hp: b.ore.hp * this.st.oreHpMult * stageMult(stageNumber()).oreHpMultiplier * EASE.hp })),
       CELL,
       (oreId) => {
-        const o = lookByOre.get(oreId);
-        return { base: o?.rock ?? 0xffffff, spot: o?.vein, pattern: o?.pattern ?? "sugar", accent: o?.accent, tints: o?.tints };
+        const key = lookByOre.get(oreId)?.key ?? "";
+        return { key, kind: farmLook(key).kind };
       },
+      new SpriteNodes(CELL),
       CELL,
     );
     for (let i = 0; i < this.st.blocks.length; i++) if (isBroken(i, this.st.blocks.length)) this.field.kill(this.field.blocks[i]);
@@ -505,59 +512,26 @@ export class Game implements BaseCtx {
     this.shards = new Shards(scene, 200);
     this.fx = new Fx(scene);
     this.cracks = new Cracks(scene, CELL, CELL);
+    this.felled = new Felled(scene);
+    // A felled tree hits the ground: a puff of dust and leaves where its crown lands.
+    this.felled.onLand = (x, z, away, scale) => {
+      const side = Math.sin(away) >= 0 ? 1 : -1;
+      const at = new THREE.Vector3(x + side * CELL * 1.3 * scale, CELL * 0.15, z);
+      this.fx.puff(at, 0xd8c8a8, 6, CELL * 0.45, CELL * 0.3, 0.7);
+      this.dust.burst(at, 0x6aa84a, 8, 0.9);
+    };
     this.mining = new Mining(this.field, this.drops, (b) => this.st.blocks[b.i].ore, {
-      onHit: (b, ore, miner) => {
-        sfx.hit();
-        const c = this.field.center(b, this.tmp);
-        // Chips fly off the face being hit, back toward the miner.
-        const to = new THREE.Vector3(miner.pos.x - c.x, 0, miner.pos.z - c.z).normalize();
-        const face = c.clone().addScaledVector(to, CELL * 0.45).setY(CELL * 0.75);
-        // Candy Miner: sprinkles in the block's colour and a few rainbow ones fly off every hit.
-        const tint = this.field.tintOf(b) ?? ore.rock;
-        this.dust.burst(face, tint, 8, 1.1);
-        this.dust.burst(face, SPRINKLE_COLOURS[Math.floor(Math.random() * SPRINKLE_COLOURS.length)], 3, 1.4);
-        this.dust.burst(face, 0xffffff, 3, 1.5);
-        // Exaggerated on purpose (user 2026-10-21: bigger chips on every hit): a few chunky pieces
-        // and a spray of small ones, thrown higher and farther than real rock would go.
-        // Mostly up, only leaning toward the miner (user: they flew too much at the miner).
-        // User 2026-10-22: more exaggerated still, bigger pieces (a wedge off the face every hit).
-        const mat = this.field.shardMaterial(b);
-        const lean = to.clone().multiplyScalar(0.3);
-        this.shards.burst(face, mat, 1, CELL * 0.42, 1.2, lean, 0.55, 1.35, true);
-        this.shards.burst(face, mat, 3, CELL * 0.4, 1.3, lean, 0.6, 1.35);
-        this.shards.burst(face, mat, 5, CELL * 0.22, 1.5, lean, 0.6, 1.35);
-        // A pop of light where the pick lands and a puff of dust off the face.
-        this.fx.flash(face, CELL * 0.95);
-        this.fx.puff(face, tint, 3, CELL * 0.28, CELL * 0.25, 0.6);
-        this.cracks.set(b, Math.min(3, Math.ceil((1 - Math.max(0, b.hp) / b.maxHp) * 3)));
-      },
+      onHit: (b, ore, miner) => this.hitFx(b, ore, miner, false),
       onBreak: (b, ore, miner) => {
         // The gift box is an ad offer in the original: none while ads are off (ads.ts).
         if (ore.key === "mystery" && ADS_ON) {
           const at = this.field.center(b, new THREE.Vector3());
-          this.askAd("Mystery Gift", () => this.mysteryGift(at));
+          this.askAd("Treasure Chest", () => this.mysteryGift(at));
         }
         const who = (miner as { label?: string }).label ?? "PLAYER";
         S.run.mined[who] = (S.run.mined[who] ?? 0) + 1;
         teleBroke(miner instanceof WorkerUnit ? "bw" : miner === this.player ? "bp" : "bv");
-        sfx.breakBlock();
-        const at = this.field.center(b, this.tmp).setY(CELL * 0.35);
-        // A burst of candy: sprinkles of every colour, sugar dust in the block's colour, stars (Candy Miner).
-        const tint = this.field.tintOf(b) ?? ore.rock;
-        this.dust.burst(at, tint, 10, 1.3);
-        for (const c of SPRINKLE_COLOURS) this.dust.burst(at, c, 3, 1.6);
-        // The block splits into a few big pieces and a spray of small ones, all carrying its
-        // own stone / ore pattern, inside a blooming dust cloud with a flash and a shock ring.
-        // User 2026-10-22: bigger, like the reference's block splitting into a few huge wedges.
-        const m = this.field.shardMaterial(b);
-        // The block falls apart into mini cakes (Candy Miner; rock split into 5 huge wedges).
-        this.shards.burst(at, m, 6, CELL * 0.5, 1.1, undefined, 1, 1, true);
-        this.shards.burst(at.clone().setY(CELL * 0.6), m, 4, CELL * 0.4, 1.3);
-        this.shards.burst(at.clone().setY(CELL * 0.6), m, 6, CELL * 0.22, 1.5);
-        this.fx.flash(at.clone().setY(CELL * 0.55), CELL * 1.6);
-        this.fx.puff(at.clone().setY(CELL * 0.45), tint, 9, CELL * 0.4, CELL * 0.6);
-        this.fx.ring(at, CELL * 0.3, CELL * 1.05);
-        this.fx.glint(at.clone().setY(CELL * 0.6), ore.vein ?? 0xffffff, ore.vein !== undefined ? 6 : 4, CELL * 0.28);
+        this.hitFx(b, ore, miner, true);
         if (this.driving) this.stage.shake(0.15);
         markBroken(b.i, this.st.blocks.length);
         events.emit("oreDestroyed", { category: ore.category, ore: ore.key });
@@ -572,6 +546,13 @@ export class Game implements BaseCtx {
     this.player = new Player(scene);
     const sp = this.st.spawns.find((s) => s.type === "playerSpawnPoint");
     this.player.pos.set(sp?.wx ?? 0, 0, sp?.wz ?? 0);
+    // Start right at the work (user 2026-10-28: "start the player beside the rice field"): in front of the rice
+    // nearest the houses, facing it (the fields lie north, toward -z).
+    const rice = this.nearestBlock(this.player.pos, (b) => isCrop(this.st.blocks[b.i].ore));
+    if (rice) {
+      this.player.pos.set(rice.cx * CELL, 0, rice.cz * CELL + CELL * 0.85);
+      this.player.facing = Math.PI;
+    }
     this.refreshPlayerStats();
     // CARGO pill sits under the player's feet, the home tab below it (reference layout).
     this.cargoLabel = this.labels.add(this.cargoAt, "cargo", "");
@@ -625,14 +606,14 @@ export class Game implements BaseCtx {
       const n = S.leftover;
       delete S.leftover;
       markDirty();
-      setTimeout(() => this.hud.toast(`Last land's leftover candy sold: +$${n.toLocaleString("en-US")}`, 4000), 2500);
+      setTimeout(() => this.hud.toast(`Last plot's leftover harvest sold: +$${n.toLocaleString("en-US")}`, 4000), 2500);
     }
     // This quarry got a new map since the last visit (state.ts relayout): its progress stays, plus a gift.
     if (S.mapGift) {
       const n = S.mapGift;
       delete S.mapGift;
       markDirty();
-      setTimeout(() => this.hud.toast(`🗺️ New map for this land! Your progress stays, and here's +$${n.toLocaleString("en-US")}`, 5000), 2500);
+      setTimeout(() => this.hud.toast(`🗺️ New map for this plot! Your progress stays, and here's +$${n.toLocaleString("en-US")}`, 5000), 2500);
     }
     onBeforeSave(() => this.saveTransit());
     // Items move without other state changing: keep the snapshot fresh.
@@ -651,7 +632,7 @@ export class Game implements BaseCtx {
         inBase: () => !this.inShop && this.controlled().pos.z > this.baseLine,
         inShop: () => this.inShop,
         facility: (k) => {
-          if (k === "furnace") return { pos: this.furnace.zone.center, stack: this.furnace.queue.length };
+          if (k === "furnace") return { pos: this.furnace.zone.center, stack: this.furnace.queue.length + this.forge.queue.length };
           if (k === "sales") return { pos: this.sales.zone.center, stack: this.sales.pile.count };
           if (k === "cafeteria") return { pos: this.cafeteria.offerAt, stack: 0 };
           return this.inShop ? { pos: this.shopIn.atmPos, stack: 0 } : null;
@@ -779,7 +760,7 @@ export class Game implements BaseCtx {
         };
         m.onUnlockRequest = () => {
           if (m.free) m.unlock();
-          else this.askAd("Activate Minecart", () => m.unlock());
+          else this.askAd("Activate Rail Cart", () => m.unlock());
         };
         this.minecarts.push(m);
       } else if (sdef.type === "autoDigger") {
@@ -798,7 +779,7 @@ export class Game implements BaseCtx {
         o.onBackFull = () => this.backFullAtOil();
         if (unlocked) o.unlock();
         o.onActivateRequest = () =>
-          this.askAd("Activate Syrup Pump", () => {
+          this.askAd("Activate Fuel Pump", () => {
             o.unlock();
             if (!S.run.structures.includes(sdef.groupId ?? 0)) S.run.structures.push(sdef.groupId ?? 0);
             markDirty();
@@ -872,7 +853,7 @@ export class Game implements BaseCtx {
       field: this.field,
       drops: this.drops,
       mining: this.mining,
-      furnacePad: this.furnace.zone.center,
+      padFor: (item) => this.houseFor(item).zone.center,
       storagePad: this.storage.zone.center,
       storageCount: () => this.storage.pile.count,
       seats: this.cafeteria.seats,
@@ -1084,7 +1065,7 @@ export class Game implements BaseCtx {
       this.researchToasted.add(r.id);
       sfx.unlock();
       const n = ResearchPanel.nodes().find((x) => x.id === r.id);
-      this.hud.toast(`${n?.title ?? "Research"} complete! Apply it in the workshop.`);
+      this.hud.toast(`${n?.title ?? "Research"} complete! Apply it at the Farm Office.`);
       this.hqTower.setBadge(true);
     }
   }
@@ -1206,7 +1187,7 @@ export class Game implements BaseCtx {
       events.emit("stageCleared", { stage: this.level });
     }
     if (!next) {
-      this.hud.toast("More quarries coming soon!");
+      this.hud.toast("More plots coming soon!");
       this.clearing = false;
       return;
     }
@@ -1244,7 +1225,7 @@ export class Game implements BaseCtx {
       return;
     }
     events.emit("stageContracted", { stage: next.order });
-    await this.dialogue.say("sofia", ["Contract signed! Let's go free some candy!"]);
+    await this.dialogue.say("sofia", ["Deal signed! Let's bring in the harvest!"]);
     // Workers, machines and the map are per stage, like the original (user 2026-10-25, after a day of keeping the
     // machines: rent again on every new stage); cash, upgrades, tools, gems, gear stay. Whatever was still on the
     // way to a sale is bought out (`leftovers`), and the new stage opens with a round of gift boosts (`S.gift`).
@@ -1263,6 +1244,65 @@ export class Game implements BaseCtx {
     setTimeout(() => location.reload(), 450);
   }
 
+  /**
+   * What a hit and the last blow look like (farm game, user 2026-10-28): rice gives off straw and grain and folds down
+   * flat when cut; a tree spits wood chips and shakes leaves out of its crown, and topples on the last blow (Felled); a
+   * rock throws stone chips and bits of its vein, sparks, and bursts into chunks.
+   */
+  private hitFx(b: Block, ore: OreDef, miner: Miner, broke: boolean): void {
+    const fl = farmLook(ore.key);
+    const c = this.field.center(b, this.tmp).setY(0);
+    const to = new THREE.Vector3(miner.pos.x - c.x, 0, miner.pos.z - c.z).normalize();
+    const pose = broke ? this.field.pose(b) : null;
+    if (fl.kind === "crop") {
+      const at = c.clone().addScaledVector(to, CELL * 0.25).setY(CELL * 0.3);
+      this.dust.burst(at, fl.crown, broke ? 7 : 4, 1.2);
+      this.dust.burst(at, fl.main, broke ? 5 : 3, 1.0);
+      if (pose) this.felled.add(pose.geo, pose.mat, c.x, c.z, pose.yaw, pose.scale, b.away, "crop", pose.billboard, pose.depth, pose.flip);
+      sfx.reap();
+      return;
+    }
+    if (fl.kind === "wood" || fl.kind === "fruit") {
+      const face = c.clone().addScaledVector(to, CELL * 0.3).setY(CELL * 0.4);
+      // Chips of pale wood off the cut, leaves (and now and then a fruit-coloured bit) shaken out of the crown.
+      this.dust.burst(face, fl.product, broke ? 10 : 6, 1.15);
+      const crown = c.clone().setY(CELL * 1.5);
+      this.dust.burst(crown, fl.crown, broke ? 14 : 5, broke ? 1.2 : 0.75);
+      if (fl.extra !== undefined) this.dust.burst(crown, fl.extra, broke ? 5 : 2, 0.8);
+      this.fx.puff(face, 0xe8dcc0, 2, CELL * 0.2, CELL * 0.18, 0.5);
+      if (pose) {
+        this.felled.add(pose.geo, pose.mat, c.x, c.z, pose.yaw, pose.scale, b.away, "tree", pose.billboard, pose.depth, pose.flip);
+        sfx.chop();
+        sfx.fall();
+      } else sfx.chop();
+      return;
+    }
+    // Rock: stone chips, bits of the vein / crystal, sparks; the last blow bursts it.
+    const face = c.clone().addScaledVector(to, CELL * 0.4).setY(CELL * 0.45);
+    const lean = to.clone().multiplyScalar(0.3);
+    const stone = this.field.chipMaterial(0x8c8378);
+    const vein = this.field.chipMaterial(fl.crown);
+    if (!broke) {
+      sfx.hit();
+      this.shards.burst(face, stone, 3, CELL * 0.28, 1.3, lean, 0.6, 1.35);
+      this.shards.burst(face, vein, 2, CELL * 0.18, 1.4, lean, 0.6, 1.35);
+      this.dust.burst(face, 0xa39a8e, 6, 1.1);
+      this.fx.flash(face, CELL * 0.7);
+      this.fx.glint(face, fl.crown, 2, CELL * 0.2);
+      return;
+    }
+    sfx.breakBlock();
+    const at = c.clone().setY(CELL * 0.35);
+    this.shards.burst(at, stone, 5, CELL * 0.55, 1.1, undefined, 1, 1, true);
+    this.shards.burst(at.clone().setY(CELL * 0.5), vein, 5, CELL * 0.25, 1.3);
+    this.shards.burst(at.clone().setY(CELL * 0.5), stone, 5, CELL * 0.2, 1.5);
+    this.dust.burst(at, 0xa39a8e, 12, 1.3);
+    this.fx.flash(at.clone().setY(CELL * 0.5), CELL * 1.4);
+    this.fx.puff(at.clone().setY(CELL * 0.4), 0xc8bfb2, 8, CELL * 0.4, CELL * 0.55);
+    this.fx.ring(at, CELL * 0.3, CELL * 1.0);
+    this.fx.glint(at.clone().setY(CELL * 0.6), fl.crown, 6, CELL * 0.3);
+  }
+
   private buildBase(): void {
     const roads = this.st.props.filter((p) => p.type === "road");
     const s = CELL;
@@ -1270,9 +1310,14 @@ export class Game implements BaseCtx {
     for (const b of this.st.buildings) {
       switch (b.type) {
         case "furnace":
-          this.furnace = new Furnace(this, b);
+        case "forge": {
+          const h = new Furnace(this, b, b.type === "forge" ? "forge" : "mill");
+          if (b.type === "forge") this.forge = h;
+          else this.furnace = h;
+          this.houses.push(h);
           this.solids.push({ x0: b.wx - s * 0.6, x1: b.wx + s * 1.6, z0: b.wz - s * 1.9, z1: b.wz + s * 0.15 });
           break;
+        }
         case "salesStand":
           // Trading house: its SELL / CASH pads go on the side facing the furnace (user).
           {
@@ -1321,8 +1366,8 @@ export class Game implements BaseCtx {
     this.upgradeB.onClose = () => this.upgradePanel.close();
     this.shopB.onOpen = () => this.enterShop();
     this.shopB.onClose = () => this.shopPanel.close();
-    this.workerB.setLocked(true, "BREAK 20% CANDY");
-    this.workerB.lockHint = "Keep mining to unlock workers!";
+    this.workerB.setLocked(true, "HARVEST 20% FIRST");
+    this.workerB.lockHint = "Keep harvesting to unlock farmhands!";
     this.shopB.lockHint = "Finish your quests to open this!";
     this.workerB.onOpen = () => {
       // The building is Worker Management; the Job Board is one tap away.
@@ -1346,7 +1391,7 @@ export class Game implements BaseCtx {
     p.interval = interval(S.equipMining);
     p.stack.capacity = cargo(S.equipCarrying);
     p.absorb = absorb(S.equipCarrying);
-    p.speed = moveSpeed("player") * exoSpeed();
+    p.speed = moveSpeed("player") * exoSpeed() * EASE.walk;
     for (const v of this.vehicles) v.refresh();
   }
 
@@ -1710,12 +1755,14 @@ export class Game implements BaseCtx {
           const b = this.nearestBlock(from);
           if (b) return this.field.center(b, new THREE.Vector3()).setY(0);
         }
-        return this.furnace.zone.center.clone();
+        return this.rawPad(carried).clone();
       }
-      case "SalesStand":
+      case "SalesStand": {
         if (this.sales.moneyWaiting > 0) return this.sales.moneyPos.clone();
         // No ingots on you: pick them up at the furnace tray first (reference 103/104).
-        if (!carried.some((i) => itemKind(i) === "ingot") && (this.furnace.output.count > 0 || this.furnace.queue.length > 0)) return this.furnace.trayPos.clone();
+        const tray = this.trayWaiting();
+        if (!carried.some((i) => itemKind(i) === "ingot") && tray) return tray.trayPos.clone();
+      }
         return this.sales.zone.center.clone();
       case "UpgradeBuilding":
         return this.upgradeB.zone.center.clone();
@@ -1809,7 +1856,7 @@ export class Game implements BaseCtx {
     switch (q.guide.detail) {
       case "Smelter":
         if (busy) return null;
-        return holding("mineral") ? this.furnace.zone.center : this.guideTarget("MineBlock");
+        return holding("mineral") ? this.rawPad(this.controlled().stack.items) : this.guideTarget("MineBlock");
       case "SalesStand":
         if (busy) return null;
         return this.earnStep(busy) ?? (this.sales.selling ? cashSpot : this.guideTarget("MineBlock"));
@@ -1841,14 +1888,14 @@ export class Game implements BaseCtx {
   private backFullAtOil(): void {
     if (this.time - this.backFullSaid < 6) return;
     this.backFullSaid = this.time;
-    this.hud.toast("Basket full! Drop your load at COOK, then grab syrup");
+    this.hud.toast("Basket full! Drop your load at MILL or FORGE, then grab fuel");
   }
 
   /** The tank just ran dry under you: say what to do, and the first time show where the oil is. */
   private outOfOil(v: Vehicle): void {
     this.refuelUntil = this.time + 30;
     events.emit("fuelEmpty", { key: v.key });
-    this.hud.toast("Out of syrup! Drive back to SYRUP, or bring jars from it");
+    this.hud.toast("Out of fuel! Drive back to FUEL, or bring cans from it");
     if (S.dialogues.includes(-902)) return;
     S.dialogues.push(-902);
     markDirty();
@@ -1950,9 +1997,30 @@ export class Game implements BaseCtx {
     if (busy) return null;
     const items = this.controlled().stack.items;
     if (items.some((i) => itemKind(i) === "ingot")) return this.sales.zone.center;
-    if (items.some((i) => itemKind(i) === "mineral")) return this.furnace.zone.center;
-    if (this.furnace.output.count > 0 || this.furnace.queue.length > 0) return this.furnace.trayPos;
-    return null;
+    if (items.some((i) => itemKind(i) === "mineral")) return this.rawPad(items);
+    return this.trayWaiting()?.trayPos ?? null;
+  }
+
+  /** The processing house that takes a raw item, or made a product (the Mill or the Forge). */
+  houseFor(item: number): Furnace {
+    const ore = oreOfItemId(item);
+    return ore && houseOf(ore) === "forge" ? this.forge : this.furnace;
+  }
+
+  /** Where the raw items on a back go first: the pad of the house that takes the first of them. */
+  private rawPad(items: number[]): THREE.Vector3 {
+    const raw = items.find((i) => itemKind(i) === "mineral");
+    return (raw === undefined ? this.furnace : this.houseFor(raw)).zone.center;
+  }
+
+  /** A house with products on its tray (or on their way), the fuller tray first. */
+  private trayWaiting(): Furnace | null {
+    let best: Furnace | null = null;
+    for (const h of this.houses) {
+      if (h.output.count === 0 && !h.busy) continue;
+      if (!best || h.output.count > best.output.count) best = h;
+    }
+    return best;
   }
 
   /** Machines (rentals) or hand tools on sale now that you don't have yet, cheapest first. */
@@ -2075,7 +2143,7 @@ export class Game implements BaseCtx {
     }
     const n = this.liveApplicants();
     const left = Math.max(0, Math.ceil(this.applicantT + (WORKER_RULES.recruit?.intervalSeconds ?? 180) - this.time));
-    const html = n > 0 ? `👷<b>NEW</b><i>${n}</i>` : `👷<small>NEW in</small><b>${left}s</b>`;
+    const html = n > 0 ? `🧑‍🌾<b>NEW</b><i>${n}</i>` : `🧑‍🌾<small>NEW in</small><b>${left}s</b>`;
     if (this.candChip.innerHTML !== html) this.candChip.innerHTML = html;
     if (this.candChip.style.display === "none") this.candChip.style.display = "";
   }
@@ -2098,8 +2166,7 @@ export class Game implements BaseCtx {
     const items = [
       ...this.player.stack.items,
       ...this.vehicles.flatMap((v) => v.stack.items),
-      ...this.furnace.pending(),
-      ...this.furnace.output.items,
+      ...this.houses.flatMap((h) => [...h.pending(), ...h.output.items]),
       ...this.sales.itemsToSave,
       ...this.storage.pile.items,
       ...this.minecarts.flatMap((m) => m.stack.items),
@@ -2121,6 +2188,8 @@ export class Game implements BaseCtx {
       vehicles,
       furnaceQueue: this.furnace.pending(),
       furnaceOut: [...this.furnace.output.items],
+      forgeQueue: this.forge.pending(),
+      forgeOut: [...this.forge.output.items],
       sellPile: this.sales.itemsToSave,
       pallet: this.sales.moneyToSave,
       storage: [...this.storage.pile.items],
@@ -2140,8 +2209,9 @@ export class Game implements BaseCtx {
       if (v.tank) v.fuel = Math.min(v.tank, sv.fuel);
       for (const it of sv.items) if (!v.stack.full) v.stack.push(it);
     }
-    this.furnace.queue.push(...t.furnaceQueue);
-    for (const it of t.furnaceOut) this.furnace.output.push(it);
+    // Each item back into the house that takes it (a save from before the Forge holds everything in the furnace's).
+    for (const it of [...t.furnaceQueue, ...(t.forgeQueue ?? [])]) this.houseFor(it).queue.push(it);
+    for (const it of [...t.furnaceOut, ...(t.forgeOut ?? [])]) this.houseFor(it).output.push(it);
     for (const it of t.sellPile) this.sales.pile.push(it);
     if (t.pallet > 0) this.sales.addPallet(t.pallet);
     for (const it of t.storage) this.storage.pile.push(it);
@@ -2296,7 +2366,7 @@ export class Game implements BaseCtx {
     // Buffs from boosts.
     const bt = buffClock();
     const spd = bt < buffs.speedUntil;
-    p.speed = moveSpeed("player") * (spd ? 1.3 : 1) * exoSpeed();
+    p.speed = moveSpeed("player") * (spd ? 1.3 : 1) * exoSpeed() * EASE.walk;
     p.intervalMul = spd ? 0.23 : 0;
     // The crew too (RvBoost 1001: player + light-equipment workers; user 2026-10-21: the card said so).
     for (const w of this.workers) {
@@ -2305,7 +2375,7 @@ export class Game implements BaseCtx {
     }
     p.powerMul = bt < buffs.damageUntil ? 1.5 : 1;
     // FURNACE OVERLOAD: SmelterSmeltingSpeedRVMulti +1.
-    this.furnace.speedMul = bt < buffs.furnaceUntil ? 2 : 1;
+    for (const h of this.houses) h.speedMul = bt < buffs.furnaceUntil ? 2 : 1;
     const magnet = bt < buffs.magnetUntil;
     p.stack.capacity = magnet ? 999 : cargo(S.equipCarrying);
     p.absorb = absorb(S.equipCarrying) * (magnet ? 3 : 1);
@@ -2357,6 +2427,9 @@ export class Game implements BaseCtx {
         if (this.overheated && this.heat <= 60) this.overheated = false;
         setToolHeat(p.model, this.heat / 100);
       } else this.heat = 0;
+      // The tool in hand and how it swings follow what is in front: sickle for rice, axe for trees, pickaxe for rock.
+      const ahead = this.mining.target(p);
+      if (ahead) p.model.motion = motionOfOre(ahead.ore);
       const hit = hot && this.overheated ? null : this.mining.mine(p, dt);
       if (hit && hot) {
         this.heat = Math.min(100, this.heat + (EQUIP.knuckleDriller?.stats.overheatAddAmount ?? 3.125));
@@ -2423,11 +2496,11 @@ export class Game implements BaseCtx {
         // (the bar had no styles, only the word OIL showed).
         const k = veh.tank ? veh.fuel / veh.tank : 0;
         const tone = k <= 0 ? "dry" : k < 0.2 ? "low" : k < 0.5 ? "mid" : "";
-        this.labels.set(fl, `<div class="fuelbar ${tone}"><i style="width:${Math.ceil(k * 100)}%"></i><b>SYRUP</b></div>`);
+        this.labels.set(fl, `<div class="fuelbar ${tone}"><i style="width:${Math.ceil(k * 100)}%"></i><b>FUEL</b></div>`);
       }
     }
 
-    this.furnace.update(dt);
+    for (const h of this.houses) h.update(dt);
     this.sales.update(dt);
     this.upgradeB.update(dt);
     this.shopB.update(dt);
@@ -2473,10 +2546,11 @@ export class Game implements BaseCtx {
     this.dust.update(dt);
     this.slabs.update(dt);
     this.shards.update(dt);
+    this.felled.update(dt);
     this.fx.update(dt);
-    // Fresh ingots on the furnace tray catch the light now and then.
-    if (this.furnace.output.count > 0 && Math.random() < dt * 1.6) {
-      const p = this.furnace.output.topWorld(this.tmp);
+    // Fresh bars and gems on the Forge's tray catch the light now and then.
+    if (this.forge.output.count > 0 && Math.random() < dt * 1.6) {
+      const p = this.forge.output.topWorld(this.tmp);
       p.x += (Math.random() - 0.5) * 1.1;
       p.z += (Math.random() - 0.5) * 0.8;
       p.y += 0.15 - Math.random() * 0.3;
@@ -2507,10 +2581,6 @@ export class Game implements BaseCtx {
     }
     this.labels.update();
     this.hud.setStage(this.level, this.progress(), this.st.clearPercent);
-    // The land round the quarry gets its colour back as the stage nears its clear line (Candy Miner's story). It starts
-    // muted, never grey: a grey field at 0 % read as stone (user 2026-10-28: "still looks like breaking rocks").
-    const colour = 0.55 + 0.45 * Math.min(1, this.progress() / Math.max(1, this.st.clearPercent));
-    landColour.value += (colour - landColour.value) * Math.min(1, dt * 1.5);
     this.hud.setCurrency(S.cash, S.gems, S.gear, this.level >= 2);
     // Green "!" over the building the current quest points to.
     const g = this.quests.waiting ? undefined : this.quests.cur()?.guide;

@@ -1,7 +1,9 @@
 import { ADS_ON, adLabel } from "../ads";
 import * as THREE from "three";
 import { CELL, GAMEPLAY, PACE, itemColor, itemKind, OIL_ITEM, type Placed } from "../data";
-import { barrelMesh, beaconModel, breakSpotModel, oilStationModel, restaurantModel, shedModel, upgradeModel, type SpotKind } from "../world/props";
+import { barrelMesh, beaconModel, breakSpotModel, farmShopModel, farmhandsModel, oilStationModel, restaurantModel, upgradeModel, type SpotKind } from "../world/props";
+import { add, C } from "../world/farmHouses";
+import { bakeColors } from "../models";
 import { Stack } from "../world/Stack";
 import { freeze } from "../engine/freeze";
 import { Zone } from "./Zone";
@@ -14,8 +16,8 @@ import { S, markDirty } from "../state";
 import type { Label } from "../ui/Labels";
 
 /**
- * A building you "enter" by standing on its pad: Upgrade (OPEN), Machinery Shop (ENTER),
- * Worker office (HIRE). Opening shows a panel; walking off closes it.
+ * A building you "enter" by standing on its pad: the Workshop (upgrades, OPEN), the Farm Shop (ENTER), the
+ * Farmhands' House (HIRE). Opening shows a panel; walking off closes it.
  */
 export class EntryBuilding {
   readonly zone: Zone;
@@ -36,7 +38,7 @@ export class EntryBuilding {
       this.root.add(u.root);
       this.beacon = u.beacon;
     } else {
-      this.root.add(kind === "shop" ? shedModel(CELL, 0x8fe0c8, 0xe9e4da, "GARAGE") : shedModel(CELL, 0xc9b0ff, 0xe9e4da, "CREW"));
+      this.root.add(kind === "shop" ? farmShopModel() : farmhandsModel());
       this.beacon = beaconModel();
       this.beacon.position.set(0, CELL * 1.8 + 2.4, -CELL * 0.2);
       this.root.add(this.beacon);
@@ -138,7 +140,7 @@ export class OilStation {
     root.add(m.root);
     this.barrels = m.barrels;
     this.rack = new Stack(this.barrels, 9, () => 0x2fa8c8, { cols: 3, rows: 3, size: 0.7, maxShown: 9 });
-    this.zone = new Zone(ctx.scene, new THREE.Vector3(p.wx - CELL * 0.35, 0, p.wz + CELL * 1.0), CELL * 1.1, "SYRUP");
+    this.zone = new Zone(ctx.scene, new THREE.Vector3(p.wx - CELL * 0.35, 0, p.wz + CELL * 1.0), CELL * 1.1, "FUEL");
     this.binZone = new Zone(ctx.scene, new THREE.Vector3(p.wx + CELL * 0.95, 0, p.wz + CELL * 1.05), CELL * 0.7, "", 0x7fd07f);
     this.zone.setVisible(false);
     this.binZone.setVisible(false);
@@ -147,7 +149,7 @@ export class OilStation {
       const c = this.zone.center.clone();
       this.activate = new Zone(ctx.scene, c, CELL * 1.1, "ACTIVATE");
       this.activateLabel = ctx.labels.add(c.clone().setZ(c.z + CELL * 0.75), "load", adLabel());
-    } else this.lockLabel = ctx.labels.add(new THREE.Vector3(p.wx, 1, p.wz + CELL * 0.8), "lock", "🔒 RENT A<br>SYRUP MACHINE");
+    } else this.lockLabel = ctx.labels.add(new THREE.Vector3(p.wx, 1, p.wz + CELL * 0.8), "lock", "🔒 RENT A<br>FARM MACHINE");
   }
 
   unlock(): void {
@@ -236,7 +238,7 @@ export class OilStation {
   }
 }
 
-/** Ore storage: the minecart's unload pad. Anyone standing on it picks up minerals. */
+/** Storage: the minecart's unload pad, a pallet yard. Anyone standing on it picks up raw goods. */
 export class OreStorage {
   readonly zone: Zone;
   readonly pile: Stack;
@@ -248,6 +250,7 @@ export class OreStorage {
     this.zone = new Zone(ctx.scene, new THREE.Vector3(p.wx, 0, p.wz), CELL * 1.6, "STORAGE");
     this.anchor.position.set(p.wx, 0.05, p.wz);
     ctx.scene.add(this.anchor);
+    ctx.scene.add(palletYard(p.wx, p.wz, CELL * 1.6));
     this.pile = new Stack(this.anchor, 99999, itemColor, { cols: 4, rows: 3, size: 0.55, maxShown: 60 });
     this.label = ctx.labels.add(new THREE.Vector3(p.wx, 0, p.wz + CELL * 1.0), "load", "");
   }
@@ -288,9 +291,9 @@ export class OreStorage {
 const SPOTS: SpotKind[] = ["eat", "drink", "rest"];
 /** What the pad in front of a locked spot adds (user 2026-10-24: "FREE" alone did not say what it was for). */
 const SPOT_PAD: Record<SpotKind, string> = {
-  eat: "🍔 ADD A DINING TABLE<br><small>+2 seats: tired workers eat here</small>",
-  drink: "🥤 ADD A DRINKS TABLE<br><small>+2 seats: tired workers drink here</small>",
-  rest: "🛋️ ADD 2 ARMCHAIRS<br><small>+2 seats: tired workers sit back here</small>",
+  eat: "🍜 ADD A NOODLE TABLE<br><small>+2 seats: tired farmhands eat here</small>",
+  drink: "🍵 ADD A TEA TABLE<br><small>+2 seats: tired farmhands drink here</small>",
+  rest: "🪑 ADD 2 ARMCHAIRS<br><small>+2 seats: tired farmhands sit back here</small>",
 };
 
 /** A seat of the break area: where the worker goes, the way they face, and what they do there. */
@@ -438,6 +441,34 @@ export class Cafeteria {
     markDirty();
     sfx.unlock();
   }
+}
+
+/**
+ * The storage's pallet yard round its pad (size s): a stack of spare pallets at each back corner and a crate or two.
+ * Nothing on the pad itself (its outline and the pile show), nothing across it (the carts come in from the back).
+ */
+function palletYard(x: number, z: number, s: number): THREE.Group {
+  const g = new THREE.Group();
+  const h = s / 2 + 0.25;
+  for (const [x, z, r] of [[-h - 0.2, 0.6, 0.2], [h + 0.25, 0.9, -0.15]] as const) {
+    const crate = add(g, new THREE.BoxGeometry(0.9, 0.7, 0.8), C.woodLight, x, 0.35, z);
+    crate.rotation.y = r;
+    add(g, new THREE.BoxGeometry(0.92, 0.1, 0.82), C.wood, x, 0.55, z).rotation.y = r;
+  }
+  for (const sx of [-1, 1]) {
+    const stack = new THREE.Group();
+    // Three pallets: five slats on three runners each.
+    for (let i = 0; i < 3; i++) {
+      for (let k = 0; k < 5; k++) add(stack, new THREE.BoxGeometry(1.1, 0.05, 0.14), k % 2 ? C.woodLight : C.wood, 0, i * 0.2 + 0.145, -0.34 + k * 0.17);
+      for (const bx of [-0.45, 0, 0.45]) add(stack, new THREE.BoxGeometry(0.12, 0.12, 0.82), C.woodDark, bx, i * 0.2 + 0.06, 0);
+    }
+    stack.position.set(sx * (h + 0.1), 0, -h + 0.5);
+    stack.rotation.y = sx * 0.12;
+    g.add(stack);
+  }
+  g.position.set(x, 0, z);
+  bakeColors(g);
+  return g;
 }
 
 export function barrelVisual(): THREE.Mesh {

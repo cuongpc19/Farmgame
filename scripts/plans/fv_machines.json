@@ -1,0 +1,6 @@
+[
+ {"until": "window.__dbg !== 'loading'", "timeout": 60000},
+ {"eval": "window.__dbg"},
+ {"wait": 500},
+ {"snap": "fv_machines"}
+]

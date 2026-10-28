@@ -2,7 +2,7 @@ import "./hqtower.css";
 import { SOFIA_SVG } from "./portraits";
 
 /**
- * Company HQ tower (reference S13 / ref/35): a tall stack of floors over a city skyline,
+ * The Farm Office tower (reference S13 / ref/35): a tall stack of floors over a city skyline,
  * drawn with HTML/CSS only. Bottom → top: CONTRACT ROOM, LIGHT EQUIPMENT WORKSHOP (or its
  * COMING SOON scaffolding), four locked floors, then the roof sign.
  *
@@ -47,15 +47,15 @@ const SOON: Record<number, { text: string; toast: string }> = {
 const CONTRACT_ROOM = `<div class="hqt-room cr">
   <i class="cr-win"></i><i class="cr-tv"></i><i class="cr-shelf"></i>
   <span class="cr-globe">🌍</span><span class="cr-plant">🪴</span>
-  <span class="cr-boss">👷</span>
+  <span class="cr-boss">🧑‍🌾</span>
   <div class="cr-sofia">${SOFIA_SVG}</div>
   <div class="cr-desk"><i class="f1"></i><i class="f2"></i><i class="f3"></i></div>
 </div>`;
 
 const WORKSHOP = `<div class="hqt-room ws">
   <i class="ws-lamp a"></i><i class="ws-lamp b"></i>
-  <div class="ws-peg"><span>🔨</span><span>⛏️</span><span>🔧</span><span>🪚</span><span>🪛</span></div>
-  <div class="ws-shelf"><span>🧰</span><span>⛑️</span></div>
+  <div class="ws-peg"><span>🪓</span><span>⛏️</span><span>🔧</span><span>🪚</span><span>🔨</span></div>
+  <div class="ws-shelf"><span>🧰</span><span>👒</span></div>
   <div class="ws-bench"><span>🛠️</span><span>⚙️</span></div>
   <span class="ws-mech">👨‍🔧</span>
   <i class="ws-line"></i>
@@ -63,8 +63,8 @@ const WORKSHOP = `<div class="hqt-room ws">
 
 const HEAVY_ROOM = `<div class="hqt-room hv">
   <i class="ws-lamp a"></i><i class="ws-lamp b"></i>
-  <span class="hv-crane">🍭</span><span class="hv-dozer">🚚</span><span class="hv-tire">🍩</span>
-  <span class="ws-mech hv-m">👷</span>
+  <span class="hv-crane">🚜</span><span class="hv-dozer">🛻</span><span class="hv-tire">⚙️</span>
+  <span class="ws-mech hv-m">🧑‍🔧</span>
   <i class="ws-line"></i>
 </div>`;
 
@@ -75,13 +75,13 @@ const label = (t: string, cls = "") => `<div class="hqt-lbl ${cls}">${t}</div>`;
 
 const ROOF = `<div class="hqt-roof">
   <i class="rf-truss"></i>
-  <div class="rf-sign"><span class="rf-gear g1">⚙</span><span class="rf-gear g2">⚙</span><div class="rf-name">CANDY MINER<small>& co.</small></div></div>
+  <div class="rf-sign"><span class="rf-gear g1">⚙</span><span class="rf-gear g2">⚙</span><div class="rf-name">FARM VALLEY<small>& co.</small></div></div>
   <div class="rf-deck"><i class="rf-ac a1"></i><i class="rf-ac a2"></i><i class="rf-mast"></i></div>
-  <div class="rf-banner"><span>Global NO.1 Mining Company!</span></div>
-  <span class="rf-hero">👷<i>✨</i></span>
+  <div class="rf-banner"><span>The Valley's No.1 Farm!</span></div>
+  <span class="rf-hero">🧑‍🌾<i>✨</i></span>
 </div>`;
 
-/** Small seeded RNG: the skyline looks the same every time. */
+/** Small seeded RNG: the hills look the same every time. */
 function rng(seed: number): () => number {
   let s = seed;
   return () => (s = (s * 16807) % 2147483647) / 2147483647;
@@ -91,12 +91,13 @@ function skyline(): string {
   const r = rng(11);
   const layer = (cls: string, hMin: number, hMax: number, colors: string[]) => {
     let s = "";
-    for (let x = -3; x < 103; ) {
-      const w = 4 + r() * 8;
+    // Rolling hills (Farm Valley): wide rounded humps that overlap.
+    for (let x = -12; x < 104; ) {
+      const w = 22 + r() * 18;
       const h = hMin + r() * (hMax - hMin);
       const c = colors[Math.floor(r() * colors.length)];
       s += `<i style="left:${x.toFixed(1)}%;width:${w.toFixed(1)}%;height:${h.toFixed(1)}%;--c:${c}"></i>`;
-      x += w + r() * 2 - 0.5;
+      x += w * (0.5 + r() * 0.2);
     }
     return `<div class="hqt-city ${cls}">${s}</div>`;
   };
@@ -104,8 +105,8 @@ function skyline(): string {
   for (let x = -2; x < 102; x += 2 + r() * 4) trees += `<i style="left:${x.toFixed(1)}%;--s:${(0.7 + r() * 0.6).toFixed(2)}"></i>`;
   return (
     `<i class="hqt-cloud c1"></i><i class="hqt-cloud c2"></i><i class="hqt-cloud c3"></i>` +
-    layer("far", 30, 78, ["#b5ccdb", "#a8c1d3", "#c2d5e2", "#9fb8cb"]) +
-    layer("near", 12, 42, ["#7f9cb2", "#8aa5b9", "#6f8ca4", "#94acbf"]) +
+    layer("far", 34, 70, ["#a9d18e", "#b7dba0", "#9cc77f", "#c2e0a8"]) +
+    layer("near", 16, 40, ["#7dbb55", "#6fae4a", "#86c25e", "#63a243"]) +
     `<div class="hqt-trees">${trees}</div>`
   );
 }
@@ -160,7 +161,7 @@ export class HqTower {
       <div class="hqt-info"></div>
       <div class="hqt-toast"></div>
       <div class="hqt-skip">TAP TO SKIP</div>
-      <div class="hqt-bar"><button class="hqt-next">NEXT STAGE</button><button class="hqt-quarry"><span>🍭</span><small>Land</small></button></div>`;
+      <div class="hqt-bar"><button class="hqt-next">NEXT STAGE</button><button class="hqt-quarry"><span>🌾</span><small>Farm</small></button></div>`;
     uiRoot.appendChild(this.root);
     const q = <T extends Element>(s: string) => this.root.querySelector(s) as T;
     this.sky = q(".hqt-sky");
@@ -359,8 +360,8 @@ export class HqTower {
     if (!el) return;
     if (f >= 2) this.fstate[f] = st;
     let html: string;
-    if (f === 1) html = label("CONTRACT OFFICE", "cy") + CONTRACT_ROOM;
-    else if (st === "built") html = f === 2 ? label("TOOL WORKSHOP", "cy") + WORKSHOP : label("MACHINE BAY", "or") + HEAVY_ROOM;
+    if (f === 1) html = label("LAND DEEDS", "cy") + CONTRACT_ROOM;
+    else if (st === "built") html = f === 2 ? label("TOOL SHED", "cy") + WORKSHOP : label("TRACTOR BARN", "or") + HEAVY_ROOM;
     else if (st === "soon" && SOON[f]) html = label("COMING SOON") + scaffold(SOON[f].text);
     else html = label("LOCKED") + locked(LOCKS[f]?.text ?? "LOCKED");
     const fin = el.querySelector(".hqt-fin") as HTMLDivElement;
@@ -461,7 +462,7 @@ export class HqTower {
     if (this.infoEl.classList.contains("on")) return this.infoEl.classList.remove("on");
     const rows = this.info.length
       ? this.info.map((r) => `<div class="hqt-ir"><span>${r.label}</span><b>${r.value}</b></div>`).join("")
-      : `<p>Free this land to unlock your next contract.</p>`;
+      : `<p>Finish this plot to unlock the next one.</p>`;
     this.infoEl.innerHTML = `<h3>STAGE INFO</h3>${rows}<small>TAP TO CLOSE</small>`;
     this.infoEl.classList.add("on");
   }

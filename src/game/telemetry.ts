@@ -27,9 +27,9 @@ import { gaLoaded, startAnalytics, track } from "./analytics";
  * on another one. The same URL is in `site/stats.html` (it cannot import this file): change both.
  * Empty = nothing is sent.
  */
-// Candy Miner (2026-10-28, like Mars Miner): empty until its own Firebase project exists; Quarry Crush's `querry-crush` must not get its rows.
+// Farm Valley (2026-10-28, like Candy Miner): empty until its own Firebase project exists; Quarry Crush's `querry-crush` must not get its rows.
 const DB = "";
-const ENDPOINT = `${DB}/cm.json`;
+const ENDPOINT = `${DB}/fv.json`;
 
 /**
  * A test run: scripts/shot.mjs always adds `?gfx=` (and its Chrome does NOT report
@@ -72,7 +72,7 @@ const BEAT_EVERY = 300;
 const BUILD = `${BUILD_VERSION}-${__BUILD__}`;
 
 /**
- * The device code: random, made once per browser. ⚠ Outside the save (no `mm_` prefix): a
+ * The device code: random, made once per browser. ⚠ Outside the save (no `fv_` prefix): a
  * progress reset keeps it and the CrazyGames cloud save never carries it to another device.
  * `n` counts sessions on this device, `first` is when it was made (retention needs both).
  */
@@ -81,7 +81,7 @@ interface DeviceRec {
   first: number;
   n: number;
 }
-const DEVICE_KEY = "cm.device";
+const DEVICE_KEY = "fv.device";
 
 /** The session lives in sessionStorage, so the reload of a stage change or a reset continues it. */
 interface SessionRec {
@@ -89,7 +89,7 @@ interface SessionRec {
   t0: number;
   last: number;
 }
-const SESSION_KEY = "cm.session";
+const SESSION_KEY = "fv.session";
 
 function code(n: number): string {
   const abc = "abcdefghijkmnpqrstuvwxyz23456789";

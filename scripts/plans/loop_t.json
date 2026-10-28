@@ -88,6 +88,6 @@
   "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
  },
  {
-  "eval": "({cash: JSON.parse(localStorage.getItem('cm_save')||'{}').cash, prog: __game.progress().toFixed(2), t: __game.time.toFixed(0)})"
+  "eval": "({cash: JSON.parse(localStorage.getItem('fv_save')||'{}').cash, prog: __game.progress().toFixed(2), t: __game.time.toFixed(0)})"
  }
 ]

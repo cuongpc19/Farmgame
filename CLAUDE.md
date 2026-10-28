@@ -1,39 +1,37 @@
-# Candy Miner — project notes for Claude
+# Farm game (working title "Farm Valley") — project notes for Claude
 
-**Candy Miner** (working title, 2026-10-28) is Mars Miner (C:\CuongPC\Game\MarsMiner, itself Quarry Crush reskinned
-as a space game) turned into a candy world with its own story: Granny Gigi hands the player her candy factory, Baron
-Sourpuss's sour spell froze Candy Valley into candy blocks, every block broken frees candy and brings the colour back.
-Names, story and look: **`docs/CANDY.md`** (every string and asset follows it; `node scripts/check-text.mjs` checks
-text.json against HEAD and bans Mars Miner / Quarry Crush words). User 2026-10-28: reskin plus a more engaging story
-and many more things to upgrade, in three rounds: (1) candy skin, story text, the land getting its colour back;
-(2) buildings with visible levels, a pet that picks up chunks; (3) customer orders, a Sour Golem boss at the end of
-each land, outfits and a candy collection book. Own identity: save prefix `cm_`, telemetry and GA off until it has
-its own Firebase project (ask which Google account first). The notes below are still largely Quarry Crush's and
-Mars Miner's (names in them are the old ones: furnace = Candy Factory / COOK, market = Sweet Shop, oil = syrup, …).
-- **Look** (round 1): `theme.ts` (pastel sky with clouds and a rainbow, `skyBackdrop`; biscuit floor with sprinkles,
-  cream deck, chocolate cliffs and road, pink frosting island top with cake-layer sides `cakeSideTexture`, clouds in
-  the gaps `cloudTexture`, gumdrops and lollipops round the quarry). Candy blocks: `world/candyTex.ts` (one pattern
-  per ore key in data.ts `PALETTE`: sugar, choco, caramel, gummy, swirl, sprinkle, honeycomb, crystal, licorice,
-  pearl, glow; shiny Phong); sugar cubes (limestone, the first 200 blocks) get a pastel tint per block (`tints`,
-  BlockField). Buildings: `world/candyHouses.ts` gingerbread houses (gable to the camera, frosting roof in the
-  building's colour, piped icing, gumdrops on the ridge, candy canes), the factory with three chimneys, a syrup
-  bottle and jars for the pump, an ice-cream cone on the delivery van (Kenney flatbed). Machines: `candyLivery` in
-  models.ts (yellow → bubblegum pink, reds → cream, blues/greens → mint, greys/browns → chocolate). People: chef's
-  toque (`head: "chef"`, jacket sleeves) or a cap / beanie / bandana, aprons in candy colours (characters.ts CREW).
-  UI: chocolate plum, pink and lemon (style.css and ui/*.css). Snaps: plan `cm_look` (`--size 1280x720 --hq`).
-- **Candy pass 2** (user 2026-10-28: "still looks like breaking rocks", "some things are off-tone"): blocks are
-  petit-fours (texture atlas, top half = top face, `candyUVs`; sugar sides are sponge with a cream filling, since grey
-  sugar-crystal specks read as granite; tints are saturated pastels, no white). Breaking: sprinkle confetti (`Dust`
-  capsules, `SPRINKLE_COLOURS` in Game.ts), pieces in the block's own tint (`BlockField.tintOf` / `shardMaterial`) shaped
-  as mini cakes, sugar cubes and drops (`Shards.ts`; no rock wedges), candy hit / break sounds. Carried items: a
-  bonbon, a drop and a star (`itemGeo.ts`), treats are wrapped candy bars. Tools: candy-cane pick, `candyLivery` on
-  the rest. Scenery (`world/candyScenery.ts`): gift boxes, macarons, wrapped candies, gumball and cotton-candy tubs
-  in the yard, candy-cane lamps and fences, rocky-road brownie cliff pillars, a cupcake boost can, a bubblegum cart on
-  candy-cane rails, the Garage hall in chocolate / pink / lilac. The sour land starts at 55 % colour, never grey
-  (Game.ts `landColour`). `world/rockTex.ts` is gone. Base layout: north row Crew Cottage · Garage · Upgrade Kitchen ·
-  Factory, south row Syrup Pump · price board · Sweet Shop (`townbase.py` `MOVES`).
-- Dev for this repo: `npx vite --port 5174 --strictPort` (5173 is Mars Miner's) and `QC_URL=http://localhost:5174/`
-  for plans; `QC_BASE=http://localhost:5174 node scripts/make-icons.mjs` / `make-portraits.mjs`.
+A farm-and-trade arcade idle started 2026-10-28 from Candy Miner (C:\CuongPC\Game\CandyMiner f60aa34, itself Mars Miner
+/ Quarry Crush; the user turned the candy theme down). Harvest rice (one swipe), chop trees of many kinds (old ones take
+long), dig gold, rare ores and diamonds; process at the **Mill** (rice, wood, fruit) and the **Forge** (metals, gems);
+sell at the Market. Repo: https://github.com/cuongpc19/Farmgame (the user asked for the new game to be committed there).
+Names, story, buildings and look: **`docs/FARM.md`**; ideas from 12 farm / harvest / gold-digging games:
+`docs/FARM_RESEARCH.md`. Nothing about candy, space or quarries may show. The notes below the line are still largely
+Quarry Crush's (furnace = the Mill, trading house = the Market, oil = fuel, quarry = the fields, …).
+
+- Dev: `npx vite --port 5175 --strictPort` (5173 Mars Miner, 5174 Candy Miner); plans with `QC_URL=http://localhost:5175/`.
+- **What a cell is**: `src/game/farm.ts` maps every ore key (economy ids stay) to a kind (crop, wood, fruit, ore, gem,
+  chest), a species and colours; `houseOf` (category rock → Mill, metal / jewel → Forge), `motionOfOre`, `isCrop`.
+- **Cells are ChatGPT-drawn pictures** (user 2026-10-28: "for pretty rice and trees, try ChatGPT"; the procedural
+  `world/farmNodes.ts` lost the side-by-side, `scripts/preview/field.html?src=sprites|nodes`): sheets on magenta drawn
+  through the Codex CLI, cut and packed by `python -I scripts/sprites/nodes.py cut … / atlas` into
+  `src/assets/farm/nodes.webp` + `nodes.json` (cut sprites kept in `art/sprites/`; DERIVED recolours veins / crystals
+  for the ores and gems not drawn). `world/spriteNodes.ts`: each cell a quad facing the fixed camera (pitch 57°, yaw 0;
+  quads are parallel, never cross, alpha test, no sorting), its foot moved toward the camera by the ground anchor; rice
+  is two bunches a cell over a paddy-water square. Keep images small (user): 192 px slots, WebP q78.
+- **Field** (`world/BlockField.ts`, takes a `NodeSource`): InstancedMesh per kind / variant / 8x8 chunk; a tree sways
+  in its picture plane away from the axe, a rock judders; `world/Felled.ts` topples a tree / folds cut rice on the last
+  blow; `Game.hitFx` (straw and grain, wood chips and leaves, stone chips and vein bits) and sounds `sfx.reap / chop /
+  fall / hit / breakBlock`. Rice: any hit cuts it and a sweep cuts up to 3 rice cells side by side, 2 sheaves each
+  (`Mining` CROP_SWEEP / CROP_DROPS).
+- **Two processing houses**: `base/Furnace.ts` takes a house ("mill" | "forge") and only takes its own raw items
+  (`takes`); `Game.houses`, `houseFor(item)`, guide targets via `rawPad` / `trayWaiting`; workers deliver house by
+  house (`WorkerWorld.padFor`); transit saves `forgeQueue` / `forgeOut`. The Forge is a new building type placed by
+  `scripts/townbase.py` (north row Farm Shop · Workshop · Forge · Mill, south row Farmhands' House · Fuel · price board ·
+  Market). Stage 1 mixes orange trees, pines and maples into the bamboo (`stagegen.py` TREE_MIX, layout v4).
+- **People** (`characters.ts`, reference sheet `docs/concept/characters.jpg`): farmers in straw hats or conical leaf
+  hats, shirts (sleeves to the wrist or rolled), overalls; slimmer than Quarry Crush (`BULK`). Hand tools are a set
+  picked by what is in front (`Character.motion`): sickle and a low one-handed sweep (reap), axe and a slanting two-handed
+  chop (chop), pickaxe overhead (dig); `sledgehammer`'s slot is the steel tier.
 
 ## Inherited from Quarry Crush / Mars Miner
 

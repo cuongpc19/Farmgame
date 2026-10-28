@@ -1,145 +1,121 @@
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-import { candyMaterial, candyUVs, type CandyPattern } from "./candyTex";
+import type { FarmKind } from "../farm";
+import { VIEW } from "./spriteNodes";
 
-/** One minable cube on the grid. */
+/** One harvestable cell on the grid: rice, a tree or a rock (Quarry Crush's minable cube). */
 export interface Block {
   i: number;
   cx: number;
   cz: number;
-  /** Ore type id from the stage data (0 = plain rock). */
+  /** Ore type id from the stage data. */
   ore: number;
   hp: number;
   maxHp: number;
   alive: boolean;
-  /** Seconds left on the hit "punch" animation. */
+  /** Seconds left on the hit animation (a tree sways, a rock judders). */
   punch: number;
   /** Mid-damage drops already released (one per 25 % HP lost). */
   drops: number;
+  /** Direction away from the last one who hit it (radians, 0 = +z): a tree leans and falls that way. */
+  away: number;
 }
 
 export interface BlockLook {
-  base: number;
-  spot?: number;
-  /** The candy the block is (Candy Miner). */
-  pattern: CandyPattern;
-  accent?: number;
-  /** One of these per block, by its cell (pastel sugar cubes). */
-  tints?: number[];
+  /** Ore key (farm.ts). */
+  key: string;
+  kind: FarmKind;
 }
 
-/** Crystal nuggets per ore block: [x, y, z] in cell units (y: 1 = top face), and size. */
-/** Blocks per side of a culling chunk (one InstancedMesh per kind of block per chunk). */
-const CHUNK = 8;
-
-const NUGGETS: [number, number, number, number][] = [
-  [-0.22, 1.0, -0.12, 1.1],
-  [0.18, 1.0, 0.2, 0.85],
-  [0.49, 0.62, -0.15, 0.9],
-  [-0.1, 0.45, 0.49, 1.0],
-];
+/** The model of a cell: one geometry (origin at the ground centre) and its material, per ore key and variant. */
+export interface NodeSource {
+  model(key: string, variant: number): { geo: THREE.BufferGeometry; mat: THREE.Material | THREE.Material[]; depth?: THREE.Material; shadow?: boolean };
+  variants(key: string): number;
+  /**
+   * Camera-facing pictures (spriteNodes.ts): never turned about the vertical, and a tree sways and falls in the picture's
+   * plane (about the view direction) instead of toward the axe.
+   */
+  billboard?: boolean;
+}
 
 /**
- * The quarry: one InstancedMesh per kind of block (a 40×40 field is a handful of draw calls),
- * each with its own painted stone texture (rock grain, cracks, bevelled edges; ore kinds add
- * mottled vein patches). Ore blocks also carry faceted crystal nuggets poking out of the top
- * and sides so a copper block reads as copper from the 3/4 camera.
+ * Blocks per side of a culling chunk (one InstancedMesh per kind of cell per variant per chunk). 12, not Quarry Crush's
+ * 8: farm fields mix more kinds and variants per chunk, and 8 doubled the draw calls (2026-10-28: 186 -> 350 at the base).
+ */
+const CHUNK = 12;
+const PUNCH = 0.35;
+
+const Y_AXIS = new THREE.Vector3(0, 1, 0);
+
+/**
+ * The fields (farm game; Quarry Crush's quarry of cubes): one InstancedMesh per kind of cell, per model variant, per
+ * 8x8-cell chunk, so what is off screen is culled and a big field is still a handful of draw calls. Each cell gets
+ * its own turn and size from its position (rice only turns in quarter turns, so its paddy squares line up).
  *
- * Damage feedback without per-block materials: the instance colour darkens with damage,
- * flashes white on each hit, and the instance squashes for 0.12 s.
+ * Hit feedback without per-cell materials: a tree leans away from the axe and springs back, swaying; a rock
+ * judders and wears down a little; every cell flashes a little brighter on a hit.
  */
 export class BlockField {
   readonly blocks: Block[] = [];
   private byCell = new Map<number, number>();
   private meshes: THREE.InstancedMesh[] = [];
-  /** One textured material per kind of block (flying chunks reuse it). */
-  private matOf = new Map<number, THREE.MeshPhongMaterial>();
   /** Meshes whose instances changed since the last upload. */
   private dirty = new Set<THREE.InstancedMesh>();
   /** Block index → [mesh, instance]. */
   private slotOf: [THREE.InstancedMesh, number][] = [];
-  private veinMeshes: THREE.InstancedMesh[] = [];
-  /** Per block: the nugget mesh of its chunk and the first of its NUGGETS slots (null = plain rock). */
-  private veinSlot: ([THREE.InstancedMesh, number] | null)[] = [];
+  /** Per block: its model variant. */
+  private variantOf: number[] = [];
   private dummy = new THREE.Object3D();
+  private qa = new THREE.Quaternion();
+  private qb = new THREE.Quaternion();
+  private axis = new THREE.Vector3();
   private col = new THREE.Color();
-  private white = new THREE.Color(0xffffff);
   private aliveCount = 0;
+  private chunkMats = new Map<string, THREE.Material>();
 
   constructor(
     scene: THREE.Scene,
     cells: { cx: number; cz: number; ore: number; hp: number }[],
     readonly cell: number,
     private look: (ore: number) => BlockLook,
+    private source: NodeSource,
     private height = 1,
   ) {
-    const geo = new RoundedBoxGeometry(cell * 0.97, height, cell * 0.97, 1, cell * 0.08);
-    geo.translate(0, height / 2, 0);
-    // Candy blocks: the top face and the sides show different halves of the candy texture (candyTex.ts).
-    candyUVs(geo, cell * 0.97, height, cell * 0.97);
-    // One mesh per (kind of block x CHUNK x CHUNK cells). An InstancedMesh is culled as a whole,
-    // so one mesh per kind spanning the quarry drew all ~1200 blocks (and their nuggets, and
-    // again into the shadow map) every frame; per chunk, what is off screen is skipped.
-    const chunk = (c: { cx: number; cz: number }) => `${Math.floor(c.cx / CHUNK)},${Math.floor(c.cz / CHUNK)}`;
-    const count = new Map<string, number>();
-    const vcount = new Map<string, number>();
-    for (const c of cells) {
-      const k = `${c.ore}|${chunk(c)}`;
-      count.set(k, (count.get(k) ?? 0) + 1);
-      if (look(c.ore).spot !== undefined) vcount.set(chunk(c), (vcount.get(chunk(c)) ?? 0) + NUGGETS.length);
-    }
-    const material = (ore: number) => {
-      let m = this.matOf.get(ore);
-      if (!m) {
-        const lk = look(ore);
-        m = candyMaterial({ pattern: lk.pattern, base: lk.base, accent: lk.accent }, ore);
-        this.matOf.set(ore, m);
-      }
-      return m;
+    const variant = (c: { cx: number; cz: number; ore: number }) => {
+      const n = Math.max(1, source.variants(look(c.ore).key));
+      return (Math.abs(c.cx * 73856093 ^ c.cz * 19349663) >> 4) % n;
     };
+    const chunk = (c: { cx: number; cz: number }) => `${Math.floor(c.cx / CHUNK)},${Math.floor(c.cz / CHUNK)}`;
+    const keyOf = (c: { cx: number; cz: number; ore: number }) => `${c.ore}|${variant(c)}|${chunk(c)}`;
+    const count = new Map<string, number>();
+    for (const c of cells) count.set(keyOf(c), (count.get(keyOf(c)) ?? 0) + 1);
     const meshes = new Map<string, THREE.InstancedMesh>();
     for (const [k, n] of count) {
-      const m = new THREE.InstancedMesh(geo, material(Number(k.split("|")[0])), n);
-      m.castShadow = true;
+      const [ore, v] = k.split("|").map(Number);
+      const { geo, mat, depth, shadow } = source.model(look(ore).key, v);
+      const m = new THREE.InstancedMesh(geo, mat, n);
+      if (depth) m.customDepthMaterial = depth;
+      m.castShadow = shadow ?? true;
       m.receiveShadow = true;
       m.count = 0;
       meshes.set(k, m);
       this.meshes.push(m);
-      m.matrixAutoUpdate = false; // the object stays put; its instances carry the blocks
+      m.matrixAutoUpdate = false; // the object stays put; its instances carry the cells
       scene.add(m);
     }
-    // Faceted crystal nuggets on ore blocks, one mesh per chunk too.
-    const vgeo = new THREE.OctahedronGeometry(cell * 0.1, 0);
-    const vmat = new THREE.MeshLambertMaterial({ emissive: 0x2a2a2a, flatShading: true });
-    const veins = new Map<string, THREE.InstancedMesh>();
-    for (const [k, n] of vcount) {
-      const m = new THREE.InstancedMesh(vgeo, vmat, n);
-      m.castShadow = true;
-      m.count = 0;
-      veins.set(k, m);
-      this.veinMeshes.push(m);
-      m.matrixAutoUpdate = false; // the object stays put; its instances carry the blocks
-      scene.add(m);
-    }
-
     cells.forEach((c, i) => {
-      this.blocks.push({ i, cx: c.cx, cz: c.cz, ore: c.ore, hp: c.hp, maxHp: c.hp, alive: true, punch: 0, drops: 0 });
+      this.blocks.push({ i, cx: c.cx, cz: c.cz, ore: c.ore, hp: c.hp, maxHp: c.hp, alive: true, punch: 0, drops: 0, away: 0 });
       this.byCell.set(this.key(c.cx, c.cz), i);
-      const m = meshes.get(`${c.ore}|${chunk(c)}`)!;
+      const m = meshes.get(keyOf(c))!;
       this.slotOf.push([m, m.count++]);
-      if (look(c.ore).spot !== undefined) {
-        const vm = veins.get(chunk(c))!;
-        this.veinSlot.push([vm, vm.count]);
-        vm.count += NUGGETS.length;
-      } else this.veinSlot.push(null);
+      this.variantOf.push(variant(c));
     });
     this.aliveCount = cells.length;
     for (const b of this.blocks) this.writeBlock(b);
     this.flush();
-    // Bounds from the instances (blocks never leave their cell; a little slack for the judder).
-    for (const m of [...this.meshes, ...this.veinMeshes]) {
+    // Bounds from the instances (cells never leave their spot; slack for canopies and the sway).
+    for (const m of this.meshes) {
       m.computeBoundingSphere();
-      m.boundingSphere!.radius += cell * 0.5;
+      m.boundingSphere!.radius += cell * 1.5;
     }
   }
 
@@ -151,33 +127,24 @@ export class BlockField {
     this.dirty.clear();
   }
 
-  /** The textured material of one kind of block (flying chunks reuse it). */
-  materialOf(ore: number): THREE.Material {
-    return this.matOf.get(ore)!;
+  /** What a cell is (rice, a kind of tree, a rock). */
+  lookOf(b: Block): BlockLook {
+    return this.look(b.ore);
   }
 
-  /** The pastel a tinted block (a sugar cube) wears, or undefined for a block in its texture's own colours. */
-  tintOf(b: Block): number | undefined {
-    const lk = this.look(b.ore);
-    if (!lk.tints) return undefined;
-    return lk.tints[(Math.abs(b.cx * 7919 + b.cz * 104729) >> 3) % lk.tints.length];
+  /** The cell's model and how it stands (turn and size): the falling tree and the cut rice copy it (Felled). */
+  pose(b: Block): { geo: THREE.BufferGeometry; mat: THREE.Material | THREE.Material[]; depth?: THREE.Material; yaw: number; scale: number; flip: boolean; billboard: boolean } {
+    const { geo, mat, depth } = this.source.model(this.look(b.ore).key, this.variantOf[b.i]);
+    const { yaw, scale, flip } = this.stance(b);
+    return { geo, mat, depth, yaw, scale, flip, billboard: !!this.source.billboard };
   }
 
-  private tinted = new Map<string, THREE.Material>();
-
-  /** The block's material in the block's own tint, for the pieces that fly off it (Shards). */
-  shardMaterial(b: Block): THREE.Material {
-    const m = this.materialOf(b.ore);
-    const tint = this.tintOf(b);
-    if (tint === undefined) return m;
-    const key = `${b.ore}|${tint}`;
-    let t = this.tinted.get(key);
-    if (!t) {
-      const c = (m as THREE.MeshPhongMaterial).clone();
-      c.color.setHex(tint);
-      this.tinted.set(key, (t = c));
-    }
-    return t;
+  /** A plain material in one colour for the bits that fly off a cell (rock chips), cached per colour. */
+  chipMaterial(color: number): THREE.Material {
+    const k = String(color);
+    let m = this.chunkMats.get(k);
+    if (!m) this.chunkMats.set(k, (m = new THREE.MeshLambertMaterial({ color, flatShading: true })));
+    return m;
   }
 
   get remaining(): number {
@@ -255,11 +222,12 @@ export class BlockField {
     return hit;
   }
 
-  /** Apply damage; returns true if this hit broke the block. */
-  damage(b: Block, amount: number): boolean {
+  /** Apply damage from someone at `from` (optional); returns true if this hit broke the block. */
+  damage(b: Block, amount: number, from?: { x: number; z: number }): boolean {
     if (!b.alive) return false;
     b.hp -= amount;
-    b.punch = 0.12;
+    b.punch = PUNCH;
+    if (from) b.away = Math.atan2(b.cx * this.cell - from.x, b.cz * this.cell - from.z);
     if (b.hp <= 0) {
       b.alive = false;
       this.aliveCount--;
@@ -268,7 +236,7 @@ export class BlockField {
     return !b.alive;
   }
 
-  /** Remove a block silently (restoring a saved quarry). */
+  /** Remove a block silently (restoring a saved field). */
   kill(b: Block): void {
     if (!b.alive) return;
     b.alive = false;
@@ -289,61 +257,55 @@ export class BlockField {
     if (dirty) this.flush();
   }
 
+  /** The cell's own turn and size, from where it is (rice in quarter turns). */
+  /** `flip`: a picture shown mirrored (half the cells, by position), so a row of the same tree does not repeat. */
+  private stance(b: Block): { yaw: number; scale: number; flip: boolean } {
+    const h = Math.abs(b.cx * 7919 + b.cz * 104729);
+    const crop = this.look(b.ore).kind === "crop";
+    const scale = crop ? 1 : 0.9 + ((h >> 5) % 21) / 100;
+    if (this.source.billboard) return { yaw: 0, scale, flip: ((h >> 7) & 1) === 1 };
+    return { yaw: crop ? ((h >> 2) % 4) * (Math.PI / 2) : ((h >> 2) % 16) * (Math.PI / 8), scale, flip: false };
+  }
+
   private writeBlock(b: Block): void {
     const d = this.dummy;
     const lk = this.look(b.ore);
+    const { yaw, scale, flip } = this.stance(b);
+    const p = b.punch / PUNCH;
+    const dmg = 1 - Math.max(0, b.hp) / b.maxHp;
+    this.qa.setFromAxisAngle(Y_AXIS, yaw);
     if (!b.alive) {
-      // Collapsed where it stood (parking it far away would stretch the chunk's bounds).
+      // Gone where it stood (parking it far away would stretch the chunk's bounds).
       d.scale.setScalar(0);
       d.position.set(b.cx * this.cell, 0, b.cz * this.cell);
+      d.quaternion.copy(this.qa);
+    } else if (lk.kind === "wood" || lk.kind === "fruit") {
+      // A tree leans away from the axe, then sways back and forth as it settles (pivot at the foot).
+      const tilt = Math.sin((1 - p) * Math.PI * 3) * 0.11 * p;
+      // A picture leans in its own plane: toward the screen side the axe drove it (+x world is screen right).
+      if (this.source.billboard) this.qb.setFromAxisAngle(VIEW, Math.sin(b.away) >= 0 ? -tilt : tilt);
+      else this.qb.setFromAxisAngle(this.axis.set(Math.cos(b.away), 0, -Math.sin(b.away)), tilt);
+      d.quaternion.multiplyQuaternions(this.qb, this.qa);
+      d.position.set(b.cx * this.cell, 0, b.cz * this.cell);
+      d.scale.setScalar(scale);
     } else {
-      // A hit makes the block judder (not squash); worn blocks are a little chipped down.
-      const p = b.punch / 0.12;
-      const dmg = 1 - Math.max(0, b.hp) / b.maxHp;
+      // A rock (or a crop) judders on a hit and wears down a little.
       const jx = Math.sin(p * 37 + b.i) * 0.07 * p;
       const jz = Math.cos(p * 29 + b.i) * 0.07 * p;
       d.position.set(b.cx * this.cell + jx, -0.04 * p, b.cz * this.cell + jz);
-      d.scale.set(1 - dmg * 0.07, 1 - dmg * 0.1, 1 - dmg * 0.07);
+      d.quaternion.copy(this.qa);
+      d.scale.set(scale * (1 - dmg * 0.08), scale * (1 - dmg * 0.12), scale * (1 - dmg * 0.08));
     }
-    d.rotation.set(0, ((b.cx * 3 + b.cz * 5) % 4) * (Math.PI / 2), 0);
+    if (flip) d.scale.x = -d.scale.x;
     d.updateMatrix();
     const [mesh, slot] = this.slotOf[b.i];
     mesh.setMatrixAt(slot, d.matrix);
-    // The texture carries the rock colour; the instance colour only shades it: per-block
-    // jitter (so a field doesn't look like a spreadsheet), darker with damage, white flash on hit.
-    const dmg = 1 - Math.max(0, b.hp) / b.maxHp;
+    // The model carries the colours; the instance colour only shades it: a little per-cell jitter (so a field doesn't
+    // look like a spreadsheet) and a brief brighter flash on a hit.
     const h = Math.abs(b.cx * 7919 + b.cz * 104729);
-    const jit = 0.93 + ((h % 97) / 97) * 0.12;
-    // Candy only darkens a little when hit (stone went 35 % darker: it read as rock).
-    if (lk.tints) this.col.setHex(lk.tints[(h >> 3) % lk.tints.length]).multiplyScalar(jit * (1 - dmg * 0.12));
-    else this.col.setScalar(jit * (1 - dmg * 0.12));
-    if (b.punch > 0) this.col.lerp(this.white, (b.punch / 0.12) * 0.35);
+    this.col.setScalar(0.94 + ((h % 97) / 97) * 0.1);
+    if (b.punch > 0) this.col.multiplyScalar(1 + Math.min(1, p * 1.6) * 0.3);
     mesh.setColorAt(slot, this.col);
     this.dirty.add(mesh);
-
-    const vs = this.veinSlot[b.i];
-    if (lk.spot !== undefined && vs) {
-      const [veins, v0] = vs;
-      const p = b.punch / 0.12;
-      // Mirror the layout per block so neighbours don't repeat.
-      const fx = (b.cx + b.cz) % 2 ? -1 : 1;
-      const fz = b.cz % 2 ? -1 : 1;
-      for (let k = 0; k < NUGGETS.length; k++) {
-        const [nx, ny, nz, ns] = NUGGETS[k];
-        if (!b.alive) {
-          d.scale.setScalar(0);
-          d.position.set(b.cx * this.cell, 0, b.cz * this.cell);
-        } else {
-          d.scale.set(ns, ns * 1.5, ns);
-          const dmg = 1 - Math.max(0, b.hp) / b.maxHp;
-          d.position.set(b.cx * this.cell + nx * fx * this.cell * (1 - dmg * 0.07), this.height * ny * (1 - dmg * 0.1) - 0.04 * p, b.cz * this.cell + nz * fz * this.cell * (1 - dmg * 0.07));
-        }
-        d.rotation.set(0.5 + k, (k * 1.3 + b.i) % 3, 0.3 * k);
-        d.updateMatrix();
-        veins.setMatrixAt(v0 + k, d.matrix);
-        veins.setColorAt(v0 + k, this.col.setHex(lk.spot).multiplyScalar(k % 2 ? 1.0 : 1.15));
-      }
-      this.dirty.add(veins);
-    }
   }
 }

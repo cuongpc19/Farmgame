@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { power, interval, cargoBase } from "../state";
 import { buffs, buffClock } from "../systems/Boosts";
-import { CELL, PACE, PICKAXE_MUL, itemColor, itemKind, WORKER_RULES, type WorkerProfile } from "../data";
+import { CELL, PACE, PICKAXE_MUL, itemColor, itemKind, motionOfOre, WORKER_RULES, type WorkerProfile } from "../data";
 import { Character, PLAYER_HEIGHT, SWING_LEAD } from "../characters";
 import { Stack } from "../world/Stack";
 import type { Miner, Collector, Mining } from "../systems/Mining";
@@ -14,7 +14,8 @@ export interface WorkerWorld {
   field: BlockField;
   drops: Drops;
   mining: Mining;
-  furnacePad: THREE.Vector3;
+  /** The pad of the processing house that takes this raw item (the Mill or the Forge). */
+  padFor: (item: number) => THREE.Vector3;
   storagePad: THREE.Vector3;
   storageCount: () => number;
   seats: Seat[];
@@ -70,6 +71,8 @@ export class WorkerUnit implements Actor, Miner, Collector {
   private restT = 0;
   private stuckT = 0;
   private sinceHit = 99;
+  /** The pad being delivered to. */
+  private padAt = new THREE.Vector3();
   /** Items on the way to the furnace this trip (stamina cost on arrival). */
   private carried = 0;
   private lastPos = new THREE.Vector3();
@@ -285,6 +288,7 @@ export class WorkerUnit implements Actor, Miner, Collector {
           // Swing at anything in reach; otherwise keep walking to the claimed block's open side.
           const hit = this.w.mining.mine(this, dt);
           if (hit) {
+            this.model.motion = motionOfOre(hit.ore);
             this.model.swing();
             this.sinceHit = 0;
             this.facing = Math.atan2(hit.cx * CELL - this.pos.x, hit.cz * CELL - this.pos.z);
@@ -331,7 +335,9 @@ export class WorkerUnit implements Actor, Miner, Collector {
         }
         break;
       case "deliver":
-        if (this.walkTo(this.w.furnacePad, dt, 0.6) && this.stack.count === 0 && this.incoming === 0) {
+        // One house after the other: the Mill's pad leaves the metals and gems on the back for the Forge.
+        if (this.stack.count > 0) this.padAt.copy(this.w.padFor(this.stack.items[0]));
+        if (this.walkTo(this.padAt, dt, 0.6) && this.stack.count === 0 && this.incoming === 0) {
           // Data §12.10: every delivered item costs 1 stamina (not every trip).
           this.tire(Math.max(1, this.carried));
           this.carried = 0;
@@ -377,6 +383,7 @@ export class WorkerUnit implements Actor, Miner, Collector {
     m.root.rotation.y = this.facing;
     const moving = this.state === "seek" || this.state === "deliver" || this.state === "tired" || (this.state === "work" && this.stuckT === 0 && this.pos.distanceToSquared(this.goal) > 0.5);
     this.sinceHit += dt;
+    if (this.block) m.motion = motionOfOre(this.block.ore);
     if (this.state === "work" && this.sinceHit < this.interval + 0.25 && this.cooldown > 0 && this.cooldown <= SWING_LEAD) m.windup(this.cooldown);
     // At the break area: seated (eating, drinking or just resting); waiting for a seat is standing about.
     const seated = this.state === "resting" && this.seat ? this.seat.kind : null;

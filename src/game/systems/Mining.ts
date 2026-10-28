@@ -4,6 +4,16 @@ import type { Drops, Drop } from "../world/Drops";
 import type { Stack } from "../world/Stack";
 import type { OreDef } from "../data";
 import { GAMEPLAY, PACE } from "../data";
+import { isCrop } from "../farm";
+
+/**
+ * Rice (farm game, user 2026-10-28: "harvesting rice is quick, one stroke and it's cut"): a crop falls to any hit, and
+ * one sweep of the sickle cuts up to CROP_SWEEP rice cells side by side (the farm-games research: cutting rows in
+ * one stroke is what makes harvesting feel good). Each crop cell drops CROP_DROPS sheaves, so a full sweep pays about
+ * what one old 2-hit cell did, a third of the swings per cell cleared.
+ */
+const CROP_SWEEP = 3;
+const CROP_DROPS = 2;
 
 /** Anything that can swing at blocks: the player, a mining vehicle, a hired miner. */
 export interface Miner {
@@ -72,7 +82,12 @@ export class Mining {
     m.cooldown = m.interval / (1 + m.intervalMul);
     m.lastHit = best;
     const hits = [best];
-    if (m.targets > 1) {
+    if (isCrop(this.oreOf(best))) {
+      for (const b of near) {
+        if (hits.length >= Math.max(CROP_SWEEP, m.targets)) break;
+        if (b !== best && b.alive && Math.abs(b.cx - best.cx) + Math.abs(b.cz - best.cz) <= 1 && isCrop(this.oreOf(b))) hits.push(b);
+      }
+    } else if (m.targets > 1) {
       // Sweep: the nearest neighbours of the primary target that are also in reach (side by
       // side first; more than 5 targets reach one cell further out).
       const ring = m.targets > 5 ? 2 : 1;
@@ -123,7 +138,17 @@ export class Mining {
   damage(b: Block, amount: number, m: Miner): void {
     if (!b.alive) return;
     const ore = this.oreOf(b);
-    const broke = this.field.damage(b, amount);
+    if (isCrop(ore)) {
+      this.field.damage(b, b.hp, m.pos);
+      this.field.center(b, tmp);
+      tmp.y = this.field.cell * 0.4;
+      b.drops = 4;
+      this.drops.burst(tmp, ore.mineralId, CROP_DROPS, 0.9, m.pos);
+      this.ev.onHit?.(b, ore, m);
+      this.ev.onBreak?.(b, ore, m);
+      return;
+    }
+    const broke = this.field.damage(b, amount, m.pos);
     this.field.center(b, tmp);
     tmp.y = this.field.cell * 0.7;
     const frac = Math.max(0, b.hp) / b.maxHp;
