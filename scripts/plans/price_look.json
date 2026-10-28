@@ -1,0 +1,38 @@
+[
+ {
+  "wait": 1000
+ },
+ {
+  "eval": "(__game.debug.quiet(), true)"
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(()=>{const s=__game.st.props.find(p=>p.type==='priceSign'); __game.directT=0; __game.player.pos.set(s.wx+2,0,s.wz+4); __game.stage.follow(__game.player.pos, true); return [s.wx,s.wz];})()"
+ },
+ {
+  "wait": 2000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.directT=0; return JSON.stringify(__game.player.pos);})()"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "snap": "price_look"
+ },
+ {
+  "eval": "(__game.player.pos.set(-4,0,22), __game.stage.zoom(1.8), __game.directT=0, __game.stage.follow(__game.player.pos, true), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(__game.directT=0, true)"
+ },
+ {
+  "snap": "price_wide"
+ }
+]

@@ -1,0 +1,16 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); return 'ok'})()"},
+ {"eval": "(()=>{const g=__game; const far=()=>g.player.pos.set(g.homePos.x, 0, g.homePos.z-40); const tab=()=>!!document.querySelector('.hometab'); g.debug.skipTo(1004); far(); return 'ok'})()"},
+ {"wait": 600},
+ {"eval": "'quest 1004, 40m out: tab=' + !!document.querySelector('.hometab')"},
+ {"eval": "(__game.debug.skipTo(1010), true)"},
+ {"wait": 600},
+ {"eval": "'quest 1010, 40m out: tab=' + !!document.querySelector('.hometab')"},
+ {"eval": "(__game.debug.skipTo(1011), true)"},
+ {"wait": 600},
+ {"eval": "'quest 1011, 40m out: tab=' + !!document.querySelector('.hometab')"},
+ {"eval": "(__game.debug.skipTo(1029), true)"},
+ {"wait": 600},
+ {"eval": "'quest 1029, 40m out: tab=' + !!document.querySelector('.hometab')"}
+]

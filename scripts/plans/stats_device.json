@@ -1,0 +1,9 @@
+[
+ {"until": "document.querySelectorAll('#cards .card').length > 3", "timeout": 20000},
+ {"eval": "(()=>{document.getElementById('skip').value='92a8b6k522'; document.getElementById('skip').dispatchEvent(new Event('input',{bubbles:true})); document.getElementById('skip').dispatchEvent(new Event('change',{bubbles:true})); return true})()"},
+ {"wait": 500},
+ {"eval": "JSON.stringify({order: [...document.querySelectorAll('main h2, body h2')].map(h => h.textContent).slice(0, 4), day: [...document.querySelectorAll('#tDay tbody tr')].map(tr => tr.innerText.replace(/\\t/g, ' | ')), dev: [...document.querySelectorAll('#tDayDev tbody tr')].map(tr => tr.innerText.replace(/\\t/g, ' | ')), d1card: [...document.querySelectorAll('#cards .card')].find(c => c.innerText.includes('D1'))?.innerText.replace(/\\n/g, ' '), questStages: [...document.querySelectorAll('#tQuest tr.stage')].map(tr => tr.innerText), questRows: document.querySelectorAll('#tQuest tbody tr').length, wide: document.documentElement.scrollWidth})"},
+ {"snap": "stats_device_top"},
+ {"eval": "(document.getElementById('tQuest').closest('.scroll').scrollTop = 99999, document.getElementById('tQuest').closest('.scroll').scrollIntoView({block:'start'}), window.scrollBy(0,-90), true)"},
+ {"snap": "stats_device_quest"}
+]

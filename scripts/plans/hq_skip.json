@@ -1,0 +1,20 @@
+[
+ {"wait": 300},
+ {"snap": "hq_s0_start"},
+ {"wait": 2500},
+ {"snap": "hq_s1_pan"},
+ {"tap": [300, 400]},
+ {"wait": 150},
+ {"eval": "({revealed: __game.revealed === true, built: document.querySelector('.hqt-floor[data-f=\"2\"]').dataset.st, f3: document.querySelector('.hqt-floor[data-f=\"3\"]').dataset.st})"},
+ {"wait": 700},
+ {"snap": "hq_s2_skipped"},
+ {"tap": [640, 672]},
+ {"wait": 300},
+ {"eval": "({results: __game.results, open: __game.tower.isOpen, bar: document.querySelector('.hqt-bar').className})"},
+ {"eval": "(__game.tower.open({mode:'next', workshopBuilt:true, onUpgrade(){}}).then(r=>__game.results.push(r)), true)"},
+ {"wait": 600},
+ {"tap": [1233, 671]},
+ {"wait": 500},
+ {"eval": "({results: __game.results, open: __game.tower.isOpen, disp: __game.tower.root.style.display})"},
+ {"snap": "hq_s3_closed"}
+]

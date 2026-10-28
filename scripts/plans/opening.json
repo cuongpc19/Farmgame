@@ -1,0 +1,70 @@
+[
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "wait": 600
+ },
+ {
+  "eval": "JSON.stringify({dialogue: __game.dialogue.open, quest: __game.debug.quest(), pan: +__game.directT.toFixed(2), touch: __game.touchScreen, arrowToRock: (()=>{const a=__game.arrowTarget(); if(!a) return null; const b=__game.nearestBlock(__game.player.pos); const c=__game.field.center(b, a.clone()); return +Math.hypot(a.x-c.x, a.z-c.z).toFixed(2)})()})"
+ },
+ {
+  "snap": "open_first"
+ },
+ {
+  "until": "__game.directT <= 0",
+  "timeout": 15000
+ },
+ {
+  "eval": "(window.dispatchEvent(new KeyboardEvent('keydown',{key:'s'})), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "JSON.stringify({walking: true, zoom: __game.zoomNow, far: __game.walkFar})"
+ },
+ {
+  "snap": "open_walking"
+ },
+ {
+  "eval": "(window.dispatchEvent(new KeyboardEvent('keyup',{key:'s'})), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "until": "__game.zoomNow === 1",
+  "timeout": 30000
+ },
+ {
+  "eval": "JSON.stringify({stopped: true, zoom: __game.zoomNow, far: __game.walkFar})"
+ },
+ {
+  "eval": "(()=>{const g=__game; const b=g.nearestBlock(g.player.pos); const c=g.field.center(b, g.player.pos.clone()); g.player.pos.set(c.x, 0, c.z + 2.6); return true})()"
+ },
+ {
+  "until": "(()=>{const d=__game.time-__game.minedAt; return d > 0.16 && d < 0.3})()",
+  "timeout": 20000,
+  "every": 10
+ },
+ {
+  "eval": "(__game.timeScale = 0.002, true)"
+ },
+ {
+  "wait": 900
+ },
+ {
+  "snap": "open_chips"
+ },
+ {
+  "eval": "(__game.timeScale = 1, true)"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "JSON.stringify({mining: true, zoom: __game.zoomNow, far: __game.walkFar})"
+ }
+]

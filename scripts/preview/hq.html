@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>HQ tower preview</title>
+    <style>
+      @font-face {
+        font-family: "Lilita One";
+        src: url("/fonts/LilitaOne.ttf") format("truetype");
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #4a6a3a;
+        font-family: "Lilita One", system-ui, sans-serif;
+        user-select: none;
+        touch-action: none;
+      }
+      /* Stand-in for the HUD (z ≤ 21): must be hidden under the tower. */
+      .fakehud {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 21;
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: #e2392b;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ui"><div class="fakehud">HUD (should be hidden)</div></div>
+    <script type="module">
+      // Preview of src/game/ui/HqTower.ts + ResearchPanel.ts.
+      //   ?mode=reveal (default) | next | info | research   · &stage=… is ignored
+      // With ?reset=1 (the shot harness adds it) the save is wiped and faked; without it the
+      // page only reads your real save (it never writes test values into it).
+      const q = new URLSearchParams(location.search);
+      const fake = q.has("reset");
+      if (fake) localStorage.removeItem("qc_save");
+      await import("/src/style.css");
+      const { HqTower } = await import("/src/game/ui/HqTower.ts");
+      const { ResearchPanel } = await import("/src/game/ui/ResearchPanel.ts");
+      const { S } = await import("/src/game/state.ts");
+      const ui = document.getElementById("ui");
+      const tower = new HqTower(ui);
+      const rp = new ResearchPanel(ui);
+      if (fake) {
+        S.cash = 5200;
+        S.gear = 550;
+      }
+      rp.onResearch = (id) => {
+        const n = ResearchPanel.node(id);
+        if (!n || S.mgmt.research) return;
+        if (n.currency === "Gear") S.gear -= n.price;
+        else S.cash -= n.price;
+        S.mgmt.research = { id, endsAt: Date.now() + n.researchSeconds * 1000 };
+      };
+      rp.onApply = (id) => {
+        S.mgmt.done.push(id);
+        S.mgmt.research = null;
+      };
+      const openResearch = () => {
+        rp.floor = "light";
+        rp.lightOpen = true;
+        rp.render();
+        rp.open();
+      };
+      rp.onClose = () => tower.setBadge(rp.hasAlert("light"));
+      window.__game = { ready: true, tower, rp, S, openResearch, results: [] };
+      const mode = q.get("mode") ?? "reveal";
+      const log = (r) => window.__game.results.push(r);
+      if (mode === "reveal") {
+        tower.reveal().then(() => {
+          window.__game.revealed = true;
+          tower.open({ mode: "next", workshopBuilt: true, onUpgrade: openResearch }).then(log);
+        });
+      } else if (mode === "next" || mode === "info") {
+        tower
+          .open({
+            mode,
+            workshopBuilt: mode === "info",
+            onUpgrade: openResearch,
+            info: [
+              { label: "QUARRY", value: "Leaf Island" },
+              { label: "KEY RESOURCE", value: "Emerald" },
+              { label: "PROGRESS", value: "12.4%" },
+            ],
+          })
+          .then(log);
+      } else if (mode === "research") {
+        tower.open({ mode: "info", workshopBuilt: true, onUpgrade: openResearch }).then(log);
+        openResearch();
+      }
+    </script>
+  </body>
+</html>

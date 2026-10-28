@@ -1,0 +1,5 @@
+[
+ {"until": "document.fonts.status === 'loaded'", "timeout": 10000},
+ {"wait": 600},
+ {"snap": "cover"}
+]

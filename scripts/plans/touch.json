@@ -1,0 +1,13 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"wait": 600},
+ {"eval": "({start: [__game.player.pos.x.toFixed(2), __game.player.pos.z.toFixed(2)], dlg: __game.dialogue.open, spot: __game.spot.open})"},
+ {"drag": [270, 800, 270, 650], "ms": 1500},
+ {"eval": "({afterDragUp: [__game.player.pos.x.toFixed(2), __game.player.pos.z.toFixed(2)]})"},
+ {"drag": [270, 800, 420, 800], "ms": 1000},
+ {"eval": "({afterDragRight: [__game.player.pos.x.toFixed(2), __game.player.pos.z.toFixed(2)]})"},
+ {"key": "w", "ms": 1500},
+ {"eval": "({afterKeyW: [__game.player.pos.x.toFixed(2), __game.player.pos.z.toFixed(2)]})"},
+ {"snap": "t1"}
+]

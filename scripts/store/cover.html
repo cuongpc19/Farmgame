@@ -1,0 +1,216 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Store covers (CrazyGames: 1920x1080, 800x1200, 800x800), rendered from the game's own
+     block textures, items and effects. Served by the dev server:
+       http://localhost:5173/scripts/store/cover.html?layout=wide|tall|square
+     scripts/plans/store_cover.json snaps it at the matching window size.
+     The brief (user, 2026-10-19): no character, a BIG hammer smashing rock: you break rock with
+     a hammer to mine resources. So: a sledgehammer the size of a block lands on an ore block,
+     which bursts into chunks, gems and ingots. -->
+<style>
+  @font-face { font-family: "Lilita One"; src: url("/fonts/LilitaOne.ttf") format("truetype"); }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { background: radial-gradient(110% 85% at 50% 22%, #fff0bf 0%, #ffc067 30%, #e07a3a 62%, #7a3a1c 100%); }
+  canvas { position: fixed; inset: 0; }
+  #title { position: fixed; display: flex; flex-direction: column; align-items: center; font-family: "Lilita One", sans-serif;
+    line-height: 0.9; letter-spacing: 2px; transform: rotate(-5deg); z-index: 2; white-space: nowrap; }
+  #title span { color: #ffd23f; paint-order: stroke fill; }
+  #title span:last-child { color: #ff8a1f; font-size: 1.14em; }
+</style>
+</head>
+<body>
+<div id="title"><span>QUARRY</span><span>CRUSH</span></div>
+<script type="module">
+import * as THREE from "three";
+import { rockTexture } from "/src/game/world/rockTex.ts";
+import { itemGeometry, itemMaterial } from "/src/game/world/itemGeo.ts";
+import { cashMesh } from "/src/game/world/props.ts";
+import { Fx } from "/src/game/world/Fx.ts";
+
+const Q = new URLSearchParams(location.search);
+const L = Q.get("layout") ?? "wide";
+// dist: camera distance from the impact; side: look point to the impact's right (moves the
+// impact left in frame); up: camera height over the impact; lookY: look point height offset.
+const LAY = {
+  wide:   { fov: 34, dist: 16, side: 3.0, up: 4.2, lookY: 1.7, title: { right: "6%", top: "30%", font: 175 } },
+  tall:   { fov: 40, dist: 18, side: 0.9, up: 5.5, lookY: 3.6, title: { left: "0", right: "0", top: "4%", font: 128 } },
+  square: { fov: 40, dist: 16, side: 0.9, up: 5.2, lookY: 2.8, title: { left: "0", right: "0", top: "3.5%", font: 110 } },
+}[L];
+for (const k of ["dist", "side", "up", "lookY", "fov"]) if (Q.has(k)) LAY[k] = Number(Q.get(k));
+
+// Title sizes are designed at the store size (1920 wide / 800 wide); smaller drafts scale down.
+const FONT = LAY.title.font * innerWidth / (L === "wide" ? 1920 : 800);
+const t = document.getElementById("title");
+Object.assign(t.style, { right: LAY.title.right ?? "", left: LAY.title.left ?? "", top: LAY.title.top, fontSize: FONT + "px" });
+for (const s of t.children) {
+  s.style.webkitTextStroke = `${FONT * 0.075}px #3a1f0b`;
+  s.style.textShadow = `0 ${FONT * 0.07}px 0 #3a1f0b, 0 ${FONT * 0.13}px ${FONT * 0.18}px rgba(0,0,0,.45)`;
+}
+
+const W = innerWidth, H = innerHeight;
+const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+r.outputColorSpace = THREE.SRGBColorSpace;
+r.setPixelRatio(1);
+r.setSize(W, H);
+r.shadowMap.enabled = true;
+r.shadowMap.type = THREE.PCFShadowMap;
+document.body.appendChild(r.domElement);
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0xf0a862, 18, 46);
+
+scene.add(new THREE.HemisphereLight(0xfff1d6, 0x7a4a2a, 1.3));
+const sun = new THREE.DirectionalLight(0xfff0d8, 2.3);
+sun.position.set(-6, 12, 9);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, near: 1, far: 40 });
+scene.add(sun);
+const rim = new THREE.DirectionalLight(0xffc27a, 1.5);
+rim.position.set(8, 6, -8);
+scene.add(rim);
+
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+
+window.__ready = false;
+try {
+  // Ground: quarry dirt.
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.MeshLambertMaterial({ color: 0xb98a5c }));
+  ground.rotation.x = -Math.PI / 2;
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  // The game's ore blocks: copper, gold, amethyst, emerald, diamond (rockTexture + crystal nuggets).
+  const ORES = [
+    [0x9b9590, 0xe0703a], [0x948c80, 0xffcf2e], [0x8c8794, 0xb05cff], [0xcdc9c0, undefined],
+    [0x86918a, 0x22d07a], [0x8f959c, 0x8ff3ff], [0x9b9590, 0xe0703a], [0x948c80, 0xffcf2e],
+  ];
+  const mats = ORES.map(([rock, vein], i) => new THREE.MeshLambertMaterial({ map: rockTexture(rock, vein, 11 + i * 7) }));
+  const crystal = new THREE.OctahedronGeometry(0.26, 0);
+  const S = 2.5;
+  const gemMat = (col) => new THREE.MeshPhongMaterial({ color: col, emissive: new THREE.Color(col).multiplyScalar(0.3), specular: 0xffffff, shininess: 100, flatShading: true });
+  const block = (oi, x, z, size = 0.97) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(S * size, S * size, S * size), mats[oi]);
+    b.position.set(x, (S * size) / 2, z);
+    b.castShadow = b.receiveShadow = true;
+    scene.add(b);
+    const vein = ORES[oi][1];
+    if (vein !== undefined) {
+      const m = gemMat(vein);
+      for (const [nx, ny, nz, ns] of [[-0.5, 1.0, 0.3, 1.2], [0.45, 1.0, -0.2, 0.9], [0.3, 0.6, 1.0, 1.0], [-0.6, 0.35, 1.0, 0.8]]) {
+        const n = new THREE.Mesh(crystal, m);
+        n.position.set(x + nx * size, ny * S * size, z + nz * S * size * 0.5);
+        n.scale.set(ns, ns * 1.5, ns);
+        n.rotation.set(0.3, x + nz, 0.2);
+        n.castShadow = true;
+        scene.add(n);
+      }
+    }
+    return b;
+  };
+  // The quarry behind: rows of blocks.
+  let k = 0;
+  for (let row = 0; row < 5; row++) {
+    for (let col = -8; col <= 8; col++) {
+      if (row === 0 && Math.abs(col) <= 1) continue; // the struck block stands in front
+      block((k++ * 5 + row * 3) % ORES.length, col * S + (row % 2) * 0.4, -3.2 - row * S);
+    }
+  }
+  // The struck block: gold ore, in front of the face.
+  const IMPACT_BLOCK = new THREE.Vector3(0, 0, 0);
+  block(1, IMPACT_BLOCK.x, IMPACT_BLOCK.z);
+  const top = S * 0.97;
+
+  // The hammer: the game's sledgehammer (steel head, gold bands, wooden handle) at four times
+  // a person's size, its striking face landing on the block's top edge.
+  const HS = Number(Q.get("hs") ?? 6);
+  const hammer = new THREE.Group();
+  const wood = new THREE.MeshLambertMaterial({ color: 0x8a5a2b, flatShading: true });
+  const grip = new THREE.MeshLambertMaterial({ color: 0x2b2f36, flatShading: true });
+  const steel = new THREE.MeshLambertMaterial({ color: 0x55606c, flatShading: true });
+  const gold = new THREE.MeshPhongMaterial({ color: 0xffc12e, emissive: 0x4a2e00, specular: 0xfff2b0, shininess: 90, flatShading: true });
+  const add = (geo, m, x, y, z) => {
+    const o = new THREE.Mesh(geo, m);
+    o.position.set(x, y, z);
+    o.castShadow = true;
+    hammer.add(o);
+    return o;
+  };
+  // Tool space: grip at the origin, handle along +Y, head across ±Z at y = 0.98.
+  add(new THREE.CylinderGeometry(0.055, 0.06, 1.3, 10), wood, 0, 0.33, 0);
+  add(new THREE.CylinderGeometry(0.068, 0.068, 0.34, 10), grip, 0, -0.1, 0);
+  add(new THREE.BoxGeometry(0.32, 0.32, 0.64), steel, 0, 0.98, 0);
+  for (const z of [-0.34, 0.34]) add(new THREE.BoxGeometry(0.36, 0.36, 0.07), gold, 0, 0.98, z);
+  add(new THREE.BoxGeometry(0.35, 0.13, 0.22), gold, 0, 0.98, 0);
+  for (const z of [-0.385, 0.385]) add(new THREE.BoxGeometry(0.25, 0.25, 0.05), steel, 0, 0.98, z);
+  hammer.scale.setScalar(HS);
+  // Pose: the handle comes in from the upper right toward the viewer; the head stands upright
+  // with its lower face on the block.
+  // Handle up and out to the upper LEFT, so the right of the frame stays free for the title.
+  const yW = new THREE.Vector3(1, -0.42, -0.3).normalize(); // grip → head
+  const up = new THREE.Vector3(0, 1, 0);
+  const zW = up.clone().addScaledVector(yW, -up.dot(yW)).normalize(); // head axis, upright
+  const xW = new THREE.Vector3().crossVectors(yW, zW).normalize();
+  hammer.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(xW, yW, zW));
+  const contact = new THREE.Vector3(IMPACT_BLOCK.x - 0.35, top + 0.02, IMPACT_BLOCK.z + 0.35);
+  const headC = contact.clone().addScaledVector(zW, 0.41 * HS); // half the head + band
+  hammer.position.copy(headC).addScaledVector(yW, -0.98 * HS);
+  scene.add(hammer);
+
+  // The burst: chunks of the block's stone, gems and the game's ingots and cash flying out.
+  const chunk = new THREE.DodecahedronGeometry(0.3, 0);
+  const fly = (mesh, minD, maxD, minUp, maxUp, toward = 0.25) => {
+    const a = Math.PI * (0.05 + rnd() * 0.9); // upper half-circle around the impact
+    const d = minD + rnd() * (maxD - minD);
+    mesh.position.set(contact.x + 0.9 + Math.cos(a) * d * 1.3, contact.y + minUp + rnd() * (maxUp - minUp) + Math.sin(a) * d * 0.5, contact.z + 0.8 + toward * d + rnd() * 0.6);
+    mesh.rotation.set(rnd() * 6, rnd() * 6, rnd() * 6);
+    mesh.castShadow = true;
+    scene.add(mesh);
+    return mesh;
+  };
+  for (let i = 0; i < 18; i++) fly(new THREE.Mesh(chunk, mats[1]), 1.0, 3.8, 0.2, 2.4).scale.setScalar(0.6 + rnd() * 1.2);
+  const GEMS = [0x22d07a, 0xff3b5c, 0xb05cff, 0x8ff3ff, 0xffcf2e, 0x22d07a, 0xff3b5c, 0x8ff3ff];
+  const gem = new THREE.OctahedronGeometry(0.32, 0);
+  GEMS.forEach((col) => {
+    const g = fly(new THREE.Mesh(gem, gemMat(col)), 1.3, 4.2, 0.8, 3.0, 0.35);
+    g.scale.set(1, 1.5, 1).multiplyScalar(0.9 + rnd() * 0.6);
+  });
+  for (const [it, col] of [[20205, 0xffd23a], [20205, 0xffd23a], [20201, 0xe8783f], [20204, 0xe6eef5], [20205, 0xffd23a]]) {
+    fly(new THREE.Mesh(itemGeometry(it), itemMaterial(it, col)), 1.6, 4.0, 0.6, 2.6, 0.35).scale.setScalar(0.85 + rnd() * 0.3);
+  }
+  for (let i = 0; i < 3; i++) fly(cashMesh(), 2.0, 4.2, 0.4, 2.0, 0.35).scale.setScalar(1.5);
+
+  // Dust, a flash and a shock ring where the head lands (the game's own effects).
+  const fx = new Fx(scene);
+  fx.puff(contact.clone().add(new THREE.Vector3(0, 0.2, 0.4)), 0xcab89a, 9, 1.0, 1.4);
+  fx.flash(contact.clone().add(new THREE.Vector3(0, 0.4, 0.6)), 4.2);
+  fx.ring(new THREE.Vector3(contact.x, 0, contact.z), 1.4, 3.6);
+  fx.update(0.09);
+  const sparkle = new Fx(scene);
+  for (let i = 0; i < 5; i++) {
+    // Beside the head, not on it.
+    const sx = (i % 2 ? 1 : -1) * (2.2 + rnd() * 1.6);
+    const p = contact.clone().add(new THREE.Vector3(sx, 0.6 + rnd() * 2.6, 1.2 + rnd() * 1.5));
+    sparkle.twinkle(p, 0.6 + rnd() * 0.5);
+  }
+  sparkle.update(0.25);
+
+  // Camera.
+  const camDir = new THREE.Vector3(0.18, 0, 1).normalize();
+  const cam = new THREE.PerspectiveCamera(LAY.fov, W / H, 0.1, 160);
+  const focus = contact.clone();
+  cam.position.copy(focus).addScaledVector(camDir, LAY.dist).add(new THREE.Vector3(0, LAY.up, 0));
+  const right = new THREE.Vector3().crossVectors(up, camDir).normalize();
+  cam.lookAt(focus.clone().addScaledVector(right, LAY.side).add(new THREE.Vector3(0, LAY.lookY, 0)));
+
+  r.render(scene, cam);
+  window.__ready = true;
+} catch (e) {
+  window.__err = String(e.stack || e);
+  console.error(window.__err);
+}
+</script>
+</body>
+</html>

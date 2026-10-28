@@ -1,0 +1,17 @@
+[
+ {"wait": 800},
+ {"snap": "hq_l0_rest"},
+ {"eval": "(()=>{const r=document.querySelector('.hqt-next').getBoundingClientRect(); return [r.x+r.width/2|0, r.y+r.height/2|0]})()"},
+ {"tap": [640, 680]},
+ {"wait": 400},
+ {"snap": "hq_l1_info"},
+ {"tap": [640, 300]},
+ {"wait": 300},
+ {"drag": [640, 300, 640, 700], "ms": 300},
+ {"wait": 300},
+ {"snap": "hq_l2_drag"},
+ {"eval": "(__game.openResearch(), true)"},
+ {"wait": 600},
+ {"snap": "hq_l3_research"},
+ {"eval": "JSON.stringify(__game.results)"}
+]

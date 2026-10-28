@@ -1,0 +1,9 @@
+[
+ {"wait": 800},
+ {"eval": "(localStorage.setItem('cm_save', JSON.stringify({v:1,cash:5000,gems:0,gear:550,upgrades:{},owned:['pickaxe','woodenCarrier'],equipMining:'pickaxe',equipCarrying:'woodenCarrier',quest:{index:31,progress:1},dialogues:[101],unlocked:['pickaxe','woodenCarrier'],mgmt:{done:[],research:null},run:{stageIndex:1,sold:0,broken:'',rentals:[],spent:0,cashbackClaimed:0,structures:[],workers:[],clearHinted:false,earned:0}})), location.href = location.origin + '/', true)"},
+ {"wait": 3000},
+ {"until": "!!window.__game || !!window.__err", "timeout": 40000, "every": 500},
+ {"wait": 3000},
+ {"eval": "({err: window.__err ?? null, game: typeof window.__game, t: window.__game?.time})"},
+ {"snap": "s2"}
+]

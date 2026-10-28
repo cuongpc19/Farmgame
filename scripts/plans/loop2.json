@@ -1,0 +1,20 @@
+[
+ {"wait": 1200},
+ {"tap": [270, 1050]}, {"wait": 400}, {"tap": [270, 1050]},
+ {"eval": "(__game.timeScale = 6, __game.player.pos.set(-10,0,2.4), true)"},
+ {"until": "__game.quests.cur()?.id >= 1003", "timeout": 60000, "every": 300},
+ {"eval": "({q: __game.quests.cur()?.text, cash: Math.round(__game.player ? 0:0), dlg: __game.dialogue.open})"},
+ {"snap": "q1"},
+ {"tap": [270, 1050]}, {"wait": 300}, {"tap": [270, 1050]},
+ {"eval": "(__game.player.pos.copy(__game.furnace.zone.center), true)"},
+ {"until": "__game.furnace.output.count >= 3", "timeout": 30000},
+ {"eval": "(__game.player.pos.set(__game.furnace.trayPos.x, 0, __game.furnace.trayPos.z + 1.2), true)"},
+ {"until": "__game.player.stack.count >= 3", "timeout": 20000},
+ {"eval": "(__game.player.pos.copy(__game.sales.zone.center), true)"},
+ {"until": "__game.sales.moneyWaiting > 0", "timeout": 40000},
+ {"eval": "(__game.player.pos.copy(__game.sales.moneyPos), true)"},
+ {"until": "__game.sales.moneyWaiting === 0", "timeout": 20000},
+ {"wait": 1500},
+ {"snap": "q2"},
+ {"eval": "({q: __game.quests.cur()?.id + ' ' + __game.quests.cur()?.text, dlg: __game.dialogue.open})"}
+]

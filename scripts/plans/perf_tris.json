@@ -1,0 +1,6 @@
+[
+ {"wait": 800},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return true})()"},
+ {"wait": 1500},
+ {"eval": "(()=>{const rows=[]; __game.scene.traverse(o=>{ if(!o.isMesh || !o.visible) return; const g=o.geometry; const tri=(g.index?g.index.count:g.attributes.position.count)/3; const n=o.isInstancedMesh?o.count:1; let p=o, path=[]; while(p && path.length<3){ if(p.name) path.push(p.name); p=p.parent; } rows.push({tri:Math.round(tri), n, total:Math.round(tri*n), cast:o.castShadow, kind:o.isInstancedMesh?'inst':o.isSkinnedMesh?'skin':'mesh', name:(path.join('<')||g.type).slice(0,40)}); }); rows.sort((a,b)=>b.total-a.total); const sum=rows.reduce((a,r)=>a+r.total,0); return JSON.stringify({sum, top: rows.slice(0,14)})})()"}
+]

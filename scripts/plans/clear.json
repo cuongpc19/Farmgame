@@ -1,0 +1,147 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(__game.debug.sell(5800), __game.debug.cash(3000), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(__game.hud.onNext(), true)"
+ },
+ {
+  "wait": 1600
+ },
+ {
+  "snap": "k1_complete"
+ },
+ {
+  "eval": "(document.querySelector('.modal.on').click(), true)"
+ },
+ {
+  "wait": 700
+ },
+ {
+  "snap": "k2_bonus"
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .go').click(), true)"
+ },
+ {
+  "wait": 900
+ },
+ {
+  "snap": "k2b_tower"
+ },
+ {
+  "eval": "(__game.hqTower.root.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})), __game.hqTower.root.click(), true)"
+ },
+ {
+  "until": "__game.dialogue.open",
+  "timeout": 20000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "until": "__game.spot.open",
+  "timeout": 5000
+ },
+ {
+  "snap": "k2c_spot"
+ },
+ {
+  "eval": "(__game.spot.close(), true)"
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "wait": 400
+ },
+ {
+  "snap": "k2d_research"
+ },
+ {
+  "eval": "(__game.hqPanel.close(), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "until": "!!document.querySelector('.hqt-next') && document.querySelector('.hqt-next').offsetParent !== null",
+  "timeout": 8000
+ },
+ {
+  "snap": "k2e_next"
+ },
+ {
+  "eval": "(document.querySelector('.hqt-next').click(), true)"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "snap": "k3_contract"
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .pick').click(), true)"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "snap": "k4_detail"
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .go').click(), true)"
+ },
+ {
+  "wait": 700
+ },
+ {
+  "snap": "k5_approved"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "until": "!!(window.__game && window.__game.ready && window.__game.st.order === 2)",
+  "timeout": 30000
+ },
+ {
+  "wait": 2000
+ },
+ {
+  "eval": "({stage: __game.st.order, gear: JSON.parse(localStorage.getItem('cm_save')).gear, q: __game.debug.quest(), hireOpen: !__game.workerB.locked})"
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "k6_stage2"
+ }
+]

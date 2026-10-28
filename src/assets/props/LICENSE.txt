@@ -1,0 +1,14 @@
+Machine and building models (packed by scripts/build-props.mjs)
+
+CC0 (no attribution required):
+- tractor.glb, truckflat.glb, van.glb, wheel.glb — Kenney "Car Kit" (kenney.nl/assets/car-kit)
+- foundry.glb, workshop.glb, office.glb, flat.glb, tank.glb — Kenney "City Kit (Industrial)" (kenney.nl/assets/city-kit-industrial)
+- barrel.glb — Kenney "Survival Kit" (kenney.nl/assets/survival-kit)
+
+CC-BY 3.0 (credit shown in Settings → Credits):
+- dozer.glb — "Bulldozer" by Poly by Google, via Poly Pizza (https://poly.pizza/m/ddxtaegI3HQ)
+- dump.glb — "Dump truck" by jeremy, via Poly Pizza (https://poly.pizza/m/1BpGYg14QGD)
+- barrow.glb — "Wheelbarrow" by Poly by Google, via Poly Pizza (https://poly.pizza/m/0VPTwKNVxk2)
+  Licence: https://creativecommons.org/licenses/by/3.0/
+
+CC0 (Mars Miner, 2026-10-28; packed by scripts/build-space-props.mjs):

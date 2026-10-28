@@ -1,0 +1,92 @@
+// Realtime Database rules for Quarry Crush telemetry (src/game/telemetry.ts, ANALYTICS.md).
+// Deploy: npx firebase-tools deploy --only database
+//
+// ⚠ Comments must be `//` lines like these. A "//" KEY inside a node is read as a child path.
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    // WRITE: anyone may ADD a row (the game posts straight from the player's browser, no sign-in),
+    // nobody may change or delete one (`!data.exists()`), and only rows of the known shape get in.
+    // READ: exactly one account, the dashboard's (site/stats.html). The database URL is in the
+    // game bundle for anyone to see, so an open read would hand out the whole log.
+    // ⚠ Never widen the read to `auth != null`: that means ANY Google account on earth.
+    // indexOn "at": the dashboard downloads only the window it shows (orderBy="at"&startAt=…).
+    "qc": {
+      ".read": "auth != null && auth.uid === '1f3HImf6Jcbl0ohHQk0oy9w0jw13'",
+      ".indexOn": ["at"],
+      "$row": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['ev', 'dev', 'ses', 'at'])",
+
+        // Every row.
+        "ev": { ".validate": "newData.isString() && newData.val().matches(/^(open|beat|quest|clear|buy|hide|err|fail|seen)$/)" },
+        "dev": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "first": { ".validate": "newData.isNumber()" },
+        "n": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 1000000" },
+        "ses": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "st": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 100" },
+        "pct": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 100" },
+        "qi": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 1000" },
+        "cash": { ".validate": "newData.isNumber()" },
+        "pl": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "ss": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "build": { ".validate": "newData.isString() && newData.val().length <= 32" },
+        "host": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        "from": { ".validate": "newData.isString() && newData.val().length <= 64" },
+        "bot": { ".validate": "newData.isNumber()" },
+        // The server's clock ({".sv": "timestamp"}), never the player's.
+        "at": { ".validate": "newData.isNumber() && newData.val() === now" },
+
+        // open / beat
+        "boot": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "lang": { ".validate": "newData.isString() && newData.val().length <= 16" },
+        "tz": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "mob": { ".validate": "newData.isNumber()" },
+        "land": { ".validate": "newData.isNumber()" },
+        "pm": { ".validate": "newData.isNumber()" },
+        "fps": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 1000" },
+        // beat: gtag.js arrived (1) or not (0: blocked, or a test run). analytics.ts
+        "ga": { ".validate": "newData.isNumber()" },
+
+        // quest / clear
+        "qid": { ".validate": "newData.isNumber()" },
+        "qt": { ".validate": "newData.isString() && newData.val().length <= 60" },
+        "cl": { ".validate": "newData.isNumber()" },
+
+        // buy (and seen: `key` = building:<name> / card:<equipment key>)
+        "kind": { ".validate": "newData.isString() && newData.val().matches(/^(up|tool|rent|hire|hq|boost)$/)" },
+        "key": { ".validate": "newData.isString() && newData.val().length <= 40" },
+        "lv": { ".validate": "newData.isNumber()" },
+
+        // err / fail
+        "msg": { ".validate": "newData.isString() && newData.val().length <= 200" },
+
+        // Every row: the save's own code (rides the CrazyGames cloud save; one player on two browsers).
+        "sid": { ".validate": "newData.isString() && newData.val().length <= 12" },
+        // beat / hide: the work report since the last one (telemetry.ts WorkProbe). Seconds,
+        // worker-seconds and block counts; crew size, open face and hits per block when sent.
+        "tw": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "ta": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "bp": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "bv": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "bw": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "tv": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "tb": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "td": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "tf": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "wk": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "wi": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "wr": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "wn": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 100" },
+        "wm": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() < 100" },
+        "fr": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "hb": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "hv": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+[
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.skipTo(1023), __game.debug.cash(20000), __game.rent('hydraulicBreaker'), __game.timeScale = 3, true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "until": "__game.oil.rack.count >= 9",
+  "timeout": 40000
+ },
+ {
+  "eval": "(()=>{const g=__game, v=g.vehicles.find(x=>x.key==='hydraulicBreaker'); g.mount(v); v.fuel=0; v.pos.copy(g.oil.zone.center); return JSON.stringify({driving: g.driving&&g.driving.key, fuel: v.fuel, empty: v.empty})})()"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(x=>x.key==='hydraulicBreaker'); return JSON.stringify({driveInFuel: +v.fuel.toFixed(1), tank: v.tank, rackLeft: __game.oil.rack.count, PASS: v.fuel >= v.tank - 0.6})})()"
+ },
+ {
+  "snap": "pt_oil_drivein"
+ },
+ {
+  "eval": "(()=>{const g=__game, v=g.driving; v.fuel=0; v.pos.set(g.oil.zone.center.x, 0, g.oil.zone.center.z - 12); g.timeScale=1; window.__z0 = v.pos.clone(); window.__t0 = g.time; return JSON.stringify({empty: v.empty, speed: v.speed})})()"
+ },
+ {
+  "key": "a",
+  "ms": 1500
+ },
+ {
+  "eval": "(()=>{const g=__game, v=g.vehicles.find(x=>x.key==='hydraulicBreaker'); const d=Math.hypot(v.pos.x-__z0.x, v.pos.z-__z0.z), s=g.time-__t0; return JSON.stringify({crawl_u_per_s: +(d/s).toFixed(2), full_speed: v.speed, ratio: +(d/s/v.speed).toFixed(2), PASS: d/s/v.speed > 0.2 && d/s/v.speed < 0.4})})()"
+ },
+ {
+  "until": "(()=>{if(__game.driving) __game.dismount(); return !__game.driving})()",
+  "timeout": 8000,
+  "every": 250
+ },
+ {
+  "wait": 600
+ },
+ {
+  "eval": "(()=>{const g=__game, p=g.player; p.stack.items.length=0; while(!p.stack.full) p.stack.push(10101); g.lastRide = g.vehicles.find(x=>x.key==='hydraulicBreaker'); g.lastRide.fuel = 0; g.refuelUntil = g.time + 30; const a=g.arrowTarget(), f=g.furnace.zone.center; return JSON.stringify({back: p.stack.count+'/'+p.stack.capacity, arrowToRefining: !!a && Math.hypot(a.x-f.x,a.z-f.z) < 0.5, PASS: !!a && Math.hypot(a.x-f.x,a.z-f.z) < 0.5})})()"
+ },
+ {
+  "eval": "(()=>{const g=__game; g.player.pos.copy(g.oil.zone.center); return true})()"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{const t=[...document.querySelectorAll('.toast')].map(e=>e.textContent).join(' | '); return JSON.stringify({toast: t, PASS: /Back full/.test(t)})})()"
+ },
+ {
+  "snap": "pt_oil_backfull"
+ },
+ {
+  "eval": "(()=>{const g=__game, p=g.player, v=g.vehicles.find(x=>x.key==='hydraulicBreaker'); p.stack.items.length=0; v.fuel=0; p.pos.set(v.pos.x + v.radius + 2.5, 0, v.pos.z); g.mountHold = 0; return JSON.stringify({empty: v.empty, gap: +(p.pos.x - v.pos.x).toFixed(2)})})()"
+ },
+ {
+  "key": "a",
+  "ms": 900
+ },
+ {
+  "eval": "(()=>{const g=__game; return JSON.stringify({walkedIntoDryMachine_mounted: !!g.driving, PASS: !g.driving})})()"
+ },
+ {
+  "eval": "(()=>{const g=__game, p=g.player, v=g.vehicles.find(x=>x.key==='hydraulicBreaker'); v.fuel=v.tank; p.pos.set(v.pos.x + v.radius + 2.5, 0, v.pos.z); g.mountHold = 0; return true})()"
+ },
+ {
+  "key": "a",
+  "ms": 900
+ },
+ {
+  "eval": "(()=>{const g=__game; return JSON.stringify({walkedIntoFuelledMachine_mounted: !!g.driving, PASS: !!g.driving})})()"
+ }
+]

@@ -1,0 +1,7 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(()=>{for(let i=0;i<3;i++) __game.player.stack.push(10101); for(let i=0;i<4;i++) __game.furnace.queue.push(10101); for(let i=0;i<2;i++) __game.sales.pile.push(20101); __game.sales.addPallet(77); __game.drops.place(10101, 3, 6); __game.drops.place(10101, 4, 6); return true;})()"},
+ {"wait": 4500},
+ {"eval": "(JSON.parse(localStorage.getItem('cm_save')).run.transit ? 'saved' : 'missing')"}
+]

@@ -1,0 +1,8 @@
+[
+ {"wait": 1500},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); __game.debug.cash(50000); for (const k of ['wheelbarrow','wheelLoader','hydraulicBreaker']) __game.rent(k); return true})()"},
+ {"wait": 1500},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); const g=__game; const v=g.vehicles[1]; g.player.pos.set(v.pos.x+2,0,v.pos.z+3); g.stage.follow(g.player.pos,true); g.stage.zoom(1.3); return g.vehicles.map(v=>v.key).join(',')})()"},
+ {"wait": 3000},
+ {"snap": "cm_machines"}
+]

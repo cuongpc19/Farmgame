@@ -1,0 +1,71 @@
+[
+ {
+ "until": "window.__game && !document.getElementById('boot')",
+ "timeout": 90000
+ },
+ {
+ "wait": 1200
+ },
+ {
+ "eval": "(async()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} const g=__game, c=g.cafeteria; g.debug.quiet(); for (const l of [...c.locked]) await c.unlock(l); g.debug.crew('Mining',2); g.debug.crew('Carrying',2); for (const w of g.workers){ w.stamina=1; w.tire(1); } g.timeScale=3; return true})()"
+ },
+ {
+ "until": "__game.workers.every(w=>w.state==='resting')",
+ "timeout": 120000,
+ "every": 250
+ },
+ {
+ "eval": "(()=>{const g=__game; g.timeScale=1; window.__pose=(kind,up,i)=>{ for (const w of g.workers){ const m=w.model; const P=m.activity===\"drink\"?4.2:3.4; m.mealPhase = (up ? 0.9 : 2.5) - (m.clock % P) + P; } const s=g.cafeteria.seats.filter(x=>x.kind===kind)[i||0].pos; g.player.pos.set(s.x-6, 0, s.z+8); g.directP.set(s.x, 0, s.z); g.directT=99; g.stage.zoom(0.22); }; __pose(\"eat\", true); return true})()"
+ },
+ {
+ "wait": 1500
+ },
+ {
+ "eval": "(__pose('eat', true), true)"
+ },
+ {
+ "wait": 300
+ },
+ {
+ "snap": "bite_eat_up"
+ },
+ {
+ "eval": "(__pose('eat', false), true)"
+ },
+ {
+ "wait": 300
+ },
+ {
+ "snap": "bite_eat_rest"
+ },
+ {
+ "eval": "(__pose('drink', true), true)"
+ },
+ {
+ "wait": 1500
+ },
+ {
+ "eval": "(__pose('drink', true), true)"
+ },
+ {
+ "wait": 300
+ },
+ {
+ "snap": "bite_drink_up"
+ },
+ {
+ "eval": "(__pose(\"eat\", true, 1), true)"
+ },
+ {
+ "wait": 1500
+ },
+ {
+ "eval": "(__pose(\"eat\", true, 1), true)"
+ },
+ {
+ "wait": 300
+ },
+ {
+ "snap": "bite_eat_up2"
+ }
+]

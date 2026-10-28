@@ -1,0 +1,5 @@
+{
+  "economy.json": "numbers decoded from the original APK: ore HP and prices, equipment, upgrade curves, quest chain targets and rewards, workers, HQ research, boosts (carrier cargo x PACE.cargo at runtime; prices are the decoded ones)",
+  "stage2-10.json": "the original stages' quarries reshaped by us (stagevar.py: mirrored, our outlines with bevelled corners, lobes and notches, ores dealt again with ragged edges and clearings); the arrangement of parts, bridges, rails and machines and each part's block count are still the original's, and so are the stage fields (clear rule, rewards, contract); the base is ours (townbase.py)",
+  "stage1.json": "quarry (stagegen.py) and base (townbase.py) are ours; the stage fields (clear rule, rewards, contract) are the original's"
+}

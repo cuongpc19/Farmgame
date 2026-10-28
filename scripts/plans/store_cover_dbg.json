@@ -1,0 +1,6 @@
+[
+ {"until": "document.fonts.status === 'loaded'", "timeout": 10000},
+ {"eval": "JSON.stringify(window.__grip || window.__err || null)"},
+ {"wait": 400},
+ {"snap": "cover"}
+]

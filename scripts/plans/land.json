@@ -1,0 +1,1 @@
+[{"wait":1200},{"eval":"(()=>{let n=0; while(__game.dialogue.open && n<50){document.querySelector(\".dlg\").dispatchEvent(new PointerEvent(\"pointerdown\",{bubbles:true})); n++;} return n;})()"},{"eval":"(__game.timeScale=4, __game.player.pos.set(2,0,22), true)"},{"wait":3000},{"snap":"land1"},{"eval":"(__game.hud.toolsBtn.click(), true)"},{"wait":800},{"snap":"land2"}]

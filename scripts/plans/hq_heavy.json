@@ -1,0 +1,15 @@
+[
+ {"wait": 500},
+ {"eval": "(__game.tower.open({mode:'info', workshopBuilt:true, heavy:'locked', onUpgrade(){}}), true)"},
+ {"wait": 400},
+ {"eval": "(window.__sn = __game.tower.scaffoldNext().then(()=>window.__snDone=true), true)"},
+ {"until": "!!document.querySelector('.hqt-flash')", "timeout": 3000, "every": 30},
+ {"wait": 60},
+ {"snap": "hq_h0_flash"},
+ {"until": "window.__snDone === true", "timeout": 4000},
+ {"snap": "hq_h1_soon"},
+ {"eval": "(__game.tower.open({mode:'info', workshopBuilt:true, heavy:'built', heavyBadge:true, onUpgrade(){}, onHeavyUpgrade(){ window.__hv = 1 }}), true)"},
+ {"wait": 600},
+ {"snap": "hq_h2_heavy"},
+ {"eval": "(()=>{ const r = __game.tower.heavyUpgradeButton().getBoundingClientRect(); return [r.x + r.width/2 | 0, r.y + r.height/2 | 0]; })()"}
+]

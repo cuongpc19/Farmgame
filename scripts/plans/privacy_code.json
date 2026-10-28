@@ -1,0 +1,4 @@
+[
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"eval": "JSON.stringify({code: document.querySelector('.privacy .dev-code')?.textContent, stored: localStorage.getItem('qc.device'), session: sessionStorage.getItem('qc.session'), sent: (window.__tele||[]).length, items: document.querySelectorAll('.privacy li').length})"}
+]

@@ -1,0 +1,18 @@
+[
+ {
+  "until": "document.querySelectorAll(\"#cards .card\").length > 3",
+  "timeout": 20000
+ },
+ {
+  "eval": "JSON.stringify([...document.querySelectorAll(\"#cards .card\")].slice(0,3).map(c => c.innerText.split(String.fromCharCode(10)).join(\" | \")))"
+ },
+ {
+  "eval": "(document.getElementById(\"excl\").click(), JSON.stringify([...document.querySelectorAll(\"#cards .card\")].slice(0,3).map(c => c.innerText.split(String.fromCharCode(10)).join(\" | \"))))"
+ },
+ {
+  "eval": "(document.getElementById(\"excl\").click(), true)"
+ },
+ {
+  "snap": "stats_live"
+ }
+]

@@ -1,0 +1,9 @@
+[
+ {"wait": 1000},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(localStorage.removeItem('cm_settings'), true)"},
+ {"eval": "(document.querySelector('[data-k=settings]').click(), true)"},
+ {"wait": 900},
+ {"eval": "JSON.stringify({rows: [...document.querySelectorAll('.settings .set-name')].map(e=>e.textContent), buttons: [...document.querySelectorAll('.settings .set-blue')].map(b=>b.textContent), perfOn: document.querySelector('.settings .tg[data-set=perfMode]').classList.contains('on'), shadows: __game.stage.renderer.shadowMap.enabled, dpr: __game.stage.renderer.getPixelRatio()})"},
+ {"snap": "settings_new"}
+]

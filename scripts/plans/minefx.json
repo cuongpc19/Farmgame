@@ -1,0 +1,7 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(__game.player.pos.set(5,0,3.6), __game.player.facing=Math.PI, __game.stage.zoom(0.5), __game.stage.follow(__game.player.pos, true), true)"},
+ {"wait": 1500},
+ {"snap": "mf1"}, {"wait": 120}, {"snap": "mf2"}, {"wait": 120}, {"snap": "mf3"}, {"wait": 120}, {"snap": "mf4"}, {"wait": 120}, {"snap": "mf5"}, {"wait": 120}, {"snap": "mf6"}
+]

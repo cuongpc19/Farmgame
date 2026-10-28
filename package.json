@@ -1,0 +1,26 @@
+{
+  "name": "candy-miner",
+  "version": "0.1.0",
+  "description": "Candy Miner - arcade idle candy mining (Three.js + TS + Vite), reskinned from Mars Miner",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "build:crazy": "node scripts/build-target.mjs crazy",
+    "build:web": "node scripts/build-target.mjs web"
+  },
+  "dependencies": {
+    "three": "0.185.1"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "@gltf-transform/functions": "^4.5.1",
+    "@types/three": "0.185.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0"
+  }
+}

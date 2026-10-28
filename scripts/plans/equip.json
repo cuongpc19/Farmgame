@@ -1,0 +1,71 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(__game.debug.cash(5000), __game.buyTool('sledgehammer'), __game.equip('pickaxe'), true)"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n;})()"
+ },
+ {
+  "eval": "(__game.equipPanel.render(), __game.equipPanel.open(), true)"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "eval": "(()=>{const b=[...document.querySelectorAll('[data-eq]')].map(x=>{const r=x.getBoundingClientRect(); return x.dataset.eq+':'+x.textContent+'@'+Math.round(r.x+r.width/2)+','+Math.round(r.y+r.height/2);}); return b.join(' | ');})()"
+ },
+ {
+  "snap": "eq1"
+ },
+ {
+  "tap": [
+   470,
+   1067
+  ]
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "(()=>{const b=[...document.querySelectorAll('[data-eq]')].map(x=>x.dataset.eq+':'+x.textContent); return b.join(' | ');})()"
+ },
+ {
+  "snap": "eq2"
+ },
+ {
+  "tap": [
+   470,
+   889
+  ]
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "(()=>{const b=[...document.querySelectorAll('[data-eq]')].map(x=>x.dataset.eq+':'+x.textContent); return b.join(' | ');})()"
+ },
+ {
+  "drag": [
+   470,
+   1067,
+   470,
+   1067
+  ],
+  "ms": 80
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "(()=>{const b=[...document.querySelectorAll('[data-eq]')].map(x=>x.dataset.eq+':'+x.textContent); return b.join(' | ');})()"
+ }
+]

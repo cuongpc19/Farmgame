@@ -1,0 +1,57 @@
+[
+ {
+  "wait": 1000
+ },
+ {
+  "eval": "(__game.debug.sell(1500), __game.debug.cash(2000), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<50){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.workerB.zone.center), true)"
+ },
+ {
+  "until": "__game.workerMgmt.isOpen",
+  "timeout": 15000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.openJobBoard(); return __game.workersPanel.isOpen;})()"
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<50){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(document.querySelector('[data-hire]')?.click(), true)"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "(document.querySelector('[data-hire]')?.click(), true)"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "(__game.player.pos.set(2,0,14), __game.timeScale = 5, true)"
+ },
+ {
+  "wait": 30000
+ },
+ {
+  "eval": "({states: __game.workers.map(w=>w.profile.role+' '+w.state+' st'+w.stamina+' c'+w.stack.count+' @'+w.pos.x.toFixed(1)+','+w.pos.z.toFixed(1)), remaining: __game.field.remaining, furnaceQ: __game.furnace.queue.length, out: __game.furnace.output.count, t: __game.time.toFixed(0)})"
+ },
+ {
+  "eval": "(()=>{const w=__game.workers.find(w=>w.profile.role==='Mining'); __game.player.pos.set(w.pos.x, 0, w.pos.z+4); return true;})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "w4_miner"
+ }
+]

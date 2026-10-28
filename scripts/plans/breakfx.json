@@ -1,0 +1,14 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(__game.player.pos.set(5,0,3.6), __game.player.facing=Math.PI, __game.stage.zoom(0.6), __game.stage.follow(__game.player.pos, true), true)"},
+ {"wait": 1600},
+ {"snap": "fx_hit"},
+ {"eval": "(()=>{const b=__game.field.near(__game.player.pos.x, __game.player.pos.z, 4)[0]; const ore=__game.st.blocks[b.i].ore; __game.field.damage(b, 1e9); __game.mining.ev.onBreak(b, ore, __game.player); return b.cx+','+b.cz;})()"},
+ {"wait": 160},
+ {"snap": "fx_break1"},
+ {"wait": 260},
+ {"snap": "fx_break2"},
+ {"wait": 500},
+ {"snap": "fx_break3"}
+]

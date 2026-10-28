@@ -1,0 +1,17 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let k=0; while(__game.dialogue.open && k<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); k++;} const g=__game; g.debug.quiet(); g.directCamera=()=>{}; g.directT=0; g.player.pos.set(5,0,20); g.stage.follow(g.player.pos,true); return true})()"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(()=>{ const g=__game, r=g.stage.renderer, gl=r.getContext(); const H=gl.drawingBufferHeight, W=gl.drawingBufferWidth; g.stage.render(); const y=Math.round(H - 600*H/960); const px=new Uint8Array(W*4); gl.readPixels(0,y,W,1,gl.RGBA,gl.UNSIGNED_BYTE,px); const out=[]; for(let x=300; x<=340; x+=2){ const i=Math.round(x*W/540)*4; out.push(px[i]+px[i+1]+px[i+2]); } return out.join(' '); })()"
+ },
+ {
+  "snap": "floor_base"
+ }
+]

@@ -1,0 +1,36 @@
+[
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); __game.directT = 0; return n})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(__game.directT = 0, JSON.stringify({layout: __game.st.layoutId, player: [__game.player.pos.x.toFixed(1), __game.player.pos.z.toFixed(1)]}))"
+ },
+ {
+  "snap": "map1_spawn"
+ },
+ {
+  "eval": "(__game.directT = 0, __game.stage.zoom(2.3), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "snap": "map1_wide"
+ },
+ {
+  "eval": "(__game.directT = 0, __game.player.pos.set(5, 0, -5), __game.stage.zoom(4.2), true)"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "snap": "map1_top"
+ }
+]

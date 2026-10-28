@@ -1,0 +1,10530 @@
+{
+ "_note": "TEMPORARY - numbers copied from the original game (Bulldozer Master, Supercent) for prototyping at the user's request; replace before publishing.",
+ "id": 8,
+ "name": "Frozen Zigzag",
+ "order": 8,
+ "gameMode": "MainStage",
+ "difficulty": "Normal",
+ "contractType": "Standard",
+ "keyResourceOre": "quartz",
+ "maxWorkerCount": 5,
+ "cashTarget": 165000,
+ "clear": {
+  "progressPercentRequired": 80,
+  "progressFormula": "progress% = 100 * itemsSoldAtSalesStand / maxDropItemCount (StageProgressionManager.OnSalesStandSell / MaxDropItemCountInStage). maxDropItemCount = sum over blocks of 6 drops.",
+  "rewardOnClear": {
+   "groupId": 108,
+   "type": "All",
+   "items": [
+    {
+     "rewardType": "Currency",
+     "id": 10002,
+     "item": "Gear",
+     "amount": 1150,
+     "weight": null
+    }
+   ]
+  },
+  "cashbackMilestones": [
+   {
+    "conditionGroup": 801,
+    "cashSpentFractionOfCashTarget": 0.2,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.2"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 5
+    }
+   },
+   {
+    "conditionGroup": 802,
+    "cashSpentFractionOfCashTarget": 0.4,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.4"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 10
+    }
+   },
+   {
+    "conditionGroup": 803,
+    "cashSpentFractionOfCashTarget": 0.6,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.6"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gem",
+     "amount": 1
+    }
+   },
+   {
+    "conditionGroup": 804,
+    "cashSpentFractionOfCashTarget": 0.8,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.8"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 25
+    }
+   },
+   {
+    "conditionGroup": 805,
+    "cashSpentFractionOfCashTarget": 1.0,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "1"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 45
+    }
+   }
+  ],
+  "cashbackNote": "Cashback conditions require StageLevel>=2, so they are inactive in stage 1. Usage = cash spent during the stage / cashTarget."
+ },
+ "heavyEquipmentRentMultiplier": 2.2,
+ "oreHpMultiplier": 1,
+ "grid": {
+  "width": 1000,
+  "height": 1000,
+  "cellSize": 2.5,
+  "usedBounds": {
+   "minX": 480,
+   "maxX": 559,
+   "minZ": 487,
+   "maxZ": 570
+  },
+  "coords": "Cells are integer (x,z); +x = east (screen right), +z = north (into the quarry, away from the camera). Every rect here is normalised to its min corner (x,z) + size w,h in cells (90/270 rotation already applied to building footprints). In the raw StageJson, ore groups store their top-left cell (minX,maxZ) instead - already converted. worldCenter = ((x + w/2 - 500) * 2.5 + offset) INFERRED: the original world origin is unknown, only relative placement matters. One block = one cell = 2.5 world units."
+ },
+ "totals": {
+  "original": {
+   "totalOreCount": 1474,
+   "totalDropItemCount": 8844
+  },
+  "resolved": {
+   "blocks": 1474,
+   "dropItems": 8844,
+   "duplicateCellsRemoved": 0,
+   "byOre": {
+    "ice": 981,
+    "silver": 164,
+    "iron": 90,
+    "quartz": 68,
+    "lapisLazuli": 64,
+    "tanzanite": 62,
+    "gold": 43,
+    "mystery": 2
+   },
+   "potentialIncomeIfAllSmeltedAndSold": 285930
+  }
+ },
+ "areas": {
+  "ground": [
+   {
+    "x": 544,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 544,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 544,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 544,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "home": [
+   {
+    "x": 488,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "obstacle": [
+   {
+    "x": 488,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 544,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 556,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 552,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 548,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 544,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 540,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 536,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 532,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 528,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 524,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 520,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 516,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 480,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 480,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 480,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 480,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 488,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 484,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   }
+  ]
+ },
+ "buildings": [
+  {
+   "type": "oreStorage",
+   "x": 502,
+   "z": 503,
+   "w": 2,
+   "h": 2,
+   "rotY": 0,
+   "worldCenter": [
+    7.5,
+    0.0,
+    10.0
+   ]
+  },
+  {
+   "type": "machineryShop",
+   "x": 488,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -26.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "upgradeBuilding",
+   "x": 491,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -18.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "oilStation",
+   "x": 494,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "furnace",
+   "x": 502,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "workerBuilding",
+   "x": 505,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    16.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "salesStand",
+   "x": 498,
+   "z": 491,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    0.13,
+    0.0,
+    -19.29
+   ],
+   "offset": [
+    1.38,
+    0.0,
+    -0.54
+   ]
+  }
+ ],
+ "structures": [
+  {
+   "type": "minecart",
+   "x": 546,
+   "z": 557,
+   "w": 2,
+   "h": 2,
+   "rotY": 270,
+   "worldCenter": [
+    117.5,
+    0.0,
+    145.0
+   ],
+   "structureGroupId": 806,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "platform": [
+    547,
+    556,
+    [
+     -1.23,
+     0.0
+    ]
+   ],
+   "railWaypoints": [
+    [
+     546,
+     557
+    ],
+    [
+     534,
+     557
+    ],
+    [
+     534,
+     539
+    ],
+    [
+     518,
+     539
+    ],
+    [
+     518,
+     523
+    ],
+    [
+     502,
+     523
+    ],
+    [
+     502,
+     505
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "extraOilStation",
+   "x": 516,
+   "z": 544,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    44.98,
+    0.0,
+    113.75
+   ],
+   "structureGroupId": 803,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "ExtraOilStation",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "fuel_add"
+    }
+   ],
+   "offset": [
+    1.23,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "minecart",
+   "x": 514,
+   "z": 525,
+   "w": 2,
+   "h": 2,
+   "rotY": 270,
+   "worldCenter": [
+    37.5,
+    0.0,
+    65.0
+   ],
+   "structureGroupId": 804,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "platform": [
+    515,
+    524,
+    [
+     -1.23,
+     0.0
+    ]
+   ],
+   "railWaypoints": [
+    [
+     514,
+     525
+    ],
+    [
+     502,
+     525
+    ],
+    [
+     502,
+     505
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "autoDigger",
+   "x": 496,
+   "z": 528,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -4.99,
+    0.0,
+    73.75
+   ],
+   "structureGroupId": 801,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoDigger",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "mining_auto"
+    },
+    {
+     "oreDeposit": {
+      "ore": "tanzanite",
+      "oreAmount": 450,
+      "mineralItemId": 10307
+     }
+    }
+   ],
+   "offset": [
+    1.26,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "minecart",
+   "x": 530,
+   "z": 541,
+   "w": 2,
+   "h": 2,
+   "rotY": 270,
+   "worldCenter": [
+    77.5,
+    0.0,
+    105.0
+   ],
+   "structureGroupId": 805,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "platform": [
+    531,
+    540,
+    [
+     -1.14,
+     0.0
+    ]
+   ],
+   "railWaypoints": [
+    [
+     530,
+     541
+    ],
+    [
+     518,
+     541
+    ],
+    [
+     518,
+     523
+    ],
+    [
+     502,
+     523
+    ],
+    [
+     502,
+     505
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "autoDigger",
+   "x": 528,
+   "z": 560,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    75.01,
+    0.0,
+    153.75
+   ],
+   "structureGroupId": 802,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoDigger",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "mining_auto"
+    },
+    {
+     "oreDeposit": {
+      "ore": "quartz",
+      "oreAmount": 450,
+      "mineralItemId": 10301
+     }
+    }
+   ],
+   "offset": [
+    1.26,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "harvester",
+   "x": 512,
+   "z": 544,
+   "w": 3,
+   "h": 3,
+   "rotY": 270,
+   "worldCenter": [
+    33.75,
+    0.0,
+    113.75
+   ],
+   "structureGroupId": 807,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoHarvester",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "collecting_auto"
+    }
+   ],
+   "returnPoint": [
+    496,
+    506
+   ]
+  }
+ ],
+ "cafeteria": [
+  {
+   "type": "cafeteriaTruck",
+   "x": 508,
+   "z": 496,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    23.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "cafeteriaTable1",
+   "x": 510,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "cafeteriaTable2",
+   "x": 510,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -14.96
+   ],
+   "offset": [
+    0.0,
+    0.0,
+    1.29
+   ]
+  },
+  {
+   "type": "cafeteriaTable3",
+   "x": 510,
+   "z": 492,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -18.75
+   ]
+  }
+ ],
+ "spawns": [
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 503,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 491,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -21.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 501,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    3.75,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 499,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 497,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 495,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 493,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -16.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "workerSpawnPoint",
+   "x": 506,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    16.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "playerSpawnPoint",
+   "x": 499,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -6.25
+   ]
+  }
+ ],
+ "props": [
+  {
+   "type": "road",
+   "x": 518,
+   "z": 488,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    48.75,
+    0.05,
+    -26.25
+   ],
+   "offset": [
+    0.0,
+    0.05,
+    0.0
+   ]
+  },
+  {
+   "type": "road",
+   "x": 486,
+   "z": 488,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -31.25,
+    0.05,
+    -26.25
+   ],
+   "offset": [
+    0.0,
+    0.05,
+    0.0
+   ]
+  },
+  {
+   "type": "workerRecoverPoint",
+   "x": 506,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    16.25,
+    0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 489,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -26.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 491,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -21.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 493,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -16.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 495,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 497,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "priceSign",
+   "x": 497,
+   "z": 492,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -20.4
+   ],
+   "offset": [
+    0.0,
+    0.0,
+    -1.65
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 502,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    6.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 504,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    11.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 506,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    16.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 508,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    21.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 510,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 487,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -31.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 485,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -36.25,
+    0.0,
+    -21.25
+   ]
+  }
+ ],
+ "oreGroups": [
+  {
+   "index": 0,
+   "x": 516,
+   "z": 534,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 1,
+   "x": 548,
+   "z": 557,
+   "w": 7,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    },
+    {
+     "ore": "quartz",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 2,
+   "x": 546,
+   "z": 552,
+   "w": 9,
+   "h": 5,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    },
+    {
+     "ore": "quartz",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 3,
+   "x": 546,
+   "z": 559,
+   "w": 9,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    },
+    {
+     "ore": "quartz",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 4,
+   "x": 539,
+   "z": 552,
+   "w": 7,
+   "h": 14,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    },
+    {
+     "ore": "quartz",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 5,
+   "x": 532,
+   "z": 559,
+   "w": 7,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 6,
+   "x": 528,
+   "z": 563,
+   "w": 11,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 7,
+   "x": 525,
+   "z": 559,
+   "w": 3,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 8,
+   "x": 524,
+   "z": 536,
+   "w": 6,
+   "h": 14,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 9,
+   "x": 530,
+   "z": 543,
+   "w": 2,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 10,
+   "x": 532,
+   "z": 541,
+   "w": 7,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 11,
+   "x": 530,
+   "z": 536,
+   "w": 9,
+   "h": 5,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 12,
+   "x": 525,
+   "z": 550,
+   "w": 5,
+   "h": 9,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 13,
+   "x": 519,
+   "z": 534,
+   "w": 4,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 14,
+   "x": 516,
+   "z": 536,
+   "w": 4,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 15,
+   "x": 520,
+   "z": 536,
+   "w": 4,
+   "h": 11,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 16,
+   "x": 516,
+   "z": 547,
+   "w": 8,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 17,
+   "x": 509,
+   "z": 534,
+   "w": 2,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 18,
+   "x": 508,
+   "z": 527,
+   "w": 15,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 19,
+   "x": 516,
+   "z": 525,
+   "w": 7,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 20,
+   "x": 508,
+   "z": 526,
+   "w": 6,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 21,
+   "x": 508,
+   "z": 520,
+   "w": 15,
+   "h": 5,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 22,
+   "x": 504,
+   "z": 503,
+   "w": 3,
+   "h": 17,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 23,
+   "x": 504,
+   "z": 520,
+   "w": 4,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 24,
+   "x": 500,
+   "z": 527,
+   "w": 8,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 25,
+   "x": 496,
+   "z": 531,
+   "w": 12,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 26,
+   "x": 496,
+   "z": 503,
+   "w": 8,
+   "h": 24,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 27,
+   "x": 493,
+   "z": 503,
+   "w": 3,
+   "h": 31,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 800
+    },
+    {
+     "ore": "iron",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 28,
+   "x": 511,
+   "z": 547,
+   "w": 5,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 29,
+   "x": 511,
+   "z": 534,
+   "w": 5,
+   "h": 9,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 30,
+   "x": 508,
+   "z": 525,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "mystery",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 31,
+   "x": 509,
+   "z": 525,
+   "w": 5,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 700
+    },
+    {
+     "ore": "lapisLazuli",
+     "weight": 150
+    },
+    {
+     "ore": "tanzanite",
+     "weight": 150
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 32,
+   "x": 532,
+   "z": 554,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "mystery",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 33,
+   "x": 533,
+   "z": 543,
+   "w": 6,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 34,
+   "x": 532,
+   "z": 555,
+   "w": 1,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 35,
+   "x": 532,
+   "z": 543,
+   "w": 1,
+   "h": 11,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 650
+    },
+    {
+     "ore": "silver",
+     "weight": 300
+    },
+    {
+     "ore": "quartz",
+     "weight": 50
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  }
+ ],
+ "blocks": [
+  {
+   "x": 493,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 503,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 503,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 503,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 503,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 504,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 504,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 504,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 504,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 504,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 505,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 506,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 506,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 506,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 506,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 507,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 507,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 507,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 507,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 507,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 508,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 508,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 508,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 508,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 508,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 508,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 509,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 509,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 509,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 509,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 510,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 510,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 511,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 511,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 511,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 511,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 512,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 512,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 512,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 513,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 513,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 514,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 514,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 514,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 514,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 514,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 515,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 515,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 515,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 515,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 516,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 516,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 516,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 516,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 516,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 517,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 517,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 517,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 518,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 518,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 518,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 518,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 519,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 519,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 519,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 519,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 519,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 519,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 520,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 520,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 520,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 520,
+   "ore": "iron"
+  },
+  {
+   "x": 508,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 520,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 513,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 520,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 515,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 520,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 520,
+   "z": 520,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 521,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 520,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 521,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 521,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 521,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 521,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 521,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 521,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 514,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 521,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 521,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 521,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 521,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 521,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 521,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 522,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 522,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 522,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 514,
+   "z": 522,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 515,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 522,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 522,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 522,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 521,
+   "z": 522,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 522,
+   "z": 522,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 523,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 523,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 523,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 523,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 523,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 510,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 523,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 513,
+   "z": 523,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 514,
+   "z": 523,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 515,
+   "z": 523,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 523,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 524,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 524,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 509,
+   "z": 524,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 510,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 524,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 524,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 519,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 524,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 522,
+   "z": 524,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 525,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 525,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 525,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 525,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 525,
+   "ore": "mystery"
+  },
+  {
+   "x": 509,
+   "z": 525,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 510,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 525,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 525,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 525,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 525,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 522,
+   "z": 525,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 493,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 526,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 526,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 526,
+   "ore": "iron"
+  },
+  {
+   "x": 508,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 526,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 510,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 526,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 512,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 526,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 517,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 526,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 526,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 527,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 527,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 527,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 527,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 509,
+   "z": 527,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 510,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 527,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 527,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 527,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 528,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 528,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 528,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 528,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 528,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 528,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 513,
+   "z": 528,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 514,
+   "z": 528,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 515,
+   "z": 528,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 528,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 529,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 529,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 529,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 529,
+   "ore": "iron"
+  },
+  {
+   "x": 506,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 529,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 510,
+   "z": 529,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 529,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 514,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 529,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 530,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 510,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 530,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 530,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 515,
+   "z": 530,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 516,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 530,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 521,
+   "z": 530,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 522,
+   "z": 530,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 531,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 531,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 531,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 531,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 510,
+   "z": 531,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 531,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 512,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 531,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 531,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 517,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 531,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 521,
+   "z": 531,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 522,
+   "z": 531,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 532,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 532,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 532,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 508,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 532,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 532,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 513,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 532,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 515,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 532,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 520,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 532,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 522,
+   "z": 532,
+   "ore": "ice"
+  },
+  {
+   "x": 493,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 494,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 495,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 496,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 497,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 498,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 499,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 504,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 505,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 506,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 507,
+   "z": 533,
+   "ore": "iron"
+  },
+  {
+   "x": 508,
+   "z": 533,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 509,
+   "z": 533,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 510,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 511,
+   "z": 533,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 513,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 514,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 533,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 520,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 533,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 533,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 509,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 534,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 511,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 534,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 515,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 534,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 535,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 535,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 535,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 519,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 535,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 521,
+   "z": 535,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 535,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 509,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 536,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 511,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 536,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 514,
+   "z": 536,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 515,
+   "z": 536,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 516,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 536,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 518,
+   "z": 536,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 519,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 536,
+   "ore": "quartz"
+  },
+  {
+   "x": 525,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 536,
+   "ore": "quartz"
+  },
+  {
+   "x": 528,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 536,
+   "ore": "quartz"
+  },
+  {
+   "x": 535,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 536,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 537,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 512,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 537,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 537,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 517,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 537,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 522,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 537,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 538,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 538,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 513,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 538,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 516,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 538,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 523,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 538,
+   "ore": "quartz"
+  },
+  {
+   "x": 533,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 538,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 539,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 539,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 539,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 520,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 539,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 523,
+   "z": 539,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 524,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 533,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 538,
+   "z": 539,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 540,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 517,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 540,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 540,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 541,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 511,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 528,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 541,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 542,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 515,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 542,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 522,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 542,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 538,
+   "z": 542,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 543,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 521,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 543,
+   "ore": "quartz"
+  },
+  {
+   "x": 538,
+   "z": 543,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 544,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 510,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 544,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 523,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 544,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 544,
+   "ore": "silver"
+  },
+  {
+   "x": 535,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 544,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 545,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 522,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 545,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 524,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 535,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 545,
+   "ore": "quartz"
+  },
+  {
+   "x": 537,
+   "z": 545,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 546,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 520,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 546,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 522,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 546,
+   "ore": "quartz"
+  },
+  {
+   "x": 535,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 538,
+   "z": 546,
+   "ore": "ice"
+  },
+  {
+   "x": 509,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 547,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 512,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 516,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 547,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 518,
+   "z": 547,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 519,
+   "z": 547,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 547,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 523,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 547,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 547,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 547,
+   "ore": "quartz"
+  },
+  {
+   "x": 536,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 538,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 511,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 515,
+   "z": 548,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 516,
+   "z": 548,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 517,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 518,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 520,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 548,
+   "ore": "tanzanite"
+  },
+  {
+   "x": 524,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 548,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 538,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 510,
+   "z": 549,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 511,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 512,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 513,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 514,
+   "z": 549,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 515,
+   "z": 549,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 516,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 517,
+   "z": 549,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 518,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 519,
+   "z": 549,
+   "ore": "lapisLazuli"
+  },
+  {
+   "x": 520,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 521,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 522,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 523,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 524,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 533,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 549,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 550,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 551,
+   "ore": "quartz"
+  },
+  {
+   "x": 526,
+   "z": 551,
+   "ore": "quartz"
+  },
+  {
+   "x": 527,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 551,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 552,
+   "ore": "quartz"
+  },
+  {
+   "x": 527,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 552,
+   "ore": "quartz"
+  },
+  {
+   "x": 534,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 540,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 552,
+   "ore": "gold"
+  },
+  {
+   "x": 543,
+   "z": 552,
+   "ore": "quartz"
+  },
+  {
+   "x": 544,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 545,
+   "z": 552,
+   "ore": "gold"
+  },
+  {
+   "x": 546,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 547,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 552,
+   "ore": "gold"
+  },
+  {
+   "x": 549,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 551,
+   "z": 552,
+   "ore": "gold"
+  },
+  {
+   "x": 552,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 552,
+   "ore": "ice"
+  },
+  {
+   "x": 554,
+   "z": 552,
+   "ore": "gold"
+  },
+  {
+   "x": 525,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 553,
+   "ore": "quartz"
+  },
+  {
+   "x": 529,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 533,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 540,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 553,
+   "ore": "quartz"
+  },
+  {
+   "x": 542,
+   "z": 553,
+   "ore": "quartz"
+  },
+  {
+   "x": 543,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 544,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 553,
+   "ore": "quartz"
+  },
+  {
+   "x": 546,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 547,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 553,
+   "ore": "quartz"
+  },
+  {
+   "x": 550,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 551,
+   "z": 553,
+   "ore": "ice"
+  },
+  {
+   "x": 552,
+   "z": 553,
+   "ore": "gold"
+  },
+  {
+   "x": 553,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 554,
+   "z": 553,
+   "ore": "gold"
+  },
+  {
+   "x": 525,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 554,
+   "ore": "mystery"
+  },
+  {
+   "x": 533,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 535,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 539,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 540,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 554,
+   "ore": "gold"
+  },
+  {
+   "x": 542,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 543,
+   "z": 554,
+   "ore": "gold"
+  },
+  {
+   "x": 544,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 546,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 547,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 549,
+   "z": 554,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 554,
+   "ore": "quartz"
+  },
+  {
+   "x": 551,
+   "z": 554,
+   "ore": "gold"
+  },
+  {
+   "x": 552,
+   "z": 554,
+   "ore": "quartz"
+  },
+  {
+   "x": 553,
+   "z": 554,
+   "ore": "quartz"
+  },
+  {
+   "x": 554,
+   "z": 554,
+   "ore": "quartz"
+  },
+  {
+   "x": 525,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 555,
+   "ore": "quartz"
+  },
+  {
+   "x": 539,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 540,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 555,
+   "ore": "gold"
+  },
+  {
+   "x": 543,
+   "z": 555,
+   "ore": "gold"
+  },
+  {
+   "x": 544,
+   "z": 555,
+   "ore": "quartz"
+  },
+  {
+   "x": 545,
+   "z": 555,
+   "ore": "gold"
+  },
+  {
+   "x": 546,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 555,
+   "ore": "quartz"
+  },
+  {
+   "x": 548,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 555,
+   "ore": "gold"
+  },
+  {
+   "x": 550,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 555,
+   "ore": "gold"
+  },
+  {
+   "x": 552,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 554,
+   "z": 555,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 540,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 556,
+   "ore": "quartz"
+  },
+  {
+   "x": 542,
+   "z": 556,
+   "ore": "quartz"
+  },
+  {
+   "x": 543,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 544,
+   "z": 556,
+   "ore": "quartz"
+  },
+  {
+   "x": 545,
+   "z": 556,
+   "ore": "quartz"
+  },
+  {
+   "x": 546,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 556,
+   "ore": "gold"
+  },
+  {
+   "x": 548,
+   "z": 556,
+   "ore": "quartz"
+  },
+  {
+   "x": 549,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 556,
+   "ore": "gold"
+  },
+  {
+   "x": 552,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 556,
+   "ore": "ice"
+  },
+  {
+   "x": 554,
+   "z": 556,
+   "ore": "gold"
+  },
+  {
+   "x": 525,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 557,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 539,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 540,
+   "z": 557,
+   "ore": "gold"
+  },
+  {
+   "x": 541,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 557,
+   "ore": "quartz"
+  },
+  {
+   "x": 543,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 544,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 549,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 552,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 557,
+   "ore": "ice"
+  },
+  {
+   "x": 554,
+   "z": 557,
+   "ore": "quartz"
+  },
+  {
+   "x": 525,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 533,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 540,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 543,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 544,
+   "z": 558,
+   "ore": "quartz"
+  },
+  {
+   "x": 545,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 550,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 551,
+   "z": 558,
+   "ore": "ice"
+  },
+  {
+   "x": 552,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 553,
+   "z": 558,
+   "ore": "gold"
+  },
+  {
+   "x": 554,
+   "z": 558,
+   "ore": "quartz"
+  },
+  {
+   "x": 525,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 559,
+   "ore": "quartz"
+  },
+  {
+   "x": 535,
+   "z": 559,
+   "ore": "quartz"
+  },
+  {
+   "x": 536,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 559,
+   "ore": "quartz"
+  },
+  {
+   "x": 539,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 540,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 559,
+   "ore": "gold"
+  },
+  {
+   "x": 542,
+   "z": 559,
+   "ore": "gold"
+  },
+  {
+   "x": 543,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 544,
+   "z": 559,
+   "ore": "quartz"
+  },
+  {
+   "x": 545,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 546,
+   "z": 559,
+   "ore": "gold"
+  },
+  {
+   "x": 547,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 548,
+   "z": 559,
+   "ore": "gold"
+  },
+  {
+   "x": 549,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 552,
+   "z": 559,
+   "ore": "quartz"
+  },
+  {
+   "x": 553,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 554,
+   "z": 559,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 560,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 560,
+   "ore": "quartz"
+  },
+  {
+   "x": 540,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 543,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 544,
+   "z": 560,
+   "ore": "gold"
+  },
+  {
+   "x": 545,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 546,
+   "z": 560,
+   "ore": "gold"
+  },
+  {
+   "x": 547,
+   "z": 560,
+   "ore": "gold"
+  },
+  {
+   "x": 548,
+   "z": 560,
+   "ore": "gold"
+  },
+  {
+   "x": 549,
+   "z": 560,
+   "ore": "quartz"
+  },
+  {
+   "x": 550,
+   "z": 560,
+   "ore": "quartz"
+  },
+  {
+   "x": 551,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 552,
+   "z": 560,
+   "ore": "quartz"
+  },
+  {
+   "x": 553,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 554,
+   "z": 560,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 526,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 561,
+   "ore": "quartz"
+  },
+  {
+   "x": 532,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 561,
+   "ore": "quartz"
+  },
+  {
+   "x": 538,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 539,
+   "z": 561,
+   "ore": "gold"
+  },
+  {
+   "x": 540,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 561,
+   "ore": "gold"
+  },
+  {
+   "x": 542,
+   "z": 561,
+   "ore": "quartz"
+  },
+  {
+   "x": 543,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 544,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 546,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 548,
+   "z": 561,
+   "ore": "gold"
+  },
+  {
+   "x": 549,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 561,
+   "ore": "quartz"
+  },
+  {
+   "x": 551,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 552,
+   "z": 561,
+   "ore": "quartz"
+  },
+  {
+   "x": 553,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 554,
+   "z": 561,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 562,
+   "ore": "quartz"
+  },
+  {
+   "x": 539,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 540,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 542,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 543,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 544,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 562,
+   "ore": "quartz"
+  },
+  {
+   "x": 546,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 562,
+   "ore": "gold"
+  },
+  {
+   "x": 548,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 551,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 552,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 553,
+   "z": 562,
+   "ore": "quartz"
+  },
+  {
+   "x": 554,
+   "z": 562,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 532,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 535,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 537,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 540,
+   "z": 563,
+   "ore": "quartz"
+  },
+  {
+   "x": 541,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 563,
+   "ore": "gold"
+  },
+  {
+   "x": 543,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 544,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 563,
+   "ore": "gold"
+  },
+  {
+   "x": 546,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 563,
+   "ore": "ice"
+  },
+  {
+   "x": 548,
+   "z": 563,
+   "ore": "gold"
+  },
+  {
+   "x": 549,
+   "z": 563,
+   "ore": "quartz"
+  },
+  {
+   "x": 550,
+   "z": 563,
+   "ore": "gold"
+  },
+  {
+   "x": 551,
+   "z": 563,
+   "ore": "quartz"
+  },
+  {
+   "x": 552,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 553,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 554,
+   "z": 563,
+   "ore": "quartz"
+  },
+  {
+   "x": 525,
+   "z": 564,
+   "ore": "quartz"
+  },
+  {
+   "x": 526,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 527,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 528,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 529,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 530,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 531,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 534,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 536,
+   "z": 564,
+   "ore": "quartz"
+  },
+  {
+   "x": 537,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 564,
+   "ore": "quartz"
+  },
+  {
+   "x": 540,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 541,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 542,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 543,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 544,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 545,
+   "z": 564,
+   "ore": "quartz"
+  },
+  {
+   "x": 546,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 547,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 548,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 552,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 554,
+   "z": 564,
+   "ore": "ice"
+  },
+  {
+   "x": 525,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 529,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 530,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 531,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 532,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 533,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 534,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 535,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 536,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 537,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 538,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 539,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 540,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 541,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 542,
+   "z": 565,
+   "ore": "quartz"
+  },
+  {
+   "x": 543,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 544,
+   "z": 565,
+   "ore": "gold"
+  },
+  {
+   "x": 545,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 546,
+   "z": 565,
+   "ore": "quartz"
+  },
+  {
+   "x": 547,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 548,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 549,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 550,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 551,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 552,
+   "z": 565,
+   "ore": "ice"
+  },
+  {
+   "x": 553,
+   "z": 565,
+   "ore": "gold"
+  },
+  {
+   "x": 554,
+   "z": 565,
+   "ore": "quartz"
+  }
+ ]
+}

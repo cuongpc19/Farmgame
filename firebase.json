@@ -1,0 +1,16 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "site",
+    "predeploy": ["node scripts/stats/site.mjs"],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "**/*.local.json"],
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }]
+      }
+    ]
+  }
+}

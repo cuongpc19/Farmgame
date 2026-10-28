@@ -1,0 +1,71 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.state().owned.push('sledgehammer'), __game.refreshToolsBtn(), (()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})())"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "eval": "(()=>{const b=document.querySelector('.tools-btn').getBoundingClientRect(); window.__p0=window.__p0||[__game.player.pos.x,__game.player.pos.z]; return [Math.round(b.x+b.width/2), Math.round(b.y+b.height/2)];})()"
+ },
+ {
+  "drag": [
+   355,
+   130,
+   250,
+   300
+  ],
+  "ms": 700
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "JSON.stringify({case:'drag from button', open: __game.equipPanel.isOpen, moved: Math.hypot(__game.player.pos.x-__p0[0], __game.player.pos.z-__p0[1]).toFixed(2)})"
+ },
+ {
+  "eval": "(__game.player.pos.set(__p0[0],0,__p0[1]), document.querySelectorAll(\".sh-x\").forEach(b=>b.click()), JSON.stringify({sheetsOpen:[...document.querySelectorAll(\".sheet.on, .sheet.open\")].map(e=>e.className)}))"
+ },
+ {
+  "wait": 500
+ },
+ {
+  "drag": [
+   355,
+   130,
+   359,
+   126
+  ],
+  "ms": 900
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "JSON.stringify({case:'thumb rests then barely moves', open: __game.equipPanel.isOpen})"
+ },
+ {
+  "eval": "(document.querySelectorAll('.sh-x').forEach(b=>b.click()), true)"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "JSON.stringify({before:\"quick tap\", dlg:__game.dialogue.open, spot:__game.spot.open, top: document.elementFromPoint(355,130)?.className})"
+ },
+ {
+  "touchTap": [
+   355,
+   130
+  ]
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "JSON.stringify({case:'quick tap', open: __game.equipPanel.isOpen})"
+ }
+]

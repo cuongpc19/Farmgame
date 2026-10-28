@@ -1,0 +1,71 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#6b7380}</style></head>
+<body><script type="module">
+// Menu icons drawn from the game's own 3D models (user 2026-10-21: the Hydraulic Breaker's emoji
+// looked nothing like the machine). Renders `?key=` (a makeVehicleModel key) on a transparent
+// background, three-quarter view of its front, framed to fit, and leaves the PNG as a data URL in
+// window.__icon. scripts/make-icons.mjs saves it to src/assets/icons/<key>.png.
+import * as THREE from "three";
+import { loadProps } from "/src/game/props3d.ts";
+import { makeVehicleModel } from "/src/game/models.ts";
+const q = new URLSearchParams(location.search);
+const key = q.get("key") ?? "hydraulicBreaker";
+const size = Number(q.get("size") ?? 192);
+window.__game = { ready: false };
+try {
+  await loadProps();
+  const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  r.outputColorSpace = THREE.SRGBColorSpace;
+  r.setPixelRatio(1);
+  r.setSize(size, size);
+  r.setClearColor(0x000000, 0);
+  document.body.appendChild(r.domElement);
+  const s = new THREE.Scene();
+  s.add(new THREE.HemisphereLight(0xfff4e0, 0x6a5440, 1.35));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.1);
+  sun.position.set(6, 12, 9);
+  s.add(sun);
+  const m = makeVehicleModel(key);
+  s.add(m.root);
+  // Frame the whole machine (the model faces +Z): from the front-right, a little above. Fitted to
+  // the projected vertices, so long machines (loader blade, roller drum, barrow handles) aren't cut.
+  const box = new THREE.Box3().setFromObject(m.root);
+  const centre = box.getCenter(new THREE.Vector3());
+  const radius = box.getSize(new THREE.Vector3()).length() / 2;
+  const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 200);
+  const dir = new THREE.Vector3(1.05, 0.75, 1.15).normalize();
+  let dist = (radius / Math.sin(THREE.MathUtils.degToRad(13))) * 0.7;
+  const pts = [];
+  m.root.updateMatrixWorld(true);
+  m.root.traverse((o) => {
+    const pos = o.isMesh && o.geometry.attributes.position;
+    if (!pos) return;
+    for (let i = 0; i < pos.count; i++) pts.push(new THREE.Vector3().fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld));
+  });
+  const aim = centre.clone();
+  const v = new THREE.Vector3();
+  for (let k = 0; k < 6; k++) {
+    cam.position.copy(aim).addScaledVector(dir, dist);
+    cam.lookAt(aim);
+    cam.updateMatrixWorld();
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    for (const p of pts) {
+      v.copy(p).project(cam);
+      x0 = Math.min(x0, v.x); x1 = Math.max(x1, v.x); y0 = Math.min(y0, v.y); y1 = Math.max(y1, v.y);
+    }
+    // Centre the picture, then fill 92 % of the square.
+    const half = dist * Math.tan(THREE.MathUtils.degToRad(13));
+    const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0);
+    const up = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 1);
+    aim.addScaledVector(right, ((x0 + x1) / 2) * half).addScaledVector(up, ((y0 + y1) / 2) * half);
+    dist *= Math.max(x1 - x0, y1 - y0) / 2 / 0.92;
+  }
+  cam.position.copy(aim).addScaledVector(dir, dist);
+  cam.lookAt(aim);
+  r.render(s, cam);
+  window.__icon = r.domElement.toDataURL("image/png");
+  window.__game.ready = true;
+} catch (e) {
+  window.__icon = "ERR " + (e.stack || e);
+  window.__game.ready = true;
+}
+</script></body></html>

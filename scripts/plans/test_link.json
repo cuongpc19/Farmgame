@@ -1,0 +1,6 @@
+[
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"wait": 2500},
+ {"eval": "JSON.stringify({url: location.search, prog: +__game.progress().toFixed(1), cash: __game.debug.state().cash, quest: __game.debug.quest(), workerLocked: __game.workerB.locked, applicants: __game.workersPanel.applicants.length, dialogue: __game.dialogue.open})"},
+ {"snap": "test_link"}
+]

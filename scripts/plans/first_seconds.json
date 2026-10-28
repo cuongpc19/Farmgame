@@ -1,0 +1,9 @@
+[
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"snap": "first_0s"},
+ {"wait": 1500},
+ {"snap": "first_1_5s"},
+ {"wait": 2500},
+ {"snap": "first_4s"},
+ {"eval": "JSON.stringify({quest: __game.debug.quest(), dlg: __game.dialogue.open, toolsBtn: getComputedStyle(__game.hud.toolsBtn).display})"}
+]

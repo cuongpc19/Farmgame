@@ -1,0 +1,7 @@
+[
+ {"until": "document.querySelectorAll('#cards .card').length > 3", "timeout": 20000},
+ {"eval": "({wide: document.documentElement.scrollWidth, view: innerWidth})"},
+ {"snap": "stats_phone_top"},
+ {"eval": "(document.getElementById('tQuest').closest('.scroll').scrollIntoView(), true)"},
+ {"snap": "stats_phone_quest"}
+]

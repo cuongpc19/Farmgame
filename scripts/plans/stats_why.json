@@ -1,0 +1,6 @@
+[
+ {"until": "document.querySelectorAll('#cards .card').length > 3", "timeout": 20000},
+ {"eval": "JSON.stringify({status: document.getElementById('status').textContent, players: document.querySelector('#cards .card .n')?.textContent, whyRows: document.querySelectorAll('#tWhy tbody tr').length, first: [...document.querySelectorAll('#tWhy tbody tr')].slice(0, 3).map(tr => tr.innerText.replace(/\\t/g, ' | ')), multiCode: [...document.querySelectorAll('#tPlayers tbody tr td:first-child')].filter(td => td.querySelectorAll('code').length > 1).length, wide: document.documentElement.scrollWidth})"},
+ {"eval": "(document.getElementById('tWhy').closest('.scroll').scrollIntoView({block:'start'}), window.scrollBy(0,-90), true)"},
+ {"snap": "stats_why"}
+]

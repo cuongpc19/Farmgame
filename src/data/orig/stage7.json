@@ -1,0 +1,11264 @@
+{
+ "_note": "TEMPORARY - numbers copied from the original game (Bulldozer Master, Supercent) for prototyping at the user's request; replace before publishing.",
+ "id": 7,
+ "name": "Lava Lamp",
+ "order": 7,
+ "gameMode": "MainStage",
+ "difficulty": "Hard",
+ "contractType": "Corporate",
+ "keyResourceOre": "ruby",
+ "maxWorkerCount": 6,
+ "cashTarget": 225000,
+ "clear": {
+  "progressPercentRequired": 80,
+  "progressFormula": "progress% = 100 * itemsSoldAtSalesStand / maxDropItemCount (StageProgressionManager.OnSalesStandSell / MaxDropItemCountInStage). maxDropItemCount = sum over blocks of 6 drops.",
+  "rewardOnClear": {
+   "groupId": 107,
+   "type": "All",
+   "items": [
+    {
+     "rewardType": "Currency",
+     "id": 10002,
+     "item": "Gear",
+     "amount": 900,
+     "weight": null
+    }
+   ]
+  },
+  "cashbackMilestones": [
+   {
+    "conditionGroup": 801,
+    "cashSpentFractionOfCashTarget": 0.2,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.2"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 5
+    }
+   },
+   {
+    "conditionGroup": 802,
+    "cashSpentFractionOfCashTarget": 0.4,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.4"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 10
+    }
+   },
+   {
+    "conditionGroup": 803,
+    "cashSpentFractionOfCashTarget": 0.6,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.6"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gem",
+     "amount": 1
+    }
+   },
+   {
+    "conditionGroup": 804,
+    "cashSpentFractionOfCashTarget": 0.8,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.8"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 25
+    }
+   },
+   {
+    "conditionGroup": 805,
+    "cashSpentFractionOfCashTarget": 1.0,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "1"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 45
+    }
+   }
+  ],
+  "cashbackNote": "Cashback conditions require StageLevel>=2, so they are inactive in stage 1. Usage = cash spent during the stage / cashTarget."
+ },
+ "heavyEquipmentRentMultiplier": 2.1,
+ "oreHpMultiplier": 1,
+ "grid": {
+  "width": 1000,
+  "height": 1000,
+  "cellSize": 2.5,
+  "usedBounds": {
+   "minX": 478,
+   "maxX": 533,
+   "minZ": 491,
+   "maxZ": 590
+  },
+  "coords": "Cells are integer (x,z); +x = east (screen right), +z = north (into the quarry, away from the camera). Every rect here is normalised to its min corner (x,z) + size w,h in cells (90/270 rotation already applied to building footprints). In the raw StageJson, ore groups store their top-left cell (minX,maxZ) instead - already converted. worldCenter = ((x + w/2 - 500) * 2.5 + offset) INFERRED: the original world origin is unknown, only relative placement matters. One block = one cell = 2.5 world units."
+ },
+ "totals": {
+  "original": {
+   "totalOreCount": 1560,
+   "totalDropItemCount": 9360
+  },
+  "resolved": {
+   "blocks": 1560,
+   "dropItems": 9360,
+   "duplicateCellsRemoved": 0,
+   "byOre": {
+    "yooperlite": 410,
+    "iron": 363,
+    "coal": 335,
+    "silver": 243,
+    "quartz": 102,
+    "ruby": 82,
+    "basalt": 23,
+    "mystery": 2
+   },
+   "potentialIncomeIfAllSmeltedAndSold": 331704
+  }
+ },
+ "areas": {
+  "ground": [
+   {
+    "x": 494,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "home": [
+   {
+    "x": 494,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "obstacle": [
+   {
+    "x": 510,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 515,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 519,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 523,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 522,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 526,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 530,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 527,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 531,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 535,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 539,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 543,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 547,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 551,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 555,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 478,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 559,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 482,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 563,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 486,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 567,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 494,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 498,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 502,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 506,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 510,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 587,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 583,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 579,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 575,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 514,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 518,
+    "z": 571,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 492,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 490,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   }
+  ]
+ },
+ "buildings": [
+  {
+   "type": "workerBuilding",
+   "x": 511,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    31.25,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "furnace",
+   "x": 508,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    23.75,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "salesStand",
+   "x": 504,
+   "z": 495,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    14.98,
+    0.0,
+    -9.29
+   ],
+   "offset": [
+    1.23,
+    0.0,
+    -0.54
+   ]
+  },
+  {
+   "type": "machineryShop",
+   "x": 494,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "upgradeBuilding",
+   "x": 497,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -3.75,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "oilStation",
+   "x": 500,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    3.75,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "oreStorage",
+   "x": 508,
+   "z": 511,
+   "w": 2,
+   "h": 2,
+   "rotY": 0,
+   "worldCenter": [
+    22.5,
+    0.0,
+    30.0
+   ]
+  }
+ ],
+ "structures": [
+  {
+   "type": "autoDigger",
+   "x": 504,
+   "z": 579,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    15.13,
+    0.0,
+    202.6
+   ],
+   "structureGroupId": 706,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoDigger",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "mining_auto"
+    },
+    {
+     "oreDeposit": {
+      "ore": "ruby",
+      "oreAmount": 450,
+      "mineralItemId": 10311
+     }
+    }
+   ],
+   "offset": [
+    1.38,
+    0.0,
+    1.35
+   ]
+  },
+  {
+   "type": "minecart",
+   "x": 490,
+   "z": 551,
+   "w": 2,
+   "h": 2,
+   "rotY": 180,
+   "worldCenter": [
+    -22.5,
+    0.0,
+    130.0
+   ],
+   "structureGroupId": 701,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "railWaypoints": [
+    [
+     490,
+     551
+    ],
+    [
+     490,
+     535
+    ],
+    [
+     494,
+     535
+    ],
+    [
+     494,
+     531
+    ],
+    [
+     498,
+     531
+    ],
+    [
+     498,
+     515
+    ],
+    [
+     508,
+     515
+    ],
+    [
+     508,
+     513
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "minecart",
+   "x": 520,
+   "z": 551,
+   "w": 2,
+   "h": 2,
+   "rotY": 180,
+   "worldCenter": [
+    52.5,
+    0.0,
+    130.0
+   ],
+   "structureGroupId": 702,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "railWaypoints": [
+    [
+     520,
+     551
+    ],
+    [
+     520,
+     535
+    ],
+    [
+     516,
+     535
+    ],
+    [
+     516,
+     531
+    ],
+    [
+     512,
+     531
+    ],
+    [
+     512,
+     515
+    ],
+    [
+     508,
+     515
+    ],
+    [
+     508,
+     513
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "minecart",
+   "x": 508,
+   "z": 565,
+   "w": 2,
+   "h": 2,
+   "rotY": 180,
+   "worldCenter": [
+    22.5,
+    0.0,
+    165.0
+   ],
+   "structureGroupId": 703,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "railWaypoints": [
+    [
+     508,
+     565
+    ],
+    [
+     508,
+     559
+    ],
+    [
+     516,
+     559
+    ],
+    [
+     516,
+     531
+    ],
+    [
+     512,
+     531
+    ],
+    [
+     512,
+     515
+    ],
+    [
+     508,
+     515
+    ],
+    [
+     508,
+     513
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "harvester",
+   "x": 502,
+   "z": 535,
+   "w": 3,
+   "h": 3,
+   "rotY": 180,
+   "worldCenter": [
+    9.56,
+    0.0,
+    92.6
+   ],
+   "structureGroupId": 704,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoHarvester",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "collecting_auto"
+    }
+   ],
+   "offset": [
+    0.81,
+    0.0,
+    1.35
+   ],
+   "returnPoint": [
+    504,
+    511
+   ]
+  },
+  {
+   "type": "extraOilStation",
+   "x": 502,
+   "z": 564,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    10.01,
+    -0.0,
+    163.48
+   ],
+   "structureGroupId": 705,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "ExtraOilStation",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "fuel_add"
+    }
+   ],
+   "offset": [
+    1.26,
+    -0.0,
+    -0.27
+   ]
+  }
+ ],
+ "cafeteria": [
+  {
+   "type": "cafeteriaTruck",
+   "x": 514,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    38.75,
+    0.0,
+    3.75
+   ]
+  },
+  {
+   "type": "cafeteriaTable1",
+   "x": 516,
+   "z": 499,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    41.25,
+    0.0,
+    -1.25
+   ]
+  },
+  {
+   "type": "cafeteriaTable2",
+   "x": 516,
+   "z": 498,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    41.25,
+    0.0,
+    -4.92
+   ],
+   "offset": [
+    0.0,
+    0.0,
+    -1.17
+   ]
+  },
+  {
+   "type": "cafeteriaTable3",
+   "x": 516,
+   "z": 496,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    41.25,
+    0.0,
+    -8.75
+   ]
+  }
+ ],
+ "spawns": [
+  {
+   "type": "playerSpawnPoint",
+   "x": 505,
+   "z": 501,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    15.04,
+    0.0,
+    3.75
+   ],
+   "offset": [
+    1.29,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "workerSpawnPoint",
+   "x": 512,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    31.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 497,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 499,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 501,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    3.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 503,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 505,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    13.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 507,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    18.75,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 509,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    23.75,
+    0.0,
+    -6.25
+   ]
+  }
+ ],
+ "props": [
+  {
+   "type": "metalBarrier",
+   "x": 495,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 497,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 499,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 501,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    3.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 503,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "priceSign",
+   "x": 503,
+   "z": 496,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -10.37
+   ],
+   "offset": [
+    0.0,
+    0.0,
+    -1.62
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 508,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    21.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 510,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 512,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    31.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 514,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    36.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 516,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    41.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "workerRecoverPoint",
+   "x": 512,
+   "z": 497,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    31.25,
+    0.0,
+    -6.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 489,
+   "z": 492,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -23.75,
+    0.05,
+    -16.25
+   ],
+   "offset": [
+    0.0,
+    0.05,
+    0.0
+   ]
+  },
+  {
+   "type": "road",
+   "x": 521,
+   "z": 492,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    56.25,
+    0.05,
+    -16.25
+   ],
+   "offset": [
+    0.0,
+    0.05,
+    0.0
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 493,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -16.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 491,
+   "z": 495,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -21.25,
+    0.0,
+    -11.25
+   ]
+  }
+ ],
+ "oreGroups": [
+  {
+   "index": 0,
+   "x": 504,
+   "z": 570,
+   "w": 4,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 400
+    },
+    {
+     "ore": "quartz",
+     "weight": 300
+    },
+    {
+     "ore": "ruby",
+     "weight": 300
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 1,
+   "x": 504,
+   "z": 583,
+   "w": 4,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 400
+    },
+    {
+     "ore": "quartz",
+     "weight": 300
+    },
+    {
+     "ore": "ruby",
+     "weight": 300
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 2,
+   "x": 508,
+   "z": 570,
+   "w": 5,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 400
+    },
+    {
+     "ore": "quartz",
+     "weight": 300
+    },
+    {
+     "ore": "ruby",
+     "weight": 300
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 3,
+   "x": 505,
+   "z": 539,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 4,
+   "x": 505,
+   "z": 540,
+   "w": 1,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 5,
+   "x": 506,
+   "z": 539,
+   "w": 8,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 6,
+   "x": 507,
+   "z": 537,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "mystery",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 7,
+   "x": 506,
+   "z": 567,
+   "w": 1,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 8,
+   "x": 507,
+   "z": 567,
+   "w": 7,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 9,
+   "x": 508,
+   "z": 563,
+   "w": 6,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 10,
+   "x": 510,
+   "z": 565,
+   "w": 4,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 11,
+   "x": 506,
+   "z": 563,
+   "w": 2,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 12,
+   "x": 502,
+   "z": 559,
+   "w": 12,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 13,
+   "x": 498,
+   "z": 559,
+   "w": 4,
+   "h": 8,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 14,
+   "x": 522,
+   "z": 551,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 15,
+   "x": 517,
+   "z": 551,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 16,
+   "x": 517,
+   "z": 536,
+   "w": 4,
+   "h": 15,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 17,
+   "x": 521,
+   "z": 540,
+   "w": 4,
+   "h": 11,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 18,
+   "x": 492,
+   "z": 551,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 19,
+   "x": 487,
+   "z": 551,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 20,
+   "x": 491,
+   "z": 536,
+   "w": 4,
+   "h": 15,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 20
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 21,
+   "x": 487,
+   "z": 540,
+   "w": 4,
+   "h": 11,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 22,
+   "x": 506,
+   "z": 535,
+   "w": 1,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 23,
+   "x": 502,
+   "z": 532,
+   "w": 12,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 24,
+   "x": 498,
+   "z": 532,
+   "w": 4,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 25,
+   "x": 499,
+   "z": 516,
+   "w": 14,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 70
+    },
+    {
+     "ore": "silver",
+     "weight": 15
+    },
+    {
+     "ore": "quartz",
+     "weight": 11
+    },
+    {
+     "ore": "ruby",
+     "weight": 4
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 26,
+   "x": 503,
+   "z": 504,
+   "w": 6,
+   "h": 12,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 600
+    },
+    {
+     "ore": "basalt",
+     "weight": 400
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 27,
+   "x": 498,
+   "z": 539,
+   "w": 7,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 28,
+   "x": 495,
+   "z": 532,
+   "w": 3,
+   "h": 38,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 29,
+   "x": 514,
+   "z": 532,
+   "w": 3,
+   "h": 38,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 30,
+   "x": 491,
+   "z": 553,
+   "w": 4,
+   "h": 13,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 31,
+   "x": 517,
+   "z": 553,
+   "w": 4,
+   "h": 13,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 32,
+   "x": 521,
+   "z": 553,
+   "w": 4,
+   "h": 9,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 33,
+   "x": 525,
+   "z": 544,
+   "w": 4,
+   "h": 14,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 34,
+   "x": 487,
+   "z": 553,
+   "w": 4,
+   "h": 9,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 35,
+   "x": 483,
+   "z": 544,
+   "w": 4,
+   "h": 14,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 36,
+   "x": 498,
+   "z": 567,
+   "w": 8,
+   "h": 3,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "yooperlite",
+     "weight": 400
+    },
+    {
+     "ore": "iron",
+     "weight": 400
+    },
+    {
+     "ore": "silver",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 37,
+   "x": 499,
+   "z": 570,
+   "w": 5,
+   "h": 16,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 400
+    },
+    {
+     "ore": "quartz",
+     "weight": 300
+    },
+    {
+     "ore": "ruby",
+     "weight": 300
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 38,
+   "x": 506,
+   "z": 569,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "mystery",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 39,
+   "x": 508,
+   "z": 535,
+   "w": 6,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 40,
+   "x": 507,
+   "z": 535,
+   "w": 1,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 41,
+   "x": 507,
+   "z": 538,
+   "w": 1,
+   "h": 1,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "coal",
+     "weight": 700
+    },
+    {
+     "ore": "silver",
+     "weight": 150
+    },
+    {
+     "ore": "quartz",
+     "weight": 110
+    },
+    {
+     "ore": "ruby",
+     "weight": 40
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  }
+ ],
+ "blocks": [
+  {
+   "x": 503,
+   "z": 504,
+   "ore": "basalt"
+  },
+  {
+   "x": 504,
+   "z": 504,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 504,
+   "ore": "basalt"
+  },
+  {
+   "x": 506,
+   "z": 504,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 504,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 504,
+   "ore": "basalt"
+  },
+  {
+   "x": 503,
+   "z": 505,
+   "ore": "basalt"
+  },
+  {
+   "x": 504,
+   "z": 505,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 505,
+   "ore": "basalt"
+  },
+  {
+   "x": 506,
+   "z": 505,
+   "ore": "basalt"
+  },
+  {
+   "x": 507,
+   "z": 505,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 505,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 506,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 506,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 506,
+   "ore": "basalt"
+  },
+  {
+   "x": 506,
+   "z": 506,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 506,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 506,
+   "ore": "basalt"
+  },
+  {
+   "x": 503,
+   "z": 507,
+   "ore": "basalt"
+  },
+  {
+   "x": 504,
+   "z": 507,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 507,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 507,
+   "ore": "basalt"
+  },
+  {
+   "x": 507,
+   "z": 507,
+   "ore": "basalt"
+  },
+  {
+   "x": 508,
+   "z": 507,
+   "ore": "basalt"
+  },
+  {
+   "x": 503,
+   "z": 508,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 508,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 508,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 508,
+   "ore": "basalt"
+  },
+  {
+   "x": 507,
+   "z": 508,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 508,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 509,
+   "ore": "basalt"
+  },
+  {
+   "x": 504,
+   "z": 509,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 509,
+   "ore": "basalt"
+  },
+  {
+   "x": 506,
+   "z": 509,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 509,
+   "ore": "basalt"
+  },
+  {
+   "x": 508,
+   "z": 509,
+   "ore": "basalt"
+  },
+  {
+   "x": 503,
+   "z": 510,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 510,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 510,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 510,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 510,
+   "ore": "basalt"
+  },
+  {
+   "x": 508,
+   "z": 510,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 511,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 512,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 512,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 512,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 512,
+   "ore": "basalt"
+  },
+  {
+   "x": 507,
+   "z": 512,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 512,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 513,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 513,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 513,
+   "ore": "basalt"
+  },
+  {
+   "x": 506,
+   "z": 513,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 513,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 513,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 514,
+   "ore": "basalt"
+  },
+  {
+   "x": 504,
+   "z": 514,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 514,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 514,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 514,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 514,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 515,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 515,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 515,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 515,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 515,
+   "ore": "basalt"
+  },
+  {
+   "x": 508,
+   "z": 515,
+   "ore": "basalt"
+  },
+  {
+   "x": 499,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 516,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 516,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 516,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 516,
+   "ore": "quartz"
+  },
+  {
+   "x": 506,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 516,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 516,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 516,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 517,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 517,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 517,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 517,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 517,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 517,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 517,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 518,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 518,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 518,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 519,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 519,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 519,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 519,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 520,
+   "ore": "quartz"
+  },
+  {
+   "x": 506,
+   "z": 520,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 520,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 520,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 520,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 520,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 520,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 521,
+   "ore": "quartz"
+  },
+  {
+   "x": 500,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 521,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 521,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 522,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 522,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 522,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 522,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 522,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 522,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 522,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 522,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 523,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 523,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 524,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 524,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 524,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 524,
+   "ore": "silver"
+  },
+  {
+   "x": 499,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 525,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 525,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 525,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 525,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 525,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 525,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 525,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 526,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 526,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 526,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 527,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 527,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 527,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 527,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 527,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 527,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 528,
+   "ore": "ruby"
+  },
+  {
+   "x": 505,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 528,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 528,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 529,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 529,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 529,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 530,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 531,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 531,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 531,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 531,
+   "ore": "coal"
+  },
+  {
+   "x": 495,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 532,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 532,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 532,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 532,
+   "ore": "quartz"
+  },
+  {
+   "x": 513,
+   "z": 532,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 532,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 532,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 533,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 533,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 533,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 533,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 533,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 533,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 534,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 534,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 534,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 534,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 534,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 534,
+   "ore": "quartz"
+  },
+  {
+   "x": 506,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 534,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 534,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 534,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 534,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 534,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 534,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 535,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 535,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 535,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 535,
+   "ore": "quartz"
+  },
+  {
+   "x": 506,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 535,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 535,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 535,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 535,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 536,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 536,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 536,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 536,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 517,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 536,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 536,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 536,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 537,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 537,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 537,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 537,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 537,
+   "ore": "mystery"
+  },
+  {
+   "x": 508,
+   "z": 537,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 537,
+   "ore": "quartz"
+  },
+  {
+   "x": 513,
+   "z": 537,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 537,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 537,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 537,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 538,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 538,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 538,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 538,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 538,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 538,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 538,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 538,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 538,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 538,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 539,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 539,
+   "ore": "ruby"
+  },
+  {
+   "x": 501,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 539,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 539,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 517,
+   "z": 539,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 539,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 539,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 489,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 490,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 491,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 540,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 540,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 540,
+   "ore": "ruby"
+  },
+  {
+   "x": 514,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 520,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 540,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 540,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 489,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 491,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 541,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 541,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 541,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 541,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 541,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 541,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 489,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 542,
+   "ore": "ruby"
+  },
+  {
+   "x": 505,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 542,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 513,
+   "z": 542,
+   "ore": "coal"
+  },
+  {
+   "x": 514,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 542,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 542,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 522,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 543,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 543,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 484,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 544,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 544,
+   "ore": "silver"
+  },
+  {
+   "x": 522,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 526,
+   "z": 544,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 544,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 544,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 483,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 484,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 486,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 490,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 545,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 525,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 545,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 545,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 484,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 523,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 525,
+   "z": 546,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 546,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 546,
+   "ore": "silver"
+  },
+  {
+   "x": 483,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 484,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 486,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 490,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 518,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 547,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 525,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 526,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 527,
+   "z": 547,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 547,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 483,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 484,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 486,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 487,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 489,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 548,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 548,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 548,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 548,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 523,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 548,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 527,
+   "z": 548,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 528,
+   "z": 548,
+   "ore": "silver"
+  },
+  {
+   "x": 483,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 484,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 485,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 487,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 517,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 524,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 549,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 549,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 549,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 484,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 487,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 520,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 525,
+   "z": 550,
+   "ore": "silver"
+  },
+  {
+   "x": 526,
+   "z": 550,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 527,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 550,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 484,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 485,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 486,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 524,
+   "z": 551,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 525,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 526,
+   "z": 551,
+   "ore": "silver"
+  },
+  {
+   "x": 527,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 551,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 484,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 485,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 486,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 489,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 492,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 552,
+   "ore": "silver"
+  },
+  {
+   "x": 523,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 527,
+   "z": 552,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 552,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 483,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 484,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 485,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 553,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 553,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 526,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 527,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 553,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 484,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 485,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 486,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 488,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 554,
+   "ore": "silver"
+  },
+  {
+   "x": 524,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 526,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 527,
+   "z": 554,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 528,
+   "z": 554,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 484,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 485,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 486,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 489,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 522,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 555,
+   "ore": "silver"
+  },
+  {
+   "x": 524,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 525,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 555,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 527,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 555,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 484,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 485,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 491,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 492,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 556,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 527,
+   "z": 556,
+   "ore": "silver"
+  },
+  {
+   "x": 528,
+   "z": 556,
+   "ore": "iron"
+  },
+  {
+   "x": 483,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 484,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 485,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 486,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 487,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 489,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 491,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 557,
+   "ore": "silver"
+  },
+  {
+   "x": 522,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 525,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 526,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 527,
+   "z": 557,
+   "ore": "iron"
+  },
+  {
+   "x": 528,
+   "z": 557,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 487,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 489,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 491,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 492,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 558,
+   "ore": "silver"
+  },
+  {
+   "x": 520,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 558,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 558,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 489,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 502,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 506,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 509,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 510,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 511,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 518,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 521,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 522,
+   "z": 559,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 559,
+   "ore": "iron"
+  },
+  {
+   "x": 524,
+   "z": 559,
+   "ore": "silver"
+  },
+  {
+   "x": 487,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 488,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 489,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 490,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 501,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 509,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 511,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 512,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 513,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 560,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 521,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 522,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 523,
+   "z": 560,
+   "ore": "silver"
+  },
+  {
+   "x": 524,
+   "z": 560,
+   "ore": "iron"
+  },
+  {
+   "x": 487,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 488,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 489,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 490,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 500,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 502,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 509,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 511,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 513,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 561,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 517,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 561,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 521,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 522,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 523,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 524,
+   "z": 561,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 492,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 493,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 501,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 504,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 509,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 510,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 511,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 562,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 519,
+   "z": 562,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 520,
+   "z": 562,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 506,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 509,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 510,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 511,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 517,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 563,
+   "ore": "silver"
+  },
+  {
+   "x": 519,
+   "z": 563,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 563,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 491,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 492,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 494,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 500,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 508,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 509,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 510,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 511,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 564,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 564,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 516,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 518,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 564,
+   "ore": "iron"
+  },
+  {
+   "x": 491,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 492,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 493,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 494,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 495,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 497,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 498,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 506,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 510,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 511,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 512,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 513,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 565,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 517,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 518,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 519,
+   "z": 565,
+   "ore": "iron"
+  },
+  {
+   "x": 520,
+   "z": 565,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 566,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 566,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 566,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 500,
+   "z": 566,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 501,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 566,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 507,
+   "z": 566,
+   "ore": "iron"
+  },
+  {
+   "x": 510,
+   "z": 566,
+   "ore": "iron"
+  },
+  {
+   "x": 511,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 512,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 566,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 566,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 566,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 496,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 499,
+   "z": 567,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 501,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 502,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 505,
+   "z": 567,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 507,
+   "z": 567,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 509,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 510,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 511,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 567,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 514,
+   "z": 567,
+   "ore": "silver"
+  },
+  {
+   "x": 515,
+   "z": 567,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 567,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 496,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 501,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 503,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 508,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 509,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 510,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 511,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 513,
+   "z": 568,
+   "ore": "iron"
+  },
+  {
+   "x": 514,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 515,
+   "z": 568,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 568,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 495,
+   "z": 569,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 497,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 498,
+   "z": 569,
+   "ore": "silver"
+  },
+  {
+   "x": 499,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 500,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 501,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 502,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 503,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 504,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 505,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 506,
+   "z": 569,
+   "ore": "mystery"
+  },
+  {
+   "x": 507,
+   "z": 569,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 509,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 510,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 511,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 512,
+   "z": 569,
+   "ore": "silver"
+  },
+  {
+   "x": 513,
+   "z": 569,
+   "ore": "silver"
+  },
+  {
+   "x": 514,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 515,
+   "z": 569,
+   "ore": "iron"
+  },
+  {
+   "x": 516,
+   "z": 569,
+   "ore": "yooperlite"
+  },
+  {
+   "x": 499,
+   "z": 570,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 570,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 570,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 570,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 570,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 570,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 570,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 505,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 571,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 571,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 571,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 572,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 501,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 503,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 572,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 506,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 572,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 510,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 512,
+   "z": 572,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 500,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 573,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 573,
+   "ore": "ruby"
+  },
+  {
+   "x": 503,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 573,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 506,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 573,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 573,
+   "ore": "ruby"
+  },
+  {
+   "x": 512,
+   "z": 573,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 574,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 574,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 574,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 574,
+   "ore": "ruby"
+  },
+  {
+   "x": 503,
+   "z": 574,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 574,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 574,
+   "ore": "ruby"
+  },
+  {
+   "x": 506,
+   "z": 574,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 574,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 574,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 574,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 574,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 574,
+   "ore": "ruby"
+  },
+  {
+   "x": 512,
+   "z": 574,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 575,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 501,
+   "z": 575,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 503,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 575,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 575,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 575,
+   "ore": "quartz"
+  },
+  {
+   "x": 507,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 575,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 510,
+   "z": 575,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 512,
+   "z": 575,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 576,
+   "ore": "quartz"
+  },
+  {
+   "x": 500,
+   "z": 576,
+   "ore": "ruby"
+  },
+  {
+   "x": 501,
+   "z": 576,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 576,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 576,
+   "ore": "quartz"
+  },
+  {
+   "x": 504,
+   "z": 576,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 576,
+   "ore": "ruby"
+  },
+  {
+   "x": 506,
+   "z": 576,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 576,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 576,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 576,
+   "ore": "ruby"
+  },
+  {
+   "x": 510,
+   "z": 576,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 576,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 576,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 577,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 577,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 577,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 577,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 577,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 577,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 577,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 577,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 577,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 577,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 578,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 578,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 578,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 579,
+   "ore": "quartz"
+  },
+  {
+   "x": 500,
+   "z": 579,
+   "ore": "ruby"
+  },
+  {
+   "x": 501,
+   "z": 579,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 579,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 579,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 579,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 579,
+   "ore": "ruby"
+  },
+  {
+   "x": 510,
+   "z": 579,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 579,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 579,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 580,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 580,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 580,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 580,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 580,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 580,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 580,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 580,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 580,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 580,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 581,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 581,
+   "ore": "ruby"
+  },
+  {
+   "x": 508,
+   "z": 581,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 581,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 581,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 500,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 582,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 508,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 509,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 582,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 582,
+   "ore": "quartz"
+  },
+  {
+   "x": 499,
+   "z": 583,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 583,
+   "ore": "quartz"
+  },
+  {
+   "x": 502,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 583,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 583,
+   "ore": "quartz"
+  },
+  {
+   "x": 511,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 583,
+   "ore": "coal"
+  },
+  {
+   "x": 499,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 500,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 501,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 502,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 503,
+   "z": 584,
+   "ore": "ruby"
+  },
+  {
+   "x": 504,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 505,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 507,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 509,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 510,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 511,
+   "z": 584,
+   "ore": "coal"
+  },
+  {
+   "x": 512,
+   "z": 584,
+   "ore": "ruby"
+  },
+  {
+   "x": 499,
+   "z": 585,
+   "ore": "ruby"
+  },
+  {
+   "x": 500,
+   "z": 585,
+   "ore": "quartz"
+  },
+  {
+   "x": 501,
+   "z": 585,
+   "ore": "ruby"
+  },
+  {
+   "x": 502,
+   "z": 585,
+   "ore": "quartz"
+  },
+  {
+   "x": 503,
+   "z": 585,
+   "ore": "coal"
+  },
+  {
+   "x": 504,
+   "z": 585,
+   "ore": "quartz"
+  },
+  {
+   "x": 505,
+   "z": 585,
+   "ore": "coal"
+  },
+  {
+   "x": 506,
+   "z": 585,
+   "ore": "ruby"
+  },
+  {
+   "x": 507,
+   "z": 585,
+   "ore": "coal"
+  },
+  {
+   "x": 508,
+   "z": 585,
+   "ore": "ruby"
+  },
+  {
+   "x": 509,
+   "z": 585,
+   "ore": "quartz"
+  },
+  {
+   "x": 510,
+   "z": 585,
+   "ore": "ruby"
+  },
+  {
+   "x": 511,
+   "z": 585,
+   "ore": "quartz"
+  },
+  {
+   "x": 512,
+   "z": 585,
+   "ore": "coal"
+  }
+ ]
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#3b1f2b" />
+    <title>Candy Miner</title>
+    <link rel="preload" as="font" type="font/ttf" href="fonts/LilitaOne.ttf" crossorigin />
+    <style>
+      @font-face {
+        font-family: "Lilita One";
+        src: url("fonts/LilitaOne.ttf") format("truetype");
+        font-display: swap;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #3b1f2b;
+        overflow: hidden;
+        overscroll-behavior: none;
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
+        /* The only input is press-and-drag: no text selection, magnifier or context menu. */
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        font-family: "Lilita One", system-ui, sans-serif;
+      }
+      #app {
+        position: fixed;
+        inset: 0;
+      }
+      #app canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      /* Plain-HTML boot screen: visible on the very first frame, before any JS runs. */
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: radial-gradient(circle at 50% 40%, #5a3348, #3b1f2b 70%);
+        color: #ffd34d;
+        z-index: 50;
+        transition: opacity 0.35s;
+      }
+      #boot .t {
+        font-size: 44px;
+        letter-spacing: 1px;
+        text-shadow: 0 4px 0 #8a2f55, 0 8px 18px rgba(0, 0, 0, 0.45);
+      }
+      #boot .bar {
+        width: 180px;
+        height: 12px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+      }
+      #boot .bar i {
+        display: block;
+        height: 100%;
+        width: 30%;
+        background: #ffd34d;
+        border-radius: 8px;
+        animation: boot 1.1s ease-in-out infinite alternate;
+      }
+      @keyframes boot {
+        from { transform: translateX(-40%); }
+        to { transform: translateX(260%); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="ui"></div>
+    <div id="boot"><div class="t">CANDY MINER</div><div class="bar"><i></i></div></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

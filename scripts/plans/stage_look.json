@@ -1,0 +1,8 @@
+[
+ {"wait": 800},
+ {"eval": "(__game.debug.quiet(), __game.debug.stage(Number(localStorage.getItem('cm_test_stage') || 3)), true)"},
+ {"wait": 6000},
+ {"eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z0=Math.min(z0,b.cz);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,(z0+z1)/2*2.5+10); g.stage.zoom(4.2); return JSON.stringify({level:g.level, bridges:g.bridges.length, diggers:g.diggers.map(d=>d.ore.key), oil:g.extraOil.length, harvesters:g.harvesters.length})})()"},
+ {"wait": 2500},
+ {"snap": "stage_look"}
+]

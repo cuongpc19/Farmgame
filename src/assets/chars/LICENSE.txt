@@ -1,0 +1,5 @@
+Quaternius "Worker" — Public Domain (CC0)
+Source: https://poly.pizza/m/Yg2bQZO6Hj (Quaternius, quaternius.com)
+Packed by scripts/build-chars.mjs (clips Idle/Walk/Run only).
+Note: quaternius.com moved new downloads to the "Quaternius Asset License" (QAL v1.0, 2026-08-28), which
+still allows use inside commercial games without credit. This copy came from Poly Pizza labelled CC0.

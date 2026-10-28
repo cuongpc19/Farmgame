@@ -1,0 +1,16 @@
+[
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"wait": 1500},
+ {"eval": "JSON.stringify({start: {quest: __game.debug.quest(), pan: +__game.directT.toFixed(2), lastPanAt: __game.lastPanAt, dialogue: __game.dialogue.open, arrow: !!__game.arrowTarget()}})"},
+ {"eval": "(()=>{const g=__game; g.timeScale=6; g.player.pos.set(6.25, 0, -2); window.dispatchEvent(new KeyboardEvent('keydown',{key:'w'})); return true})()"},
+ {"until": "__game.debug.quest() >= 1003 || __game.dialogue.open", "timeout": 90000},
+ {"wait": 300},
+ {"eval": "(window.dispatchEvent(new KeyboardEvent('keyup',{key:'w'})), true)"},
+ {"eval": "JSON.stringify({after5: {quest: __game.debug.quest(), pan: +__game.directT.toFixed(2), lastPanAt: __game.lastPanAt, dialogue: __game.dialogue.open, seen102: __game.debug.state().dialogues.includes(102), carried: __game.player.stack.items.length}})"},
+ {"snap": "opening_nopan"},
+ {"eval": "(__game.player.pos.copy(__game.furnace.zone.center), true)"},
+ {"until": "__game.debug.quest() >= 1004 || __game.dialogue.open", "timeout": 60000},
+ {"wait": 600},
+ {"eval": "JSON.stringify({atFurnace: {quest: __game.debug.quest(), pan: +__game.directT.toFixed(2), lastPanAt: __game.lastPanAt, dialogue: __game.dialogue.open, toTray: +Math.hypot(__game.player.pos.x-__game.furnace.trayPos.x, __game.player.pos.z-__game.furnace.trayPos.z).toFixed(1)}})"},
+ {"snap": "furnace_nopan"}
+]

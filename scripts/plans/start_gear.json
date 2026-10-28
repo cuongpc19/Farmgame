@@ -1,0 +1,9 @@
+[
+ {"wait": 1500},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n})()"},
+ {"wait": 500},
+ {"eval": "(()=>{const g=__game, p=g.player, b=g.field.blocks.filter(b=>b.alive).sort((a,c)=>g.field.center(a,p.pos.clone()).distanceTo(p.pos)-g.field.center(c,p.pos.clone()).distanceTo(p.pos))[0]; return JSON.stringify({case:'new player starts with pickaxe Lv.6 (x2.1: 25.2) and carrier Lv.5 (cargo 9 x 1.5)', cargo:p.stack.capacity, power:p.power, nearestOre:b.ore, hp:b.maxHp, hitsToBreak:Math.ceil(b.maxHp/p.power), PASS:p.stack.capacity===14 && p.power===25.2 && b.ore===101 && Math.ceil(b.maxHp/p.power)===2})})()"},
+ {"eval": "(()=>{const g=__game, p=g.player, at=p.pos.clone(); const b=g.field.blocks.filter(b=>b.alive&&b.ore===101).sort((a,d)=>g.field.center(a,at.clone()).distanceTo(at)-g.field.center(d,at.clone()).distanceTo(at))[0]; let swings=0; while(b.alive && swings<10){g.mining.damage(b, p.power*p.powerMul, p); swings++;} return JSON.stringify({case:'a fresh limestone breaks in 2 swings', swings, PASS:swings===2})})()"},
+ {"eval": "(()=>{const g=__game, at=g.player.pos.clone(); const all=g.field.blocks.slice().sort((a,d)=>g.field.center(a,at.clone()).distanceTo(at)-g.field.center(d,at.clone()).distanceTo(at)); const firstOther=all.findIndex(b=>b.ore!==101); const mix={}; for(const b of all.slice(0,300)) mix[b.ore]=(mix[b.ore]||0)+1; return JSON.stringify({case:'stage 1 ore ladder: nothing but limestone near the base', firstOtherByDistance:firstOther, oreOfIt:all[firstOther].ore, nearest300:mix, PASS:firstOther>=100})})()"},
+ {"snap": "start_gear"}
+]

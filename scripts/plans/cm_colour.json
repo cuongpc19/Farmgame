@@ -1,0 +1,15 @@
+[
+ {"wait":1500},
+ {"eval":"(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.debug.quiet(); __game.stage.zoom(3.2); return true})()"},
+ {"wait":4000},
+ {"eval":"JSON.stringify({case:'start: the land round the quarry is sour', colour:+__game.debug.landColour().toFixed(2)})"},
+ {"snap":"cm_colour_0"},
+ {"eval":"(()=>{__game.debug.mine(480); return JSON.stringify({after:+__game.progress().toFixed(1)})})()"},
+ {"wait":5000},
+ {"eval":"JSON.stringify({case:'40 %: half way to full colour', progress:+__game.progress().toFixed(1), colour:+__game.debug.landColour().toFixed(2)})"},
+ {"snap":"cm_colour_40"},
+ {"eval":"(()=>{__game.debug.mine(600); return JSON.stringify({after:+__game.progress().toFixed(1), alive:__game.field.blocks.filter(b=>b.alive).length})})()"},
+ {"wait":5000},
+ {"eval":"JSON.stringify({case:'past the clear line: full colour', progress:+__game.progress().toFixed(1), colour:+__game.debug.landColour().toFixed(2)})"},
+ {"snap":"cm_colour_80"}
+]

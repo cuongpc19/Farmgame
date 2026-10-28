@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- Store covers from generated art (user, 2026-10-21): the picture in store/source/gen-<layout>.png,
+     made in an image model without any lettering, and the QUARRY CRUSH title on top in the same
+     style as scripts/store/cover.html (Lilita One, yellow + orange, dark stroke, tilted).
+       http://localhost:5173/scripts/store/cover-art.html?layout=wide|tall|square
+     Optional: pos=<object-position> (which part of the picture a crop keeps), top, left, right, font
+     (title, at the store size), row=1|0 (the title on one line: for a picture with only a strip of sky).
+     scripts/plans/store_cover.json snaps it at the matching window size. -->
+<style>
+  @font-face { font-family: "Lilita One"; src: url("/fonts/LilitaOne.ttf") format("truetype"); }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #e07a3a; }
+  #art { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #title { position: fixed; display: flex; flex-direction: column; align-items: center; font-family: "Lilita One", sans-serif;
+    line-height: 0.9; letter-spacing: 2px; transform: rotate(-5deg); z-index: 2; white-space: nowrap; }
+  #title span { color: #ffd23f; paint-order: stroke fill; }
+  #title span:last-child { color: #ff8a1f; font-size: 1.14em; }
+  #title.row { flex-direction: row; align-items: baseline; justify-content: center; gap: 0.28em; }
+</style>
+</head>
+<body>
+<img id="art" alt="">
+<div id="title"><span>QUARRY</span><span>CRUSH</span></div>
+<script>
+const Q = new URLSearchParams(location.search);
+const L = Q.get("layout") ?? "wide";
+// Where the title goes in each picture: the calm sky the prompts asked the model to leave.
+const LAY = {
+  wide:   { top: "8%", right: "5%", font: 190 },
+  tall:   { top: "3.5%", left: "0", right: "0", font: 140 },
+  // The square picture has only a strip of sky over the machine's arm: one line.
+  square: { top: "3%", left: "0", right: "0", font: 82, row: true },
+}[L];
+for (const k of ["top", "left", "right", "font"]) if (Q.has(k)) LAY[k] = k === "font" ? Number(Q.get(k)) : Q.get(k);
+if (Q.has("row")) LAY.row = Q.get("row") === "1";
+
+const art = document.getElementById("art");
+art.src = `/store/source/gen-${L}.png`;
+art.style.objectPosition = Q.get("pos") ?? "50% 50%";
+
+// Title sizes are designed at the store size (1920 wide / 800 wide); smaller drafts scale down.
+const FONT = LAY.font * innerWidth / (L === "wide" ? 1920 : 800);
+const t = document.getElementById("title");
+t.classList.toggle("row", !!LAY.row);
+Object.assign(t.style, { right: LAY.right ?? "", left: LAY.left ?? "", top: LAY.top, fontSize: FONT + "px" });
+for (const s of t.children) {
+  s.style.webkitTextStroke = `${FONT * 0.075}px #3a1f0b`;
+  s.style.textShadow = `0 ${FONT * 0.07}px 0 #3a1f0b, 0 ${FONT * 0.13}px ${FONT * 0.18}px rgba(0,0,0,.45)`;
+}
+// shot.mjs waits for this before the snap.
+art.decode().then(() => document.fonts.ready).then(() => (window.__ready = true));
+</script>
+</body>
+</html>

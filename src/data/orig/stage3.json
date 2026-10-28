@@ -1,0 +1,8920 @@
+{
+ "_note": "TEMPORARY - numbers copied from the original game (Bulldozer Master, Supercent) for prototyping at the user's request; replace before publishing.",
+ "id": 3,
+ "name": "Four Corners",
+ "order": 3,
+ "gameMode": "MainStage",
+ "difficulty": "Easy",
+ "contractType": "Corporate",
+ "keyResourceOre": "bismuth",
+ "maxWorkerCount": 4,
+ "cashTarget": 135000,
+ "clear": {
+  "progressPercentRequired": 80,
+  "progressFormula": "progress% = 100 * itemsSoldAtSalesStand / maxDropItemCount (StageProgressionManager.OnSalesStandSell / MaxDropItemCountInStage). maxDropItemCount = sum over blocks of 6 drops.",
+  "rewardOnClear": {
+   "groupId": 103,
+   "type": "All",
+   "items": [
+    {
+     "rewardType": "Currency",
+     "id": 10002,
+     "item": "Gear",
+     "amount": 550,
+     "weight": null
+    }
+   ]
+  },
+  "cashbackMilestones": [
+   {
+    "conditionGroup": 801,
+    "cashSpentFractionOfCashTarget": 0.2,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.2"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 5
+    }
+   },
+   {
+    "conditionGroup": 802,
+    "cashSpentFractionOfCashTarget": 0.4,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.4"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 10
+    }
+   },
+   {
+    "conditionGroup": 803,
+    "cashSpentFractionOfCashTarget": 0.6,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.6"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gem",
+     "amount": 1
+    }
+   },
+   {
+    "conditionGroup": 804,
+    "cashSpentFractionOfCashTarget": 0.8,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "0.8"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 25
+    }
+   },
+   {
+    "conditionGroup": 805,
+    "cashSpentFractionOfCashTarget": 1.0,
+    "requires": [
+     {
+      "subGroup": 1,
+      "type": "StageLevelGreatOrEqual",
+      "params": [
+       "2"
+      ],
+      "failText": "Stage {0}+ required"
+     },
+     {
+      "subGroup": 1,
+      "type": "ItemUsageReached",
+      "params": [
+       "10001",
+       "1"
+      ],
+      "failText": "{0} usage {1}%"
+     }
+    ],
+    "reward": {
+     "item": "Gear",
+     "amount": 45
+    }
+   }
+  ],
+  "cashbackNote": "Cashback conditions require StageLevel>=2, so they are inactive in stage 1. Usage = cash spent during the stage / cashTarget."
+ },
+ "heavyEquipmentRentMultiplier": 1.4,
+ "oreHpMultiplier": 1,
+ "grid": {
+  "width": 1000,
+  "height": 1000,
+  "cellSize": 2.5,
+  "usedBounds": {
+   "minX": 483,
+   "maxX": 538,
+   "minZ": 485,
+   "maxZ": 548
+  },
+  "coords": "Cells are integer (x,z); +x = east (screen right), +z = north (into the quarry, away from the camera). Every rect here is normalised to its min corner (x,z) + size w,h in cells (90/270 rotation already applied to building footprints). In the raw StageJson, ore groups store their top-left cell (minX,maxZ) instead - already converted. worldCenter = ((x + w/2 - 500) * 2.5 + offset) INFERRED: the original world origin is unknown, only relative placement matters. One block = one cell = 2.5 world units."
+ },
+ "totals": {
+  "original": {
+   "totalOreCount": 1252,
+   "totalDropItemCount": 7512
+  },
+  "resolved": {
+   "blocks": 1252,
+   "dropItems": 7512,
+   "duplicateCellsRemoved": 0,
+   "byOre": {
+    "dunite": 554,
+    "bronzite": 303,
+    "obsidian": 122,
+    "bismuth": 101,
+    "silver": 75,
+    "gold": 60,
+    "emerald": 37
+   },
+   "potentialIncomeIfAllSmeltedAndSold": 189048
+  }
+ },
+ "areas": {
+  "ground": [
+   {
+    "x": 487,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "home": [
+   {
+    "x": 487,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "obstacle": [
+   {
+    "x": 487,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 485,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 486,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 483,
+    "z": 485,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 483,
+    "z": 489,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 483,
+    "z": 493,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 483,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 497,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 501,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 505,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 509,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 513,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 517,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 521,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 535,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 531,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 527,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 523,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 519,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 515,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 511,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 525,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 529,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 533,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 537,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 541,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 487,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 491,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 495,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 499,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 503,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 507,
+    "z": 545,
+    "w": 4,
+    "h": 4
+   }
+  ]
+ },
+ "buildings": [
+  {
+   "type": "oilStation",
+   "x": 497,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -3.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "upgradeBuilding",
+   "x": 494,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "machineryShop",
+   "x": 491,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -18.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "furnace",
+   "x": 504,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    13.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "workerBuilding",
+   "x": 507,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    21.25,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "salesStand",
+   "x": 500,
+   "z": 489,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    3.75,
+    0.0,
+    -23.75
+   ]
+  },
+  {
+   "type": "oreStorage",
+   "x": 501,
+   "z": 493,
+   "w": 2,
+   "h": 2,
+   "rotY": 0,
+   "worldCenter": [
+    5.0,
+    0.0,
+    -15.0
+   ]
+  }
+ ],
+ "structures": [
+  {
+   "type": "minecart",
+   "x": 505,
+   "z": 531,
+   "w": 2,
+   "h": 2,
+   "rotY": 180,
+   "worldCenter": [
+    15.0,
+    0.0,
+    80.0
+   ],
+   "structureGroupId": 308,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "railWaypoints": [
+    [
+     505,
+     531
+    ],
+    [
+     505,
+     525
+    ],
+    [
+     501,
+     525
+    ],
+    [
+     501,
+     495
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "minecart",
+   "x": 519,
+   "z": 503,
+   "w": 2,
+   "h": 2,
+   "rotY": 0,
+   "worldCenter": [
+    50.0,
+    0.0,
+    10.0
+   ],
+   "structureGroupId": 309,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Minecart",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "trolley_rv"
+    }
+   ],
+   "platform": [
+    521,
+    503,
+    [
+     0.0,
+     1.29
+    ]
+   ],
+   "railWaypoints": [
+    [
+     519,
+     503
+    ],
+    [
+     519,
+     509
+    ],
+    [
+     501,
+     509
+    ],
+    [
+     501,
+     495
+    ]
+   ],
+   "railWidthCells": 2
+  },
+  {
+   "type": "autoDigger",
+   "x": 524,
+   "z": 511,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    62.43,
+    0.0,
+    31.25
+   ],
+   "structureGroupId": 307,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "AutoDigger",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "mining_auto"
+    },
+    {
+     "oreDeposit": {
+      "ore": "bismuth",
+      "oreAmount": 300,
+      "mineralItemId": 10207
+     }
+    }
+   ],
+   "offset": [
+    -1.32,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "bridge",
+   "x": 499,
+   "z": 497,
+   "w": 4,
+   "h": 4,
+   "rotY": 90,
+   "worldCenter": [
+    2.5,
+    0.0,
+    -2.5
+   ],
+   "structureGroupId": 301,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    },
+    {
+     "level": 2,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    }
+   ],
+   "onFoot": true,
+   "span": 7,
+   "sign": [
+    499,
+    496,
+    [
+     0.0,
+     0.0
+    ],
+    315
+   ],
+   "platform": [
+    500,
+    495,
+    [
+     1.17,
+     0.0
+    ],
+    0
+   ],
+   "expansionPoint": [
+    501,
+    502,
+    [
+     -1.17,
+     0.0
+    ],
+    0
+   ]
+  },
+  {
+   "type": "bridge",
+   "x": 499,
+   "z": 521,
+   "w": 4,
+   "h": 4,
+   "rotY": 90,
+   "worldCenter": [
+    2.5,
+    0.0,
+    57.5
+   ],
+   "structureGroupId": 302,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    },
+    {
+     "level": 2,
+     "structureType": "Bridge",
+     "payType": "Item",
+     "price": 1500,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    }
+   ],
+   "onFoot": true,
+   "span": 7,
+   "sign": [
+    499,
+    520,
+    [
+     0.0,
+     0.0
+    ],
+    315
+   ],
+   "platform": [
+    500,
+    519,
+    [
+     1.2,
+     0.0
+    ],
+    0
+   ],
+   "expansionPoint": [
+    501,
+    526,
+    [
+     -1.38,
+     0.0
+    ],
+    0
+   ]
+  },
+  {
+   "type": "bridge",
+   "x": 511,
+   "z": 533,
+   "w": 4,
+   "h": 4,
+   "rotY": 180,
+   "worldCenter": [
+    32.5,
+    0.0,
+    87.5
+   ],
+   "structureGroupId": 303,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    },
+    {
+     "level": 2,
+     "structureType": "Bridge",
+     "payType": "Item",
+     "price": 2500,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    }
+   ],
+   "onFoot": true,
+   "span": 7,
+   "sign": [
+    510,
+    536,
+    [
+     0.0,
+     0.0
+    ],
+    0
+   ],
+   "platform": [
+    509,
+    534,
+    [
+     0.0,
+     1.26
+    ],
+    0
+   ],
+   "expansionPoint": [
+    516,
+    534,
+    [
+     0.0,
+     1.29
+    ],
+    0
+   ]
+  },
+  {
+   "type": "bridge",
+   "x": 523,
+   "z": 521,
+   "w": 4,
+   "h": 4,
+   "rotY": 270,
+   "worldCenter": [
+    62.5,
+    0.0,
+    57.5
+   ],
+   "structureGroupId": 304,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    },
+    {
+     "level": 2,
+     "structureType": "Bridge",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "bridge1_rv"
+    }
+   ],
+   "onFoot": true,
+   "span": 7,
+   "sign": [
+    523,
+    525,
+    [
+     0.0,
+     0.0
+    ],
+    0
+   ],
+   "platform": [
+    525,
+    526,
+    [
+     -1.29,
+     0.0
+    ],
+    0
+   ],
+   "expansionPoint": [
+    524,
+    519,
+    [
+     1.23,
+     0.0
+    ],
+    0
+   ]
+  },
+  {
+   "type": "bridge",
+   "x": 511,
+   "z": 509,
+   "w": 4,
+   "h": 4,
+   "rotY": 180,
+   "worldCenter": [
+    32.5,
+    0.0,
+    27.5
+   ],
+   "structureGroupId": 305,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "Bridge",
+     "payType": "Free",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": null
+    },
+    {
+     "level": 2,
+     "structureType": "Bridge",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "bridge1_rv"
+    }
+   ],
+   "onFoot": true,
+   "span": 7,
+   "sign": [
+    515,
+    512,
+    [
+     0.0,
+     0.0
+    ],
+    0
+   ],
+   "platform": [
+    516,
+    511,
+    [
+     0.0,
+     -1.2
+    ],
+    0
+   ],
+   "expansionPoint": [
+    509,
+    510,
+    [
+     0.0,
+     1.35
+    ],
+    0
+   ]
+  },
+  {
+   "type": "extraOilStation",
+   "x": 519,
+   "z": 531,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    52.54,
+    0.0,
+    80.17
+   ],
+   "structureGroupId": 306,
+   "expansion": [
+    {
+     "level": 1,
+     "structureType": "ExtraOilStation",
+     "payType": "RV",
+     "price": 0,
+     "priceItem": "Money",
+     "rewardedAdPlacement": "fuel_add"
+    }
+   ],
+   "offset": [
+    1.29,
+    0.0,
+    -1.08
+   ]
+  }
+ ],
+ "cafeteria": [
+  {
+   "type": "cafeteriaTruck",
+   "x": 510,
+   "z": 494,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    28.75,
+    0.0,
+    -11.25
+   ]
+  },
+  {
+   "type": "cafeteriaTable1",
+   "x": 513,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    33.75,
+    -0.0,
+    -16.25
+   ]
+  },
+  {
+   "type": "cafeteriaTable2",
+   "x": 513,
+   "z": 492,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    33.75,
+    -0.0,
+    -19.92
+   ],
+   "offset": [
+    0.0,
+    -0.0,
+    -1.17
+   ]
+  },
+  {
+   "type": "cafeteriaTable3",
+   "x": 513,
+   "z": 490,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    33.75,
+    0.0,
+    -23.75
+   ]
+  }
+ ],
+ "spawns": [
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 496,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -8.75,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "workerSpawnPoint",
+   "x": 508,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    21.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 499,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 502,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    6.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "playerSpawnPoint",
+   "x": 500,
+   "z": 493,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    2.42,
+    0.0,
+    -16.25
+   ],
+   "offset": [
+    1.17,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 493,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -16.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "vehicleSpawnPoint",
+   "x": 505,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    13.75,
+    0.0,
+    -21.25
+   ]
+  }
+ ],
+ "props": [
+  {
+   "type": "metalBarrier",
+   "x": 488,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -28.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 490,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -23.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "workerRecoverPoint",
+   "x": 508,
+   "z": 491,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    21.25,
+    0.0,
+    -21.25
+   ]
+  },
+  {
+   "type": "priceSign",
+   "x": 499,
+   "z": 490,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -25.31
+   ],
+   "offset": [
+    0.0,
+    0.0,
+    -1.56
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 492,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -18.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 494,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -13.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 496,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -8.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 498,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -3.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 503,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    8.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 505,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    13.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 507,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    18.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 509,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    23.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 511,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    28.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 513,
+   "z": 489,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    33.75,
+    0.0,
+    -26.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 491,
+   "z": 486,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -18.75,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 523,
+   "z": 486,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    61.25,
+    0.0,
+    -31.25
+   ]
+  }
+ ],
+ "oreGroups": [
+  {
+   "index": 0,
+   "x": 523,
+   "z": 515,
+   "w": 4,
+   "h": 5,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "bronzite",
+     "weight": 600
+    },
+    {
+     "ore": "bismuth",
+     "weight": 300
+    },
+    {
+     "ore": "emerald",
+     "weight": 100
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 1,
+   "x": 527,
+   "z": 502,
+   "w": 7,
+   "h": 18,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "bronzite",
+     "weight": 600
+    },
+    {
+     "ore": "bismuth",
+     "weight": 300
+    },
+    {
+     "ore": "emerald",
+     "weight": 100
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 2,
+   "x": 492,
+   "z": 502,
+   "w": 18,
+   "h": 18,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 700
+    },
+    {
+     "ore": "obsidian",
+     "weight": 300
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 3,
+   "x": 492,
+   "z": 526,
+   "w": 13,
+   "h": 18,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 550
+    },
+    {
+     "ore": "silver",
+     "weight": 250
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 4,
+   "x": 516,
+   "z": 534,
+   "w": 18,
+   "h": 10,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 500
+    },
+    {
+     "ore": "bronzite",
+     "weight": 500
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 5,
+   "x": 516,
+   "z": 502,
+   "w": 7,
+   "h": 18,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "bronzite",
+     "weight": 600
+    },
+    {
+     "ore": "bismuth",
+     "weight": 300
+    },
+    {
+     "ore": "emerald",
+     "weight": 100
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 6,
+   "x": 516,
+   "z": 526,
+   "w": 3,
+   "h": 8,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 500
+    },
+    {
+     "ore": "bronzite",
+     "weight": 500
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 7,
+   "x": 519,
+   "z": 526,
+   "w": 15,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 500
+    },
+    {
+     "ore": "bronzite",
+     "weight": 500
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 8,
+   "x": 523,
+   "z": 530,
+   "w": 11,
+   "h": 4,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 500
+    },
+    {
+     "ore": "bronzite",
+     "weight": 500
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 9,
+   "x": 523,
+   "z": 502,
+   "w": 4,
+   "h": 7,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "bronzite",
+     "weight": 600
+    },
+    {
+     "ore": "bismuth",
+     "weight": 300
+    },
+    {
+     "ore": "emerald",
+     "weight": 100
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 10,
+   "x": 505,
+   "z": 533,
+   "w": 5,
+   "h": 11,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 550
+    },
+    {
+     "ore": "silver",
+     "weight": 250
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 11,
+   "x": 505,
+   "z": 526,
+   "w": 5,
+   "h": 5,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 550
+    },
+    {
+     "ore": "silver",
+     "weight": 250
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 12,
+   "x": 507,
+   "z": 531,
+   "w": 3,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "dunite",
+     "weight": 550
+    },
+    {
+     "ore": "silver",
+     "weight": 250
+    },
+    {
+     "ore": "gold",
+     "weight": 200
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  }
+ ],
+ "blocks": [
+  {
+   "x": 492,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 499,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 503,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 502,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 502,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 502,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 502,
+   "ore": "emerald"
+  },
+  {
+   "x": 523,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 502,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 502,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 502,
+   "ore": "emerald"
+  },
+  {
+   "x": 492,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 503,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 503,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 503,
+   "ore": "emerald"
+  },
+  {
+   "x": 518,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 521,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 503,
+   "ore": "emerald"
+  },
+  {
+   "x": 523,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 503,
+   "ore": "emerald"
+  },
+  {
+   "x": 526,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 503,
+   "ore": "emerald"
+  },
+  {
+   "x": 529,
+   "z": 503,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 532,
+   "z": 503,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 503,
+   "ore": "emerald"
+  },
+  {
+   "x": 492,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 504,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 504,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 518,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 521,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 526,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 529,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 504,
+   "ore": "bismuth"
+  },
+  {
+   "x": 532,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 504,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 505,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 505,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 505,
+   "ore": "emerald"
+  },
+  {
+   "x": 517,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 518,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 525,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 526,
+   "z": 505,
+   "ore": "emerald"
+  },
+  {
+   "x": 527,
+   "z": 505,
+   "ore": "emerald"
+  },
+  {
+   "x": 528,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 529,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 505,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 505,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 496,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 499,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 506,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 506,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 518,
+   "z": 506,
+   "ore": "emerald"
+  },
+  {
+   "x": 519,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 523,
+   "z": 506,
+   "ore": "emerald"
+  },
+  {
+   "x": 524,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 529,
+   "z": 506,
+   "ore": "emerald"
+  },
+  {
+   "x": 530,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 506,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 506,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 499,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 507,
+   "ore": "obsidian"
+  },
+  {
+   "x": 507,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 507,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 507,
+   "ore": "emerald"
+  },
+  {
+   "x": 519,
+   "z": 507,
+   "ore": "emerald"
+  },
+  {
+   "x": 520,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 507,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 507,
+   "ore": "bismuth"
+  },
+  {
+   "x": 524,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 507,
+   "ore": "bismuth"
+  },
+  {
+   "x": 526,
+   "z": 507,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 507,
+   "ore": "emerald"
+  },
+  {
+   "x": 530,
+   "z": 507,
+   "ore": "emerald"
+  },
+  {
+   "x": 531,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 507,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 507,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 508,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 508,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 508,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 508,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 508,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 508,
+   "ore": "bismuth"
+  },
+  {
+   "x": 517,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 508,
+   "ore": "emerald"
+  },
+  {
+   "x": 525,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 508,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 508,
+   "ore": "bismuth"
+  },
+  {
+   "x": 528,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 508,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 509,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 509,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 509,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 509,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 509,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 509,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 518,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 519,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 529,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 530,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 509,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 509,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 510,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 510,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 510,
+   "ore": "emerald"
+  },
+  {
+   "x": 519,
+   "z": 510,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 510,
+   "ore": "emerald"
+  },
+  {
+   "x": 530,
+   "z": 510,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 510,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 496,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 507,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 511,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 511,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 511,
+   "ore": "emerald"
+  },
+  {
+   "x": 519,
+   "z": 511,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 511,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 511,
+   "ore": "emerald"
+  },
+  {
+   "x": 530,
+   "z": 511,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 511,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 511,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 499,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 512,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 512,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 517,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 519,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 528,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 530,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 512,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 512,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 494,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 503,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 507,
+   "z": 513,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 513,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 513,
+   "ore": "emerald"
+  },
+  {
+   "x": 519,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 513,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 513,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 513,
+   "ore": "emerald"
+  },
+  {
+   "x": 530,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 513,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 513,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 513,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 507,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 514,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 514,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 517,
+   "z": 514,
+   "ore": "emerald"
+  },
+  {
+   "x": 518,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 519,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 521,
+   "z": 514,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 528,
+   "z": 514,
+   "ore": "emerald"
+  },
+  {
+   "x": 529,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 530,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 532,
+   "z": 514,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 514,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 498,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 499,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 501,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 515,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 515,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 515,
+   "ore": "emerald"
+  },
+  {
+   "x": 518,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 519,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 521,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 523,
+   "z": 515,
+   "ore": "emerald"
+  },
+  {
+   "x": 524,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 525,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 526,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 515,
+   "ore": "emerald"
+  },
+  {
+   "x": 529,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 530,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 532,
+   "z": 515,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 515,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 493,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 503,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 516,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 516,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 516,
+   "ore": "bismuth"
+  },
+  {
+   "x": 517,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 516,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 516,
+   "ore": "bismuth"
+  },
+  {
+   "x": 528,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 516,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 516,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 497,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 502,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 504,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 517,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 517,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 519,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 520,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 523,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 517,
+   "ore": "emerald"
+  },
+  {
+   "x": 525,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 530,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 531,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 517,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 517,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 518,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 518,
+   "ore": "obsidian"
+  },
+  {
+   "x": 500,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 518,
+   "ore": "obsidian"
+  },
+  {
+   "x": 503,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 518,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 518,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 522,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 523,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 524,
+   "z": 518,
+   "ore": "emerald"
+  },
+  {
+   "x": 525,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 526,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 527,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 518,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 533,
+   "z": 518,
+   "ore": "bismuth"
+  },
+  {
+   "x": 492,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 495,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 505,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 506,
+   "z": 519,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 508,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 509,
+   "z": 519,
+   "ore": "obsidian"
+  },
+  {
+   "x": 516,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 517,
+   "z": 519,
+   "ore": "bismuth"
+  },
+  {
+   "x": 518,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 520,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 521,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 519,
+   "ore": "bismuth"
+  },
+  {
+   "x": 525,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 528,
+   "z": 519,
+   "ore": "bismuth"
+  },
+  {
+   "x": 529,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 531,
+   "z": 519,
+   "ore": "emerald"
+  },
+  {
+   "x": 532,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 519,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 526,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 526,
+   "ore": "gold"
+  },
+  {
+   "x": 498,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 526,
+   "ore": "gold"
+  },
+  {
+   "x": 501,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 526,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 526,
+   "ore": "gold"
+  },
+  {
+   "x": 507,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 519,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 526,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 526,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 527,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 527,
+   "ore": "gold"
+  },
+  {
+   "x": 501,
+   "z": 527,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 527,
+   "ore": "gold"
+  },
+  {
+   "x": 505,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 527,
+   "ore": "gold"
+  },
+  {
+   "x": 508,
+   "z": 527,
+   "ore": "gold"
+  },
+  {
+   "x": 509,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 519,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 527,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 527,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 528,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 528,
+   "ore": "gold"
+  },
+  {
+   "x": 496,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 528,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 528,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 519,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 528,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 528,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 529,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 529,
+   "ore": "gold"
+  },
+  {
+   "x": 494,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 529,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 529,
+   "ore": "gold"
+  },
+  {
+   "x": 503,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 529,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 519,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 529,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 529,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 530,
+   "ore": "gold"
+  },
+  {
+   "x": 498,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 530,
+   "ore": "gold"
+  },
+  {
+   "x": 508,
+   "z": 530,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 530,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 530,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 530,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 530,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 530,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 530,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 531,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 531,
+   "ore": "gold"
+  },
+  {
+   "x": 497,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 499,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 531,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 531,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 531,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 532,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 532,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 532,
+   "ore": "gold"
+  },
+  {
+   "x": 509,
+   "z": 532,
+   "ore": "gold"
+  },
+  {
+   "x": 516,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 532,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 532,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 532,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 532,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 532,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 533,
+   "ore": "gold"
+  },
+  {
+   "x": 495,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 533,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 533,
+   "ore": "gold"
+  },
+  {
+   "x": 509,
+   "z": 533,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 533,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 533,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 534,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 534,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 534,
+   "ore": "gold"
+  },
+  {
+   "x": 501,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 534,
+   "ore": "gold"
+  },
+  {
+   "x": 506,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 534,
+   "ore": "gold"
+  },
+  {
+   "x": 509,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 519,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 534,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 534,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 535,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 535,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 535,
+   "ore": "gold"
+  },
+  {
+   "x": 502,
+   "z": 535,
+   "ore": "gold"
+  },
+  {
+   "x": 503,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 505,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 535,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 535,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 535,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 494,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 496,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 536,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 536,
+   "ore": "gold"
+  },
+  {
+   "x": 506,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 536,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 536,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 499,
+   "z": 537,
+   "ore": "gold"
+  },
+  {
+   "x": 500,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 537,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 537,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 537,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 495,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 496,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 500,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 501,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 503,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 538,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 538,
+   "ore": "gold"
+  },
+  {
+   "x": 516,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 538,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 538,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 539,
+   "ore": "gold"
+  },
+  {
+   "x": 493,
+   "z": 539,
+   "ore": "gold"
+  },
+  {
+   "x": 494,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 497,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 539,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 539,
+   "ore": "silver"
+  },
+  {
+   "x": 508,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 539,
+   "ore": "gold"
+  },
+  {
+   "x": 516,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 539,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 539,
+   "ore": "bronzite"
+  },
+  {
+   "x": 492,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 540,
+   "ore": "gold"
+  },
+  {
+   "x": 496,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 499,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 540,
+   "ore": "silver"
+  },
+  {
+   "x": 504,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 540,
+   "ore": "gold"
+  },
+  {
+   "x": 516,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 518,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 525,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 540,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 540,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 493,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 541,
+   "ore": "gold"
+  },
+  {
+   "x": 495,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 496,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 541,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 500,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 541,
+   "ore": "silver"
+  },
+  {
+   "x": 502,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 503,
+   "z": 541,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 541,
+   "ore": "gold"
+  },
+  {
+   "x": 505,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 506,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 541,
+   "ore": "bronzite"
+  },
+  {
+   "x": 532,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 541,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 494,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 495,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 497,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 498,
+   "z": 542,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 542,
+   "ore": "gold"
+  },
+  {
+   "x": 501,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 542,
+   "ore": "gold"
+  },
+  {
+   "x": 504,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 507,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 508,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 509,
+   "z": 542,
+   "ore": "silver"
+  },
+  {
+   "x": 516,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 517,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 542,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 520,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 521,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 522,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 523,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 524,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 526,
+   "z": 542,
+   "ore": "bronzite"
+  },
+  {
+   "x": 527,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 528,
+   "z": 542,
+   "ore": "bronzite"
+  },
+  {
+   "x": 529,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 530,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 531,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 533,
+   "z": 542,
+   "ore": "dunite"
+  },
+  {
+   "x": 492,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 493,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 494,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 495,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 496,
+   "z": 543,
+   "ore": "gold"
+  },
+  {
+   "x": 497,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 498,
+   "z": 543,
+   "ore": "gold"
+  },
+  {
+   "x": 499,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 500,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 501,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 502,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 503,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 504,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 505,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 506,
+   "z": 543,
+   "ore": "silver"
+  },
+  {
+   "x": 507,
+   "z": 543,
+   "ore": "gold"
+  },
+  {
+   "x": 508,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 509,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 516,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 517,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 518,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 519,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 520,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 521,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 522,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 523,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 524,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 525,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 526,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 527,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 528,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 529,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 530,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 531,
+   "z": 543,
+   "ore": "dunite"
+  },
+  {
+   "x": 532,
+   "z": 543,
+   "ore": "bronzite"
+  },
+  {
+   "x": 533,
+   "z": 543,
+   "ore": "bronzite"
+  }
+ ]
+}

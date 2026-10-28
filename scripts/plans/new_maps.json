@@ -1,0 +1,44 @@
+[
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} const S=__game.debug.state(); const N=984; const bits=new Uint8Array(Math.ceil(N/8)); const r=[...Array(N).keys()].sort(()=>Math.random()-0.5).slice(0,150); for(const i of r) bits[i>>3]|=1<<(i&7); S.run={...S.run, stageIndex:1, level:2, layout:'mirror-v1-s2', broken:String.fromCharCode(...bits), transit:undefined, structures:[], workers:[]}; S.cash=1000; S.dialogues.push(...[...Array(2000).keys()]); setTimeout(()=>location.reload(), 300); return true})()"
+ },
+ {
+  "wait": 4000
+ },
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "wait": 3200
+ },
+ {
+  "eval": "(()=>{const S=__game.debug.state(); let n=0; for(const ch of S.run.broken){ let c=ch.charCodeAt(0); while(c){ n+=c&1; c>>=1; } } const st=__game.st; const zs=[]; for(let i=0;i<st.blocks.length;i++){ const b=st.blocks[i]; if(__game.field.blocks[i] && !__game.field.blocks[i].alive) zs.push(500-b.cz); } return JSON.stringify({level:__game.level, layout:S.run.layout, cash:S.cash, broken:n, progress:+__game.progress().toFixed(2), mapGiftLeft:S.mapGift??null, toast:document.querySelector('.toast')?.textContent??null, brokenRows: zs.length? [Math.min(...zs), Math.max(...zs)] : null, quarryRows:[Math.min(...st.blocks.map(b=>500-b.cz)), Math.max(...st.blocks.map(b=>500-b.cz))]})})()"
+ },
+ {
+  "snap": "newmap_toast"
+ },
+ {
+  "eval": "(setTimeout(()=>location.reload(), 300), true)"
+ },
+ {
+  "wait": 4000
+ },
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "wait": 3200
+ },
+ {
+  "eval": "(()=>{const S=__game.debug.state(); let n=0; for(const ch of S.run.broken){ let c=ch.charCodeAt(0); while(c){ n+=c&1; c>>=1; } } const st=__game.st; const zs=[]; for(let i=0;i<st.blocks.length;i++){ const b=st.blocks[i]; if(__game.field.blocks[i] && !__game.field.blocks[i].alive) zs.push(500-b.cz); } return JSON.stringify({level:__game.level, layout:S.run.layout, cash:S.cash, broken:n, progress:+__game.progress().toFixed(2), mapGiftLeft:S.mapGift??null, toast:document.querySelector('.toast')?.textContent??null, brokenRows: zs.length? [Math.min(...zs), Math.max(...zs)] : null, quarryRows:[Math.min(...st.blocks.map(b=>500-b.cz)), Math.max(...st.blocks.map(b=>500-b.cz))]})})()"
+ }
+]

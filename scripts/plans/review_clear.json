@@ -1,0 +1,120 @@
+[
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{\n if (window.__log) return 'already';\n const res=n=>performance.getEntriesByType('resource').map(e=>e.name).find(x=>x.includes(n));\n window.__log=[];\n const g=__game;\n const T=()=>+g.time.toFixed(2);\n const L=(...a)=>{ if(__log.length<600) __log.push([T(),...a].join(' ')); };\n window.__L=L;\n import(res('/src/game/state.ts')).then(m=>{window.__S=m.S;});\n import(res('/src/game/systems/Events.ts')).then(m=>{window.__E=m.events; for(const k of ['oreDestroyed','mineralCollected','mineralToSmelter','ingotSold','buildingEntered','statUpgraded','cargoFull','lightEquipPurchased','heavyEquipRented','vehicleMounted','workerHired','stageCleared','stageContracted','managementUpgraded']) m.events.on(k,(e)=>{ if(k==='mineralCollected'||k==='mineralToSmelter'){ window.__cnt=window.__cnt||{}; __cnt[k]=(__cnt[k]||0)+1; if(__cnt[k]>12) return; } L('ev',k,'q='+g.debug.quest(),'p='+(window.__S?window.__S.quest.progress:'?'),'carry='+g.player.stack.count);});});\n const d=g.dialogue; const os=d.say.bind(d); d.say=(w,l)=>{L('DLG',w,'\"'+l[0].slice(0,46)+'\"','q='+g.debug.quest()); return os(w,l)};\n const odc=g.directCamera.bind(g); g.directCamera=(p)=>{L('CAM',p.x.toFixed(1),p.z.toFixed(1),'dlgOpen='+g.dialogue.open); return odc(p)};\n const ot=g.hud.toast.bind(g.hud); g.hud.toast=(t,ms)=>{L('TOAST',t); return ot(t,ms)};\n const sp=g.spot; const oss=sp.show.bind(sp); sp.show=(el,o)=>{L('SPOT',el.className||el.tagName); return oss(el,o)};\n window.__where=()=>{const t=g.arrow.target; if(!t) return null; const c=[['refine',g.furnace.zone.center],['tray',g.furnace.trayPos],['sell',g.sales.zone.center],['money',g.sales.moneyPos],['upgrade',g.upgradeB.zone.center],['shop',g.shopB.zone.center],['worker',g.workerB.zone.center]]; let best='other',bd=1.5; for(const [n,p] of c){const dd=Math.hypot(p.x-t.x,p.z-t.z); if(dd<bd){bd=dd;best=n}} return best+'@'+t.x.toFixed(1)+','+t.z.toFixed(1)};\n setInterval(()=>{const s=window.__S; if(!s) return; const q=g.debug.quest(); const k=q+':'+s.quest.progress; if(k!==window.__lk){window.__lk=k; L('Q',q,'p='+s.quest.progress,'carry='+g.player.stack.count,'arrow='+__where())}},40);\n window.__auto=false;\n setInterval(()=>{ if(window.__auto && g.dialogue.open) document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); },200);\n return 'ok';\n})()"
+ },
+ {
+  "eval": "(window.__auto=true, true)"
+ },
+ {
+  "until": "!__game.dialogue.open && !!window.__S",
+  "timeout": 15000
+ },
+ {
+  "eval": "(__game.debug.skipTo(1024), __S.quest.progress=3, __game.debug.cash(3000), __game.debug.sell(5800), __game.timeScale=2, true)"
+ },
+ {
+  "until": "__S.run.clearHinted && !__game.dialogue.open",
+  "timeout": 40000
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "snap": "rv1_c0_clear_ready"
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "(document.querySelector('.st-next').click(), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(document.querySelector('.modal.on:not(.ad)')?.click(), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .go')?.click(), true)"
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "until": "!__game.dialogue.open && !!document.querySelector('.modal.on .pick')",
+  "timeout": 30000
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .pick')?.click(), true)"
+ },
+ {
+  "wait": 1000
+ },
+ {
+  "eval": "(document.querySelector('.modal.on .go')?.click(), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "({q: __game.debug.quest(), saved: JSON.parse(localStorage.getItem('cm_save')).quest})"
+ },
+ {
+  "wait": 9000
+ },
+ {
+  "eval": "(()=>{\n if (window.__log) return 'already';\n const res=n=>performance.getEntriesByType('resource').map(e=>e.name).find(x=>x.includes(n));\n window.__log=[];\n const g=__game;\n const T=()=>+g.time.toFixed(2);\n const L=(...a)=>{ if(__log.length<600) __log.push([T(),...a].join(' ')); };\n window.__L=L;\n import(res('/src/game/state.ts')).then(m=>{window.__S=m.S;});\n import(res('/src/game/systems/Events.ts')).then(m=>{window.__E=m.events; for(const k of ['oreDestroyed','mineralCollected','mineralToSmelter','ingotSold','buildingEntered','statUpgraded','cargoFull','lightEquipPurchased','heavyEquipRented','vehicleMounted','workerHired','stageCleared','stageContracted','managementUpgraded']) m.events.on(k,(e)=>{ if(k==='mineralCollected'||k==='mineralToSmelter'){ window.__cnt=window.__cnt||{}; __cnt[k]=(__cnt[k]||0)+1; if(__cnt[k]>12) return; } L('ev',k,'q='+g.debug.quest(),'p='+(window.__S?window.__S.quest.progress:'?'),'carry='+g.player.stack.count);});});\n const d=g.dialogue; const os=d.say.bind(d); d.say=(w,l)=>{L('DLG',w,'\"'+l[0].slice(0,46)+'\"','q='+g.debug.quest()); return os(w,l)};\n const odc=g.directCamera.bind(g); g.directCamera=(p)=>{L('CAM',p.x.toFixed(1),p.z.toFixed(1),'dlgOpen='+g.dialogue.open); return odc(p)};\n const ot=g.hud.toast.bind(g.hud); g.hud.toast=(t,ms)=>{L('TOAST',t); return ot(t,ms)};\n const sp=g.spot; const oss=sp.show.bind(sp); sp.show=(el,o)=>{L('SPOT',el.className||el.tagName); return oss(el,o)};\n window.__where=()=>{const t=g.arrow.target; if(!t) return null; const c=[['refine',g.furnace.zone.center],['tray',g.furnace.trayPos],['sell',g.sales.zone.center],['money',g.sales.moneyPos],['upgrade',g.upgradeB.zone.center],['shop',g.shopB.zone.center],['worker',g.workerB.zone.center]]; let best='other',bd=1.5; for(const [n,p] of c){const dd=Math.hypot(p.x-t.x,p.z-t.z); if(dd<bd){bd=dd;best=n}} return best+'@'+t.x.toFixed(1)+','+t.z.toFixed(1)};\n setInterval(()=>{const s=window.__S; if(!s) return; const q=g.debug.quest(); const k=q+':'+s.quest.progress; if(k!==window.__lk){window.__lk=k; L('Q',q,'p='+s.quest.progress,'carry='+g.player.stack.count,'arrow='+__where())}},40);\n window.__auto=false;\n setInterval(()=>{ if(window.__auto && g.dialogue.open) document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); },200);\n return 'ok';\n})()"
+ },
+ {
+  "eval": "(window.__auto=false, true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "rv1_c1_stage2_start"
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "({stage: __game.st.order, saved: JSON.parse(localStorage.getItem('cm_save')).quest, dlgText: document.querySelector('.dlg-text')?.textContent, name: document.querySelector('.dlg-name')?.textContent, dialogues: JSON.parse(localStorage.getItem('cm_save')).dialogues})"
+ },
+ {
+  "eval": "(window.__auto=true, __game.debug.cash(20000), true)"
+ },
+ {
+  "until": "!__game.dialogue.open",
+  "timeout": 20000
+ },
+ {
+  "eval": "([2,3,5,7,9].map(id=>{__game.hire(id); return __S.run.workers.length}))"
+ },
+ {
+  "eval": "(__game.debug.skipTo(1041), true)"
+ },
+ {
+  "wait": 4000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ }
+]

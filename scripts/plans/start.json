@@ -1,0 +1,8 @@
+[
+ {"wait": 1500},
+ {"snap": "s0_dialog"},
+ {"tap": [270, 1050]},
+ {"wait": 1500},
+ {"snap": "s1_quest"},
+ {"eval": "({q: __game.quests.cur()?.text, dlg: __game.dialogue.open})"}
+]

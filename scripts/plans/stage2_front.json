@@ -1,0 +1,9 @@
+[
+ {"wait": 800},
+ {"eval": "(__game.debug.quiet(), __game.debug.stage(2), true)"},
+ {"wait": 7000},
+ {"eval": "(()=>{const g=__game; g.debug.quiet(); const centre=(b)=>g.field.center(b, g.player.pos.clone()); const len=(from)=>{const near=g.st.blocks.map(b=>[b,centre(b)]).sort((a,b)=>a[1].distanceTo(from)-b[1].distanceTo(from)).slice(0,12); let best=null; for(const [,to] of near){const out=[]; if(!g.nav.route(from.clone(), to, g.oreAt, g.roomToWalk, out)) continue; let d=0, p=from; for(const q of out){d+=Math.hypot(q.x-p.x,q.z-p.z); p=q;} if(best===null||d<best) best=d;} return best===null?'no way':+best.toFixed(1)}; return JSON.stringify({stage:g.level, metresToNearestOre:{shop:len(g.shopB.zone.center), oil:len(g.oil.zone.center), upgrade:len(g.upgradeB.zone.center), furnace:len(g.furnace.zone.center), worker:len(g.workerB.zone.center)}})})()"},
+ {"eval": "(()=>{const g=__game; g.player.pos.copy(g.upgradeB.zone.center); g.player.pos.x += 4; g.player.pos.z += 5; g.stage.zoom(1.8); return true})()"},
+ {"wait": 2500},
+ {"snap": "stage2_front"}
+]

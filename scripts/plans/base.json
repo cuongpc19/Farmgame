@@ -1,0 +1,1 @@
+[{"wait":1500},{"eval":"(__game.player.pos.set(8,0,22), true)"},{"wait":2500},{"snap":"b1"},{"eval":"(__game.player.pos.set(-8,0,14), true)"},{"wait":2500},{"snap":"b2"}]

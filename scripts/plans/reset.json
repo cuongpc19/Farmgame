@@ -1,0 +1,45 @@
+[
+ {
+  "wait": 1000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(__game.debug.sell(300), __game.debug.cash(5000), __game.debug.quiet(), true)"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('cm_save')); return JSON.stringify({cash:s.cash, quest:s.quest, seen:s.dialogues.length, mined:s.run.mined ?? s.run.broken?.length});})()"
+ },
+ {
+  "eval": "(localStorage.setItem('cm_settings', JSON.stringify({music:false,sfx:true,perfMode:true,perfUser:true})), true)"
+ },
+ {
+  "eval": "(document.querySelector('[data-k=settings]').click(), true)"
+ },
+ {
+  "wait": 700
+ },
+ {
+  "eval": "(document.querySelector('.settings [data-k=reset]').click(), document.querySelector('.settings [data-k=reset]').textContent)"
+ },
+ {
+  "eval": "(setTimeout(()=>document.querySelector('.settings [data-k=reset]').click(), 50), true)"
+ },
+ {
+  "until": "!!window.__game && !document.getElementById(\"boot\")",
+  "timeout": 60000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{const s=JSON.parse(localStorage.getItem('cm_save')||'null'); return JSON.stringify({url:location.search, live:__game.debug.state().cash, quest:__game.debug.state().quest, seen:__game.debug.state().dialogues.length, stored: s && {cash:s.cash, quest:s.quest, seen:s.dialogues.length}, settings: localStorage.getItem('cm_settings'), dlgOpen: __game.dialogue.open});})()"
+ },
+ {
+  "snap": "reset_after"
+ }
+]

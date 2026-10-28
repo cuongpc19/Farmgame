@@ -1,0 +1,208 @@
+[
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{\n if (window.__log) return 'already';\n const res=n=>performance.getEntriesByType('resource').map(e=>e.name).find(x=>x.includes(n));\n window.__log=[];\n const g=__game;\n const T=()=>+g.time.toFixed(2);\n const L=(...a)=>{ if(__log.length<600) __log.push([T(),...a].join(' ')); };\n window.__L=L;\n import(res('/src/game/state.ts')).then(m=>{window.__S=m.S;});\n import(res('/src/game/systems/Events.ts')).then(m=>{window.__E=m.events; for(const k of ['oreDestroyed','mineralCollected','mineralToSmelter','ingotSold','buildingEntered','statUpgraded','cargoFull','lightEquipPurchased','heavyEquipRented','vehicleMounted','workerHired','stageCleared','stageContracted','managementUpgraded']) m.events.on(k,(e)=>{ if(k==='mineralCollected'||k==='mineralToSmelter'){ window.__cnt=window.__cnt||{}; __cnt[k]=(__cnt[k]||0)+1; if(__cnt[k]>12) return; } L('ev',k,'q='+g.debug.quest(),'p='+(window.__S?window.__S.quest.progress:'?'),'carry='+g.player.stack.count);});});\n const d=g.dialogue; const os=d.say.bind(d); d.say=(w,l)=>{L('DLG',w,'\"'+l[0].slice(0,46)+'\"','q='+g.debug.quest()); return os(w,l)};\n const odc=g.directCamera.bind(g); g.directCamera=(p)=>{L('CAM',p.x.toFixed(1),p.z.toFixed(1),'dlgOpen='+g.dialogue.open); return odc(p)};\n const ot=g.hud.toast.bind(g.hud); g.hud.toast=(t,ms)=>{L('TOAST',t); return ot(t,ms)};\n const sp=g.spot; const oss=sp.show.bind(sp); sp.show=(el,o)=>{L('SPOT',el.className||el.tagName); return oss(el,o)};\n window.__where=()=>{const t=g.arrow.target; if(!t) return null; const c=[['refine',g.furnace.zone.center],['tray',g.furnace.trayPos],['sell',g.sales.zone.center],['money',g.sales.moneyPos],['upgrade',g.upgradeB.zone.center],['shop',g.shopB.zone.center],['worker',g.workerB.zone.center]]; let best='other',bd=1.5; for(const [n,p] of c){const dd=Math.hypot(p.x-t.x,p.z-t.z); if(dd<bd){bd=dd;best=n}} return best+'@'+t.x.toFixed(1)+','+t.z.toFixed(1)};\n setInterval(()=>{const s=window.__S; if(!s) return; const q=g.debug.quest(); const k=q+':'+s.quest.progress; if(k!==window.__lk){window.__lk=k; L('Q',q,'p='+s.quest.progress,'carry='+g.player.stack.count,'arrow='+__where())}},40);\n window.__auto=false;\n setInterval(()=>{ if(window.__auto && g.dialogue.open) document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); },200);\n return 'ok';\n})()"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "snap": "rv1_t0_open"
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(window.__auto=true, true)"
+ },
+ {
+  "until": "!__game.dialogue.open && __game.directT<=0",
+  "timeout": 15000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.timeScale=4, true)"
+ },
+ {
+  "eval": "(()=>{const g=__game; const C=2.5; let best=null,bd=1e9; const from=g.player.pos; for(const b of g.field.blocks){ if(!b.alive) continue; if(g.field.at(b.cx,b.cz+1)) continue; const d=(b.cx*C-from.x)**2+(b.cz*C-from.z)**2; if(d<bd){bd=d;best=b;} } if(!best) return null; g.player.pos.set(best.cx*C,0,best.cz*C+C/2+0.75); g.player.facing=Math.PI; return [best.cx,best.cz]; })()"
+ },
+ {
+  "until": "__game.debug.quest()!==1001",
+  "timeout": 60000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "until": "__game.player.stack.full",
+  "timeout": 30000
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "snap": "rv1_t1_full"
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "wait": 4000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.furnace.zone.center), true)"
+ },
+ {
+  "until": "__game.player.stack.count===0",
+  "timeout": 20000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "(()=>{const g=__game; const C=2.5; let best=null,bd=1e9; const from=g.player.pos; for(const b of g.field.blocks){ if(!b.alive) continue; if(g.field.at(b.cx,b.cz+1)) continue; const d=(b.cx*C-from.x)**2+(b.cz*C-from.z)**2; if(d<bd){bd=d;best=b;} } if(!best) return null; g.player.pos.set(best.cx*C,0,best.cz*C+C/2+0.75); g.player.facing=Math.PI; return [best.cx,best.cz]; })()"
+ },
+ {
+  "until": "__game.debug.quest()>=1003 && (__game.player.stack.full)",
+  "timeout": 60000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.furnace.zone.center), true)"
+ },
+ {
+  "until": "__game.debug.quest()>=1004",
+  "timeout": 30000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "snap": "rv1_t2_sell_quest"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "until": "__game.furnace.output.count>=3",
+  "timeout": 40000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.player.pos.set(__game.furnace.trayPos.x,0,__game.furnace.trayPos.z+1.2), true)"
+ },
+ {
+  "until": "__game.player.stack.count>=3 && __game.furnace.output.count===0 && !__game.furnace.busy",
+  "timeout": 40000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.sales.zone.center), true)"
+ },
+ {
+  "until": "__game.debug.quest()>=1005",
+  "timeout": 40000
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "snap": "rv1_t3_after_sell"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "snap": "rv1_t4_upgrade_dlg"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.sales.moneyPos), true)"
+ },
+ {
+  "until": "__game.sales.moneyWaiting===0",
+  "timeout": 20000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.upgradeB.zone.center), true)"
+ },
+ {
+  "until": "__game.debug.quest()>=1006",
+  "timeout": 20000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "rv1_t5_upgrade_panel"
+ },
+ {
+  "eval": "({rows:[...document.querySelectorAll('.sheet.on .row')].map(r=>r.textContent.replace(/\\s+/g,' ').trim().slice(0,70)), rec: document.querySelectorAll('.sheet.on .rec').length})"
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(()=>{const r=[]; for(let i=0;i<3;i++){ const bb=document.querySelector('.sheet.on [data-up]:not(.off)'); if(!bb) break; r.push(bb.dataset.up+':'+bb.textContent.trim()); bb.click(); } return r; })()"
+ },
+ {
+  "wait": 2000
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "eval": "(document.querySelector('.sheet.on .sh-x')?.click(), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "({t:+__game.time.toFixed(1), q:__game.debug.quest(), p:window.__S&&__S.quest.progress, card:document.querySelector('.q-text')?.textContent+' '+document.querySelector('.q-count')?.textContent, carry:__game.player.stack.count+'/'+__game.player.stack.capacity, full:__game.player.stack.full, dlg:__game.dialogue.open, spot:__game.spot.open, arrow:__where(), cash:window.__S&&Math.floor(__S.cash), inShop:__game.inShop})"
+ },
+ {
+  "snap": "rv1_t6_rocky"
+ },
+ {
+  "eval": "(()=>{const l=__log.slice(window.__lp||0); window.__lp=__log.length; return l;})()"
+ },
+ {
+  "eval": "JSON.parse(localStorage.getItem('cm_save')).dialogues"
+ }
+]

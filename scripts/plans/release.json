@@ -1,0 +1,8 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"drag": [270, 800, 270, 650], "ms": 1800},
+ {"eval": "(window.__sw={swings:0,last:0}, window.__swId=setInterval(()=>{const s=__game.player.model.swingT; if(s>window.__sw.last+0.01) window.__sw.swings++; window.__sw.last=s;},20), {inputActive: __game.input.active})"},
+ {"wait": 4000},
+ {"eval": "(clearInterval(window.__swId), {swingsAfterRelease: window.__sw.swings, inputActive: __game.input.active, pos:[__game.player.pos.x.toFixed(1), __game.player.pos.z.toFixed(1)]})"}
+]

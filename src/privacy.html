@@ -1,0 +1,70 @@
+<!-- The privacy policy, as a body fragment.
+
+     ⚠ ONE source, every destination: the game shows it in Settings -> PRIVACY (CrazyGames build),
+     scripts/build-target.mjs writes dist/privacy.html from it, and scripts/stats/site.mjs writes
+     site/privacy.html (the hosted copy, the URL for the submission form). Edit only this file.
+
+     ⚠ It must match what the game actually collects: the save, the settings, and the telemetry
+     rows of src/game/telemetry.ts (every field is described below), and Google Analytics
+     (src/game/analytics.ts). Add a field there and this
+     page is wrong the same day.
+
+     ⚠ No links: outbound links are banned in CrazyGames builds. -->
+
+<h1>Privacy Policy</h1>
+<p class="upd">Candy Miner &middot; last updated 2026-10-28</p>
+
+<p>This game is free, has no accounts, and never asks for your name, e-mail address or any
+other personal detail.</p>
+
+<h2>Saved on your own device</h2>
+<p>Your progress (dig site, cash, upgrades, equipment, workers, quests and play time) and your
+settings (sound and performance mode) are kept in your browser's local storage, under keys that
+start with <code>qc_</code>. Clearing your browser's site data deletes them; Settings &rarr; Reset
+progress deletes the progress.</p>
+<p>The game also keeps a random device code (<code>qc.device</code>) and a code for the current
+play session (<code>qc.session</code>). They identify nothing about you; Reset progress keeps the
+device code so that a fresh start is not counted as a new player. Your saved progress also holds
+a random save code, so that progress carried to another device by the cloud save is counted as one
+player; Reset progress makes a new one.</p>
+
+<h2>Cloud save and videos on CrazyGames</h2>
+<p>When the game is played on CrazyGames, the same saved progress is also handed to the
+CrazyGames SDK so it can follow you between devices, and the rewarded videos you choose to
+watch are served by CrazyGames. Both are governed by CrazyGames' own privacy policy. On any
+other site neither happens.</p>
+
+<h2>Play statistics sent to us</h2>
+<p>To see how far players get and where the game is too hard or too slow, the game sends short
+play records to our own database (Google Firebase Realtime Database). A record contains:</p>
+<ul>
+  <li>the random device, session and save codes above;</li>
+  <li>your progress: stage, share of the dig site mined, quests finished, cash and play time;</li>
+  <li>every few minutes, how the play went since the last record: how many blocks you, your
+    machines and your hired workers broke, how long you drove, ran out of fuel or had a full load,
+    how long workers were blocked, idle or resting, your crew size, and how hard the rock you can
+    reach is to break;</li>
+  <li>which buildings you enter and leave, when you open the equipment list, which machines and tools
+    you look at in the machinery shop, and which free boosts and gifts you are offered and take;</li>
+  <li>what you buy in the game (upgrades, tools, machines, workers, research);</li>
+  <li>when you open and leave the game, how long it took to load, and its frame rate;</li>
+  <li>whether your device has a touch screen, the screen orientation, Perf. Mode, and your
+    browser's language and time zone setting;</li>
+  <li>the game version, the website it is played on, whether the Google Analytics script could
+    load, and the error message if the game fails.</li>
+</ul>
+<p>These records contain no name, e-mail address, account, advertising identifier or location.
+They are used only to improve this game and are never sold or shared. To have yours deleted,
+write to the address below with the device code shown on this page in the game.</p>
+
+<h2>Google Analytics</h2>
+<p>The game also uses Google Analytics, a service of Google, to count visits and see which
+countries players come from and how long they stay. A few seconds after the game starts it loads
+a script from Google, which may keep a random identifier in a cookie or in local storage (names
+starting with <code>_ga</code>) and sends Google the page address, your browser and device type,
+an approximate location that Google derives from your IP address, and a few game events (the
+stage started or finished, the quests completed). Google handles this data under its own privacy
+policy. If your browser or an ad blocker blocks it, the game works exactly the same.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy or the game: binhp8973@gmail.com</p>

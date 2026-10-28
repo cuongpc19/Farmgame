@@ -1,0 +1,95 @@
+[
+ {
+  "until": "!!(window.__game && window.__game.ready && window.__game.st.order === 2) && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(()=>{const g=__game,S=g.debug.state(); S.gear=550; S.cash=12000; g.debug.skipTo(1037); g.researchFloors(); return JSON.stringify({q:g.debug.quest(), heavyBefore:g.hqPanel.heavyOpen, pct:+g.progress().toFixed(1), PASS: g.hqPanel.heavyOpen===false})})()"
+ },
+ {
+  "eval": "(__game.rent('rollerCrusher'), true)"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "JSON.stringify({q:__game.debug.quest(), dlg:__game.dialogue.open, text: document.querySelector('.dlg') ? document.querySelector('.dlg').innerText.slice(0,90) : ''})"
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n})()"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n})()"
+ },
+ {
+  "until": "(()=>{if(__game.dialogue.open){document.querySelector(\".dlg\").dispatchEvent(new PointerEvent(\"pointerdown\",{bubbles:true}));} const x=document.querySelector(\".sheet.on .sh-x\"); if(x) x.click(); const h=document.querySelector(\".spot-hint\"), hq=!!(h&&h.textContent.includes(\"Research\")); if(__game.spot.open && !hq) __game.spot.close(); return __game.spot.open && hq})()",
+  "timeout": 40000,
+  "every": 150
+ },
+ {
+  "eval": "JSON.stringify({q:__game.debug.quest(), spot:__game.spot.open, dlg:__game.dialogue.open, sheet:!!document.querySelector(\".sheet.on, .modal.on\"), bang:__game.hud.companyBtn.classList.contains(\"bang\"), seen803:__game.debug.state().dialogues.includes(803), PASS: __game.spot.open && !__game.dialogue.open && __game.hud.companyBtn.classList.contains(\"bang\")})"
+ },
+ {
+  "snap": "pt_q38_spot"
+ },
+ {
+  "eval": "(__game.spot.close(), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "JSON.stringify({tower:__game.hqTower.isOpen, heavy:__game.hqPanel.heavyOpen, heavyBtnShown: !!__game.hqTower.heavyUpgradeButton().offsetParent, PASS: __game.hqTower.isOpen && __game.hqPanel.heavyOpen})"
+ },
+ {
+  "snap": "pt_q38_tower"
+ },
+ {
+  "eval": "(__game.hqTower.heavyUpgradeButton().click(), true)"
+ },
+ {
+  "wait": 900
+ },
+ {
+  "snap": "pt_q38_heavy"
+ },
+ {
+  "eval": "(__game.research(30101), JSON.stringify({gear:__game.debug.state().gear, research:__game.debug.state().mgmt.research}))"
+ },
+ {
+  "wait": 5600
+ },
+ {
+  "eval": "(__game.applyResearch(30101), JSON.stringify({q:__game.debug.quest(), progress:__game.debug.state().quest.progress}))"
+ },
+ {
+  "eval": "(__game.research(40101), true)"
+ },
+ {
+  "wait": 5600
+ },
+ {
+  "eval": "(__game.applyResearch(40101), JSON.stringify({q:__game.debug.quest(), progress:__game.debug.state().quest.progress, research:__game.debug.state().mgmt, gearLeft:__game.debug.state().gear}))"
+ },
+ {
+  "eval": "(__game.hqPanel.close(), __game.hqTower.close(), true)"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "JSON.stringify({q:__game.debug.quest(), bangAfter: __game.hud.companyBtn.classList.contains(\"bang\"), PASS: __game.debug.quest()===1039 && !__game.hud.companyBtn.classList.contains(\"bang\")})"
+ },
+ {
+  "snap": "pt_q38_done"
+ }
+]

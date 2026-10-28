@@ -1,0 +1,12 @@
+[
+ {"wait": 1000},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(__game.debug.skipTo(1014), __game.debug.cash(60000), __game.timeScale = 3, __game.player.pos.copy(__game.shopB.zone.center), true)"},
+ {"until": "__game.inShop", "timeout": 15000},
+ {"wait": 300},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(S=>{ return true; })()"},
+ {"eval": "(__game.player.pos.copy(__game.shopIn.platePos('rollerCrusher')).add({x:0,y:0,z:3}), __game.stage.zoom(1.25), __game.stage.follow(__game.player.pos, true), __game.shopIn.refresh(), true)"},
+ {"wait": 2500},
+ {"snap": "showroom"}
+]

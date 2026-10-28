@@ -1,0 +1,17 @@
+[
+ {"until": "document.querySelectorAll('#cards .card').length > 3", "timeout": 20000},
+ {"eval": "JSON.stringify({status: document.getElementById('status').textContent, cards: [...document.querySelectorAll('#cards .card')].map(c => c.innerText.replace(/\n/g,' | ')), quests: document.querySelectorAll('#tQuest tbody tr').length, players: document.querySelectorAll('#tPlayers tbody tr').length, wide: document.documentElement.scrollWidth})"},
+ {"snap": "stats_top"},
+ {"eval": "(document.getElementById('tMile').scrollIntoView(), true)"},
+ {"snap": "stats_mile"},
+ {"eval": "(document.getElementById('tQuest').closest('.scroll').scrollIntoView(), true)"},
+ {"snap": "stats_quest"},
+ {"eval": "(document.getElementById('tStage').scrollIntoView({block:'start'}), window.scrollBy(0,-40), true)"},
+ {"snap": "stats_stage"},
+ {"eval": "(document.getElementById('tPlayers').closest('.scroll').scrollIntoView(), true)"},
+ {"snap": "stats_players"},
+ {"eval": "(document.getElementById('tBuy').closest('.scroll').scrollIntoView(), true)"},
+ {"snap": "stats_buy"},
+ {"eval": "(document.getElementById('tDevice').scrollIntoView(), window.scrollBy(0,-60), true)"},
+ {"snap": "stats_tech"}
+]

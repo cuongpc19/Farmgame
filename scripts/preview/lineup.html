@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#8a7a68}</style></head>
+<body><script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+const q = new URLSearchParams(location.search);
+const dir = q.get("dir"), names = q.get("names").split(","), anim = q.get("anim") ?? "idle";
+const r = new THREE.WebGLRenderer({ antialias: true }); r.outputColorSpace = THREE.SRGBColorSpace;
+r.setSize(innerWidth, innerHeight); document.body.appendChild(r.domElement);
+const s = new THREE.Scene(); s.background = new THREE.Color(0x8a7a68);
+const cam = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 0.1, 100);
+s.add(new THREE.HemisphereLight(0xfff4e0, 0x6a5440, 1.4));
+const d = new THREE.DirectionalLight(0xffffff, 1.9); d.position.set(4, 8, 6); s.add(d);
+const L = new GLTFLoader(); let n = 0; const info = [];
+const per = Math.ceil(names.length / 2);
+names.forEach((k, i) => L.load(`${dir}/${k}`, (g) => {
+  const o = g.scene; s.add(o);
+  const bb0 = new THREE.Box3().setFromObject(o); const sz = bb0.getSize(new THREE.Vector3()); const h = Math.max(sz.x, sz.y, sz.z); o.scale.setScalar(0.62 / h); o.position.y = -bb0.min.y * 0.62 / h; o.rotation.y = +(q.get('rot') ?? 0.6);
+  o.position.x = (i % per - (per - 1) / 2) * 0.75; o.position.y += i < per ? 0.75 : 0; o.position.z = i < per ? -0.8 : 0.4;
+  const c = g.animations.find(a => a.name === anim) ?? g.animations[0];
+  if (c) { const mx = new THREE.AnimationMixer(o); mx.clipAction(c).play(); mx.update(0.3); }
+  info[i] = { k, h: +h.toFixed(3), anims: g.animations.length };
+  if (++n === names.length) { cam.position.set(0, 2.6, per * 1.15); cam.lookAt(0, 0.45, 0); r.render(s, cam); window.__info = info; window.__game = { ready: true }; }
+}));
+</script></body></html>

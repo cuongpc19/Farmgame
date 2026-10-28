@@ -1,0 +1,155 @@
+[
+ {
+  "until": "window.__game && !document.getElementById('boot')",
+  "timeout": 90000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.skipTo(1014), __game.debug.cash(20000), __game.timeScale = 3, __game.player.pos.copy(__game.shopB.zone.center), true)"
+ },
+ {
+  "until": "__game.inShop",
+  "timeout": 20000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.shopIn.platePos('wheelbarrow')), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(document.querySelector('.icard [data-buy]')?.click(), true)"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.debug.skipTo(1021), __game.player.pos.copy(__game.shopIn.exit.center).add({x:0,y:0,z:-6}), __game.shopPick(true))"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "eval": "JSON.stringify({pick: __game.shopPick(true), toPlate: (()=>{const a=__game.arrowTarget(), b=__game.shopIn.platePos(__game.shopPick(true)); return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})(), toDoor: (()=>{const a=__game.arrowTarget(), b=__game.shopIn.exit.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()})"
+ },
+ {
+  "snap": "oil_shop_arrow"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.shopIn.platePos('hydraulicBreaker')), true)"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(document.querySelector('.icard [data-buy]')?.click(), true)"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.shopIn.exit.center), true)"
+ },
+ {
+  "until": "!__game.inShop && __game.vehicles.some(v=>v.key==='hydraulicBreaker')",
+  "timeout": 20000
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(v=>v.key==='hydraulicBreaker'); __game.timeScale=1; __game.mount(v); __game.spot.close?.(); v.fuel=0; return v.empty})()"
+ },
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "JSON.stringify({toast: document.querySelector('.toast')?.textContent, flag: __game.debug.state().dialogues.includes(-902), toOil: (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()})"
+ },
+ {
+  "snap": "oil_dry_driving"
+ },
+ {
+  "eval": "JSON.stringify((()=>{const r=document.querySelector('.toast').getBoundingClientRect(); return {left: Math.round(r.left), right: Math.round(r.right), h: Math.round(r.height), vw: innerWidth}})())"
+ },
+ {
+  "until": "__game.directT <= 0",
+  "timeout": 15000
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} __game.spot.close?.(); return n})()"
+ },
+ {
+  "eval": "(__game.dismount(), JSON.stringify({driving: !!__game.driving, toOil: (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()}))"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.oil.zone.center), true)"
+ },
+ {
+  "until": "__game.player.stack.items.length >= 3",
+  "timeout": 30000
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(v=>v.key==='hydraulicBreaker'); __game.player.pos.set(__game.oil.zone.center.x + 4, 0, __game.oil.zone.center.z + 4); return JSON.stringify({carried: __game.player.stack.items.length, toMachine: (()=>{const a=__game.arrowTarget(), b=v.pos; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()})})()"
+ },
+ {
+  "snap": "oil_back_to_machine"
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(v=>v.key==='hydraulicBreaker'); __game.player.pos.set(v.pos.x + v.radius + 0.8, 0, v.pos.z); return true})()"
+ },
+ {
+  "until": "__game.vehicles.find(v=>v.key==='hydraulicBreaker').fuel > 0",
+  "timeout": 20000
+ },
+ {
+  "wait": 500
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(v=>v.key==='hydraulicBreaker'); return JSON.stringify({fuel: +v.fuel.toFixed(1), empty: v.empty, toMachine: (()=>{const a=__game.arrowTarget(), b=v.pos; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})(), toOil: (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()})})()"
+ },
+ {
+  "eval": "(()=>{const v=__game.vehicles.find(v=>v.key==='hydraulicBreaker'); __game.mount(v); v.fuel=0; return v.empty})()"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "eval": "'dry again, at once -> toOil ' + (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()"
+ },
+ {
+  "eval": "(__game.time += 29, true)"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "'after 29 s -> toOil ' + (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})()"
+ },
+ {
+  "eval": "(__game.time += 2, true)"
+ },
+ {
+  "wait": 300
+ },
+ {
+  "eval": "'after 31 s -> toOil ' + (()=>{const a=__game.arrowTarget(), b=__game.oil.zone.center; return !!a && !!b && Math.hypot(a.x-b.x, a.z-b.z) < 0.5})() + ', arrow ' + JSON.stringify(__game.arrowTarget())"
+ }
+]

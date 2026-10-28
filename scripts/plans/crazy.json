@@ -1,0 +1,14 @@
+[
+ {"wait": 1500},
+ {"eval": "JSON.stringify({sdk: !!(window.CrazyGames && window.CrazyGames.SDK), handle: typeof window.__game, boot: !!document.getElementById('boot'), canvas: !!document.querySelector('canvas'), lang: document.documentElement.lang})"},
+ {"eval": "(()=>{let n=0; while(document.querySelector('.dlg') && getComputedStyle(document.querySelector('.dlg')).opacity !== '0' && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"wait": 1500},
+ {"snap": "crazy_1"},
+ {"eval": "(document.querySelector('[data-k=settings]').click(), true)"},
+ {"wait": 900},
+ {"snap": "crazy_settings"},
+ {"eval": "(document.querySelector('[data-k=privacy]').click(), document.querySelectorAll('.sheet.privacy a').length)"},
+ {"wait": 900},
+ {"snap": "crazy_privacy"},
+ {"eval": "Object.keys(localStorage).filter(k=>k.startsWith('cm_')).join(',')"}
+]

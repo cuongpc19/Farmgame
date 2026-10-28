@@ -1,0 +1,23 @@
+[
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(()=>{ let n=0, parts=0, colors=0; const per={}; __game.scene.traverse(o=>{ if(o.isSkinnedMesh){ n++; if(o.geometry.getAttribute('part')) parts++; if(o.geometry.getAttribute('color')) colors++; } }); return JSON.stringify({skinnedMeshes:n, merged:parts, withColours:colors, workers: __game.workers.length}); })()"
+ },
+ {
+  "eval": "(()=>{let k=0; while(__game.dialogue.open && k<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); k++;} const g=__game; g.debug.quiet(); g.directCamera=()=>{}; g.directT=0; g.debug.crew('Mining',2); g.debug.crew('Carrying',1); g.player.pos.set(5,0,14); g.stage.zoom(0.35); g.stage.follow(g.player.pos,true); return true})()"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "eval": "(()=>{const g=__game; const w=g.workers[0]; if(w){ w.pos.set(7.5,0,14.5); } g.player.pos.set(5,0,14); g.stage.follow(g.player.pos,true); return g.workers.length})()"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "snap": "char_merged"
+ }
+]

@@ -1,0 +1,16 @@
+[
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"wait": 1500},
+ {"eval": "(()=>{const g=__game; g.timeScale=6; g.player.pos.set(6.25, 0, -2); window.dispatchEvent(new KeyboardEvent('keydown',{key:'w'})); return true})()"},
+ {"until": "__game.debug.quest() >= 1003", "timeout": 90000},
+ {"eval": "(()=>{window.dispatchEvent(new KeyboardEvent('keyup',{key:'w'})); const g=__game; g.timeScale=1; g.player.pos.copy(g.furnace.zone.center); return true})()"},
+ {"until": "__game.debug.quest() >= 1004", "timeout": 30000},
+ {"wait": 1500},
+ {"eval": "JSON.stringify({before: {quest: __game.debug.quest(), lastPanAt: __game.lastPanAt}})"},
+ {"eval": "(location.reload(), true)"},
+ {"wait": 3000},
+ {"until": "window.__game && !document.getElementById('boot')", "timeout": 90000},
+ {"wait": 300},
+ {"eval": "JSON.stringify({afterReload: {quest: __game.debug.quest(), pan: +__game.directT.toFixed(2), lastPanAt: +__game.lastPanAt.toFixed(1), toTray: +Math.hypot(__game.player.pos.x-__game.furnace.trayPos.x, __game.player.pos.z-__game.furnace.trayPos.z).toFixed(1), toRefining: +Math.hypot(__game.player.pos.x-__game.furnace.zone.center.x, __game.player.pos.z-__game.furnace.zone.center.z).toFixed(1)}})"},
+ {"snap": "reload_nopan"}
+]

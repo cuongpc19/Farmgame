@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Quarry Crush — số liệu</title>
+<!--
+  Bảng số liệu của Quarry Crush (ANALYTICS.md). Đọc node /qc của Realtime Database, nơi game ghi
+  từng dòng (src/game/telemetry.ts). Cùng kiểu với trang số liệu của Pixel Flow.
+
+  Xem thử không cần đăng nhập, trên máy dev: http://localhost:5173/site/stats.html?local=sample
+  (đọc site/sample.local.json do `node scripts/stats/fake.mjs` tạo, hoặc ?local=rows cho file
+  `node scripts/stats/pull.mjs --out site/rows.local.json`). File *.local.json không bao giờ được deploy.
+-->
+<style>
+  /* Bảng điều khiển để quét nhanh: số to, nhãn nhỏ, màu chỉ để báo trạng thái. */
+  :root {
+    --bg: #f6f4ef;  --panel: #fffdf8;  --line: #e2ddd0;
+    --ink: #23201a;  --dim: #6f6858;  --faint: #9a9384;
+    --accent: #b7791f;         /* vàng quặng */
+    --good: #2f7d4f;  --warn: #b9861a;  --bad: #b03a2e;
+    --grid: #ece7db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #16150f;  --panel: #1e1c15;  --line: #35322a;
+      --ink: #f0ece0;  --dim: #a49c88;  --faint: #6f6858;
+      --accent: #e0a43a;  --good: #63b487;  --warn: #d9ab4a;  --bad: #e2705f;
+      --grid: #2a2721;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #16150f;  --panel: #1e1c15;  --line: #35322a;
+    --ink: #f0ece0;  --dim: #a49c88;  --faint: #6f6858;
+    --accent: #e0a43a;  --good: #63b487;  --warn: #d9ab4a;  --bad: #e2705f;
+    --grid: #2a2721;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 80px; }
+  header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  h1 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim);
+       margin: 34px 0 10px; font-weight: 600; }
+  .sub { color: var(--dim); font-size: 13px; }
+  button, select, input[type="date"], input[type="text"] {
+    font: inherit; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px;
+  }
+  button, select { cursor: pointer; }
+  input[type="text"] { width: 190px; }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 16px 0 4px; }
+  .bar label { font-size: 13px; color: var(--dim); display: flex; align-items: center; gap: 6px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .card .n { font-size: 28px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .card .k { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
+  .card .d { font-size: 12px; color: var(--faint); margin-top: 2px; }
+
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--dim);
+       font-weight: 600; position: sticky; top: 0; background: var(--panel); }
+  th[title] { cursor: help; text-decoration: underline dotted var(--faint); text-underline-offset: 3px; }
+  td:first-child, th:first-child { text-align: left; font-weight: 600; }
+  td.l, th.l { text-align: left; }
+  td.name { text-align: left; font-weight: 500; max-width: 280px; overflow: hidden; text-overflow: ellipsis; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover td { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+  tr.stage td { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--dim);
+                font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; }
+  td.empty { text-align: center; color: var(--faint); font-weight: 400; padding: 18px; }
+  .good { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); font-weight: 650; }
+  .faint { color: var(--faint); }
+  .tag { font-size: 10px; padding: 1px 6px; border-radius: 99px; border: 1px solid currentColor; margin-left: 4px; }
+  .spark { display: inline-block; height: 9px; border-radius: 2px; background: var(--accent); vertical-align: middle; margin-right: 8px; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 470px), 1fr)); gap: 16px 12px; }
+  .grid2 h3 { font-size: 12px; color: var(--dim); margin: 0 0 6px; font-weight: 600; }
+
+  #gate { max-width: 440px; margin: 90px auto; padding: 0 16px; text-align: center; }
+  #gate p { color: var(--dim); font-size: 14px; }
+  code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+         background: var(--grid); padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+  .err { color: var(--bad); font-size: 13px; white-space: pre-wrap; text-align: left; }
+  .note { color: var(--faint); font-size: 12px; margin-top: 8px; }
+  .help { color: var(--dim); font-size: 13px; margin: 0 0 8px; max-width: 900px; }
+  dl.defs { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: 13px; color: var(--dim); max-width: 900px; }
+  dl.defs dt { font-weight: 600; color: var(--ink); }
+  dl.defs dd { margin: 0; }
+  @media (max-width: 560px) { dl.defs { grid-template-columns: 1fr; } dl.defs dd { margin-bottom: 6px; } }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <h1>Quarry Crush — số liệu</h1>
+  <p id="gateMsg">Trang riêng. Đăng nhập bằng tài khoản Google của chủ dự án để đọc dữ liệu.</p>
+  <button id="signin" hidden>Đăng nhập bằng Google</button>
+  <p id="gateErr" class="err"></p>
+</div>
+
+<div class="wrap" id="app" hidden>
+  <header>
+    <h1>Quarry Crush — số liệu</h1>
+    <span class="sub" id="range"></span>
+    <span style="flex:1"></span>
+    <span class="sub" id="who"></span>
+    <button id="signout">Thoát</button>
+  </header>
+
+  <div class="bar">
+    <label>Khoảng
+      <select id="days">
+        <option value="0.0417">1 giờ</option>
+        <option value="0.25">6 giờ</option>
+        <option value="1">24 giờ</option>
+        <option value="3">3 ngày</option>
+        <option value="7" selected>7 ngày</option>
+        <option value="14">14 ngày</option>
+        <option value="30">30 ngày</option>
+        <option value="9999">tất cả</option>
+      </select>
+    </label>
+    <!-- Chọn theo ngày thì ô Khoảng bị bỏ qua. Hai đầu tính cả ngày đó. -->
+    <label>Từ <input type="date" id="from"></label>
+    <label>đến <input type="date" id="to"></label>
+    <button id="clearDate" title="Bỏ chọn ngày, quay về ô Khoảng">✕</button>
+    <label title="CrazyGames cắt ngày theo UTC; mặc định ở đây là giờ Việt Nam"><input type="checkbox" id="utc"> ngày theo UTC</label>
+    <button id="reload">Tải lại</button>
+    <span class="sub" id="status"></span>
+  </div>
+  <div class="bar">
+    <label title="Máy dev (localhost, mạng LAN, đường hầm cloudflare, bản artifact) và các lần chạy test tự động">
+      <input type="checkbox" id="excl" checked> bỏ máy test</label>
+    <label title="Chỉ tính những máy chơi lần đầu trong khoảng đang xem: phễu của lứa người chơi mới">
+      <input type="checkbox" id="newOnly"> chỉ người mới</label>
+    <label>Bản build <select id="build"><option value="">tất cả</option></select></label>
+    <label title="Mã máy hiện trong game ở Settings → PRIVACY &amp; CREDITS. Cách nhau bằng dấu phẩy. Lưu trên trình duyệt này.">
+      Bỏ mã máy <input type="text" id="skip" placeholder="vd. ab12cd34ef, …"></label>
+  </div>
+
+  <div class="cards" id="cards"></div>
+
+  <h2>Theo ngày</h2>
+  <p class="help" id="hDay"></p>
+  <div class="scroll"><table id="tDay"></table></div>
+
+  <h2>Điện thoại và máy tính</h2>
+  <p class="help" id="hDev"></p>
+  <div class="scroll" style="max-height:75vh"><table id="tDayDev"></table></div>
+
+  <h2>Các mốc chính</h2>
+  <p class="help">Bao nhiêu người chơi đã đi tới từng mốc, tính trên số người chơi trong khoảng.</p>
+  <div class="scroll"><table id="tMile"></table></div>
+
+  <h2>Từng quest</h2>
+  <p class="help" id="hQuest"></p>
+  <div class="scroll" style="max-height:75vh"><table id="tQuest"></table></div>
+
+  <h2>Vì sao chậm</h2>
+  <p class="help" id="hWhy"></p>
+  <div class="scroll" style="max-height:75vh"><table id="tWhy"></table></div>
+
+  <h2>Tiến độ trong màn</h2>
+  <p class="help">Mỗi người được xếp vào màn cao nhất đã vào và % đá đã phá ở màn đó. Màn xong ở 80 %.</p>
+  <div class="scroll"><table id="tStage"></table></div>
+
+  <h2>Người chơi</h2>
+  <p class="help">
+    <label class="sub">Sắp xếp
+      <select id="sortP">
+        <option value="last">lần cuối thấy</option>
+        <option value="play">thời gian chơi</option>
+        <option value="quest">tiến độ quest</option>
+        <option value="first">lần đầu thấy</option>
+      </select>
+    </label>
+    <span id="hPlayers"></span>
+  </p>
+  <div class="scroll" style="max-height:70vh"><table id="tPlayers"></table></div>
+
+  <h2>Mua sắm</h2>
+  <p class="help">Mỗi lượt nâng cấp, mua dụng cụ, thuê máy, thuê thợ, nghiên cứu HQ. "Lúc mua" là trung vị trên các lượt mua.</p>
+  <div class="scroll" style="max-height:70vh"><table id="tBuy"></table></div>
+
+  <h2>Kỹ thuật</h2>
+  <div class="grid2">
+    <div><h3>Thiết bị</h3><div class="scroll"><table id="tDevice"></table></div></div>
+    <div><h3>Nguồn chơi</h3><div class="scroll"><table id="tSource"></table></div></div>
+    <div><h3>Bản build</h3><div class="scroll"><table id="tBuild"></table></div></div>
+    <div><h3>Lỗi JavaScript</h3><div class="scroll"><table id="tErr"></table></div></div>
+  </div>
+
+  <h2>Đọc các cột</h2>
+  <dl class="defs">
+    <dt>Người chơi</dt><dd>Các mã máy (một trình duyệt trên một máy) và mã save nối với nhau qua các dòng, có ít nhất một dòng trong khoảng. Chơi tiếp trên máy khác nhờ save trên mây của CrazyGames (cùng mã save) vẫn là một người; Reset progress (cùng mã máy) cũng vậy. Dòng trước 21/10/2026 chưa có mã save: hai máy khi đó tính là hai người.</dd>
+    <dt>Vì sao chậm</dt><dd>Từ 21/10/2026, mỗi nhịp 5 phút và lúc rời tab, game gửi kèm những gì đã diễn ra từ lần gửi trước, gộp theo quest người đó đang làm. Phút = thời gian tab đang mở. Thợ kẹt / không có việc / nghỉ = phần trăm thời gian của cả đội thợ: bị chặn trên đường hoặc không có đường tới đích; không tìm được khối nào để đào hay mảnh nào để khuân; mệt hoặc đang nghỉ ở căng tin. Mặt đá mở = số khối có một cạnh đứng được. Nhát / khối = trung vị số nhát để phá một khối ở mặt đá đó, bằng dụng cụ cầm tay và bằng máy đang lái (hoặc vừa xuống).</dd>
+    <dt>Phiên</dt><dd>Một lần chơi liền mạch. Rời tab hơn 30 phút rồi quay lại là phiên mới; chuyển màn (tải lại trang) vẫn cùng phiên.</dd>
+    <dt>Thời gian chơi</dt><dd>Tổng thời gian chơi thật trên tiến trình này: tab đang mở và có chạm / bấm phím trong 2 phút gần nhất. Lưu trong save.</dd>
+    <dt>Độ dài phiên</dt><dd>Từ lúc mở game tới dòng cuối cùng của phiên (game ghi một nhịp sau 1 phút rồi mỗi 5 phút, và một dòng khi rời tab).</dd>
+    <dt>Mốc thuê</dt><dd>Thuê xe cút kít / máy hạng nặng / thợ đầu tính theo lần mua thật, không theo quest: quest thuê đầu tiên là xe cút kít, còn quest "Hire a Worker" chỉ tới sau 40 % màn 1, trong khi thợ mở ở 20 % và người chơi thuê ngay.</dd>
+    <dt>Đã thấy</dt><dd>Với boost / quà (từ 22/10/2026): số người đã thấy nút hiện ra (lon quà, ô boost dưới đất, nút FREE CASH, nút ở lò / SELL / xe pizza), cạnh số người bấm nhận. Từ 22/10/2026 game ghi lúc người chơi vào một nhà (cửa hàng máy, Upgrade) và lúc đứng lên tấm của một món trong cửa hàng máy (thẻ món hiện ra). So "Xem thẻ" với "Người mua" để biết họ có thấy món đó mà không thuê, hay chưa từng vào xem.</dd>
+    <dt>Tới / Xong</dt><dd>Tới quest N = đã xong N − 1 quest trước đó. Xong = đã nhận thưởng quest này. Tính theo điểm xa nhất từng đạt, nên người Reset progress vẫn tính điểm xa nhất.</dd>
+    <dt>Dừng ở đây</dt><dd>Điểm xa nhất là quest này. "Đã bỏ" = trong số đó, không thấy quay lại hơn 24 giờ.</dd>
+    <dt>D1 / D7</dt><dd>Người mới của một ngày = những người chơi lần đầu vào ngày đó (theo giờ đang chọn ở trên). D1 = trong số đó, % người có một phiên <b>mới</b> bắt đầu vào ngày hôm sau; D7 = vào đúng ngày thứ 7 sau đó. Một phiên kéo qua nửa đêm không tính là quay lại (từ 22/10/2026; trước đó có tính). Tính theo ngày lịch, không theo 24 giờ: chơi lần đầu 23:50, quay lại 00:30 vẫn là D1. Ngày quay lại chưa hết thì tính tới lúc này, nên D1 của hôm qua còn tăng dần trong hôm nay; người chơi lần đầu hôm nay chưa có ngày hôm sau nên hiện "—". Ở thẻ trên cùng và ở dòng "Cả khoảng đang xem", lứa người mới là mọi người chơi lần đầu trong khoảng đang xem mà ngày hôm sau (D7: ngày thứ 7) của họ đã tới. Máy test của mình (mở mỗi bản build vài giây) cũng tính là quay lại: điền mã máy vào ô "Bỏ mã máy" để bỏ ra.</dd>
+    <dt>Điện thoại / máy tính</dt><dd>Theo dòng mở game: màn hình cảm ứng là con trỏ chính (<code>pointer: coarse</code>) thì là điện thoại, kể cả máy tính bảng; laptop có màn cảm ứng vẫn là máy tính. "Không rõ" = chưa từng vào được game (chỉ có dòng lỗi khởi động). Ai không bao giờ vào tới lúc chơi được thì trang này không thấy, nên % ở đây là trên những người đã vào được game.</dd>
+    <dt>FPS</dt><dd>Khung hình/giây trung bình lúc đang chơi (không tính lúc mở menu). Game giới hạn 60, Perf. Mode 30.</dd>
+    <dt>Bản build</dt><dd>Phiên bản + mã commit; dấu "+" = build từ code chưa commit. Khi đổi chuỗi quest hay kinh tế, lọc theo build để không trộn số của hai thiết kế.</dd>
+  </dl>
+  <p class="note" id="foot"></p>
+</div>
+
+<script type="module">
+// ⚠ Điền sau khi tạo project Firebase (ANALYTICS.md §1). Cấu hình này CÔNG KHAI, không phải bí
+// mật: quyền đọc do luật database quyết định (database.rules.json, chỉ một uid).
+// databaseURL phải trùng DB trong src/game/telemetry.ts.
+const CONFIG = {
+  apiKey: "AIzaSyCszUIAAimVySVhqnGVBTW54mCLxVOx4tQ",
+  authDomain: "querry-crush.firebaseapp.com",
+  databaseURL: "https://querry-crush-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "querry-crush",
+  appId: "1:619587022473:web:cac083a617da5ba0de2058",
+};
+const FB = "https://www.gstatic.com/firebasejs/10.12.2/";
+
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const isDevHost = /^(localhost|127\.0\.0\.1|192\.168\.|10\.)/.test(location.hostname);
+const LOCAL = isDevHost ? params.get("local") : null;
+
+// ---- danh sách quest + tên dễ đọc (site/quests.json, do scripts/stats/site.mjs tạo) --------
+let QL = { quests: [], names: {}, stages: {} };
+async function loadQuestList() {
+  try {
+    const r = await fetch("./quests.json", { cache: "no-store" });
+    if (r.ok) QL = await r.json();
+  } catch { /* trang vẫn chạy, tên lấy từ chính các dòng quest */ }
+}
+
+// ---- đăng nhập ------------------------------------------------------------------------------
+let user = null;
+let fetchRows = null;
+
+async function boot() {
+  if (LOCAL) {
+    $("gate").hidden = true; $("app").hidden = false; $("signout").hidden = true;
+    $("who").textContent = `xem thử: ${LOCAL}.local.json`;
+    fetchRows = async () => {
+      const r = await fetch(`./${LOCAL}.local.json`, { cache: "no-store" });
+      if (!r.ok) throw new Error(`không đọc được ${LOCAL}.local.json (${r.status})`);
+      return Object.values((await r.json()) || {});
+    };
+    await loadQuestList();
+    load();
+  } else if (!CONFIG.apiKey || !CONFIG.databaseURL) {
+    $("gateMsg").textContent = "Trang chưa được cấu hình: điền CONFIG ở đầu site/stats.html (xem ANALYTICS.md).";
+  } else {
+    const { initializeApp } = await import(FB + "firebase-app.js");
+    const { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } = await import(FB + "firebase-auth.js");
+    const auth = getAuth(initializeApp(CONFIG));
+    $("signin").hidden = false;
+    $("signin").onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => { $("gateErr").textContent = e.message; });
+    $("signout").onclick = () => signOut(auth);
+    // ⚠ ID token chỉ sống 1 giờ: giữ `user`, xin token mới mỗi lần (getIdToken tự làm mới).
+    fetchRows = async () => {
+      const { since, until } = windowMs();
+      const q = since || until < Infinity
+        ? `&orderBy=${encodeURIComponent('"at"')}${since ? `&startAt=${since}` : ""}${until < Infinity ? `&endAt=${until}` : ""}`
+        : "";
+      const get = async (force) => fetch(`${CONFIG.databaseURL}/qc.json?auth=${encodeURIComponent(await user.getIdToken(force))}${q}`);
+      let res = await get(false);
+      if (res.status === 401) res = await get(true);
+      if (res.status === 401) {
+        const e = new Error("denied");
+        e.denied = true;
+        throw e;
+      }
+      if (!res.ok) throw new Error(`lỗi ${res.status}: ${await res.text()}`);
+      return Object.values((await res.json()) || {});
+    };
+    onAuthStateChanged(auth, async (u) => {
+      user = u;
+      if (!u) { $("gate").hidden = false; $("app").hidden = true; return; }
+      $("gate").hidden = true; $("app").hidden = false;
+      $("who").textContent = u.email || "";
+      await loadQuestList();
+      load();
+    });
+  }
+}
+
+// ---- khoảng thời gian -----------------------------------------------------------------------
+const tzNow = () => ($("utc").checked ? 0 : 7 * 3600e3);
+function windowMs() {
+  const tz = tzNow();
+  const f = $("from").value, t = $("to").value;
+  if (f || t) {
+    return {
+      since: f ? Date.parse(f + "T00:00:00Z") - tz : 0,
+      until: t ? Date.parse(t + "T00:00:00Z") - tz + 864e5 : Infinity,
+    };
+  }
+  const days = Number($("days").value);
+  return { since: days >= 9999 ? 0 : Date.now() - days * 864e5, until: Infinity };
+}
+
+// ---- tải --------------------------------------------------------------------------------------
+let ALL = [];
+async function load() {
+  if (!fetchRows) return;
+  $("status").textContent = "đang tải…";
+  try {
+    const { since, until } = windowMs();
+    const raw = await fetchRows();
+    ALL = raw.filter((r) => r && typeof r.at === "number" && r.dev && r.at >= since && r.at < until);
+  } catch (e) {
+    if (e.denied) {
+      $("status").innerHTML = "";
+      $("cards").innerHTML = `<div class="card" style="grid-column:1/-1"><div class="k">Bị từ chối đọc</div>
+        <p class="err">Tài khoản này chưa được phép đọc dữ liệu. Gửi uid dưới đây để thêm vào database.rules.json
+(chỉ đúng một uid được đọc), rồi deploy lại luật:</p>
+        <p>email: <code>${esc(user?.email)}</code><br>uid: <code>${esc(user?.uid)}</code></p></div>`;
+      return;
+    }
+    $("status").textContent = String(e.message || e);
+    return;
+  }
+  const builds = [...new Set(ALL.map((r) => r.build).filter(Boolean))].sort().reverse();
+  const sel = $("build"), keep = sel.value;
+  sel.innerHTML = '<option value="">tất cả</option>' + builds.map((b) => `<option>${esc(b)}</option>`).join("");
+  sel.value = builds.includes(keep) ? keep : "";
+  $("status").textContent = `${ALL.length.toLocaleString("vi-VN")} dòng · tải lúc ${clock(Date.now())}`;
+  render();
+}
+$("reload").onclick = load;
+$("days").onchange = load;
+$("from").onchange = load;
+$("to").onchange = load;
+$("clearDate").onclick = () => { $("from").value = ""; $("to").value = ""; load(); };
+$("utc").onchange = load;
+for (const id of ["excl", "newOnly", "build", "sortP"]) $(id).onchange = render;
+try { $("skip").value = localStorage.getItem("qcstats.skip") || ""; } catch { /* không lưu được thì thôi */ }
+$("skip").onchange = () => { try { localStorage.setItem("qcstats.skip", $("skip").value); } catch { /* bỏ qua */ } render(); };
+
+// ---- tiện ích ---------------------------------------------------------------------------------
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]); }
+const day = (ms) => new Date(ms + tzNow()).toISOString().slice(0, 10);
+const addDays = (d, k) => new Date(Date.parse(d + "T00:00:00Z") + k * 864e5).toISOString().slice(0, 10);
+const clock = (ms) => new Date(ms + tzNow()).toISOString().slice(11, 16);
+const stamp = (ms) => { const s = new Date(ms + tzNow()).toISOString(); return `${s.slice(8, 10)}/${s.slice(5, 7)} ${s.slice(11, 16)}`; };
+const pc = (a, b) => (b ? (100 * a) / b : 0);
+const fmtPc = (a, b) => (b ? `${Math.round(pc(a, b))}%` : "—");
+// D1 with two decimals, Vietnamese style (12,50%; user 2026-10-24).
+const fmtPc2 = (a, b) => (b ? `${pc(a, b).toLocaleString("vi-VN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%` : "—");
+const num = (n) => (n == null ? "—" : Math.round(n).toLocaleString("vi-VN"));
+function med(a) {
+  if (!a.length) return null;
+  const s = [...a].sort((x, y) => x - y), m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+function quant(a, q) {
+  if (!a.length) return null;
+  const s = [...a].sort((x, y) => x - y);
+  return s[Math.min(s.length - 1, Math.floor(q * s.length))];
+}
+function dur(s) {
+  if (s == null || isNaN(s)) return "—";
+  s = Math.round(s);
+  if (s < 60) return `${s}s`;
+  if (s < 3600) return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, "0")}s`;
+  return `${Math.floor(s / 3600)}h ${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}m`;
+}
+const spark = (p) => `<span class="spark" style="width:${Math.max(1, Math.round(p * 1.1))}px"></span>`;
+const TEST_HOST = /^(localhost|127\.|0\.0\.0\.0|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.|\[?::1|\?$)|\.local$|trycloudflare\.com|claudeusercontent|claude\.ai|claude\.site/;
+const isTest = (r) => !!r.bot || TEST_HOST.test(r.from || "");
+const KIND = { up: "Nâng cấp", tool: "Dụng cụ", rent: "Thuê máy", hire: "Thuê thợ", hq: "Nghiên cứu HQ", boost: "Boost / quà" };
+const ROLE = { Mining: "Thợ đào", Carrying: "Thợ khuân" };
+function buyName(kind, key) {
+  if (kind === "hire") { const m = /^(\D+)(\d+)$/.exec(key); return m ? `${ROLE[m[1]] ?? m[1]} bậc ${m[2]}` : key; }
+  return QL.names?.[`${kind}:${key}`] ?? key;
+}
+
+/** Bảng: head = [nhãn | [nhãn, giải thích, lớp]], hàng = mảng ô (chuỗi | [html, lớp, giải thích]) hoặc {stage: "…"}. */
+function table(id, head, rows) {
+  const th = head.map((h) => { const [t, tip, c] = Array.isArray(h) ? h : [h]; return `<th${c ? ` class="${c}"` : ""}${tip ? ` title="${esc(tip)}"` : ""}>${t}</th>`; }).join("");
+  const body = rows.length
+    ? rows.map((r) => r.stage != null
+        ? `<tr class="stage"><td colspan="${head.length}">${r.stage}</td></tr>`
+        : `<tr>${r.map((c) => { const [v, cl, tip] = Array.isArray(c) ? c : [c]; return `<td${cl ? ` class="${cl}"` : ""}${tip ? ` title="${esc(tip)}"` : ""}>${v ?? "—"}</td>`; }).join("")}</tr>`).join("")
+    : `<tr><td colspan="${head.length}" class="empty">Chưa có dữ liệu trong khoảng này</td></tr>`;
+  $(id).innerHTML = `<thead><tr>${th}</tr></thead><tbody>${body}</tbody>`;
+}
+
+// ---- tính và vẽ -----------------------------------------------------------------------------
+function render() {
+  const { since, until } = windowMs();
+  const skip = new Set($("skip").value.split(/[\s,;]+/).map((s) => s.trim()).filter(Boolean));
+  const build = $("build").value;
+  let rows = ALL.filter((r) => (!$("excl").checked || !isTest(r)) && !skip.has(r.dev) && (!build || r.build === build));
+  if ($("newOnly").checked) rows = rows.filter((r) => (r.first ?? r.at) >= since);
+  rows.sort((a, b) => a.at - b.at);
+  // Một người = các mã máy và mã save nối với nhau qua các dòng: chơi tiếp trên máy khác bằng save
+  // trên mây (cùng sid, khác dev) vẫn là một người; Reset progress (cùng dev, sid mới) cũng vậy.
+  const link = new Map();
+  const root = (k) => { const p = link.get(k); if (p == null || p === k) return k; const r = root(p); link.set(k, r); return r; };
+  for (const r of rows) if (r.sid) { const a = root("d:" + r.dev), b = root("s:" + r.sid); if (a !== b) link.set(b, a); }
+  const who = (r) => root("d:" + r.dev);
+  const now = Date.now();
+  const today = day(now);
+  const lastDay = until < Infinity ? day(until - 1) : today; // ngày cuối có trong khoảng (có thể chưa hết)
+
+  // Theo từng máy.
+  const devs = new Map();
+  const begun = new Set(); // phiên đã thấy dòng đầu
+  for (const r of rows) {
+    const k = who(r);
+    let d = devs.get(k);
+    if (!d) devs.set(k, (d = { key: k, id: r.dev, codes: new Set(), first: r.first ?? r.at, firstAt: r.at, lastAt: r.at, ses: new Set(), days: new Set(), starts: new Set(),
+      maxQi: 0, maxSt: 0, pct: 0, pl: 0, cleared: new Set(), mob: null, longest: 0, last: r }));
+    d.lastAt = r.at; d.last = r; d.codes.add(r.dev);
+    // Ngày một phiên BẮT ĐẦU (D1 / D7): phiên kéo qua nửa đêm không tính là quay lại hôm sau.
+    if (!begun.has(r.dev + "/" + r.ses)) { begun.add(r.dev + "/" + r.ses); d.starts.add(day(r.at)); }
+    if (r.ev === "buy" && r.kind === "rent") (d.rents ??= new Set()).add(r.key);
+    if (r.ev === "buy" && r.kind === "hire") d.hired = true;
+    if ((r.first ?? r.at) < d.first) d.first = r.first ?? r.at;
+    d.ses.add(r.ses); d.days.add(day(r.at));
+    if ((r.qi ?? 0) > d.maxQi) d.maxQi = r.qi;
+    if ((r.st ?? 0) > d.maxSt) { d.maxSt = r.st; d.pct = 0; }
+    if (r.st === d.maxSt && (r.pct ?? 0) > d.pct) d.pct = r.pct;
+    if ((r.pl ?? 0) > d.pl) d.pl = r.pl;
+    if (r.ev === "clear") d.cleared.add(r.cl);
+    if (r.ev === "open" && r.mob != null) d.mob = r.mob;
+    if ((r.ss ?? 0) > d.longest) d.longest = r.ss;
+  }
+  const D = [...devs.values()];
+  const P = D.length;
+  const cleared = (d, s) => d.cleared.has(s) || d.maxSt > s;
+
+  // Theo từng phiên.
+  const sess = new Map();
+  for (const r of rows) {
+    const k = r.dev + "/" + r.ses;
+    let s = sess.get(k);
+    if (!s) sess.set(k, (s = { dev: who(r), len: 0, day: day(r.at) }));
+    if ((r.ss ?? 0) > s.len) s.len = r.ss;
+  }
+  const S = [...sess.values()];
+
+  // Quay lại sau k ngày, trên lứa người chơi lần đầu trong khoảng: có một phiên bắt đầu đúng ngày thứ k
+  // sau ngày chơi lần đầu. Ngày đó chưa hết thì tính tới lúc này (user 2026-10-22); chưa tới thì chưa tính.
+  const ret = (k, ds = D) => {
+    let base = 0, back = 0;
+    for (const d of ds) {
+      if (d.first < since) continue;
+      const target = addDays(day(d.first), k);
+      if (target > lastDay) continue;
+      base++;
+      if (d.starts.has(target)) back++;
+    }
+    return { base, back };
+  };
+
+  const N = QL.quests?.length || Math.max(0, ...D.map((d) => d.maxQi)) + 1;
+  const qName = (i) => { const q = QL.quests?.[i]; return q ? (lastText.get(q.id) ?? q.text) : `Quest #${i + 1}`; };
+  const lastText = new Map();
+  for (const r of rows) if (r.ev === "quest" && r.qt) lastText.set(r.qid, r.qt);
+  const qIndex = (type, pred = () => true) => (QL.quests || []).findIndex((q) => q.type === type && pred(q));
+
+  // ---- thẻ ----
+  const newP = D.filter((d) => d.first >= since).length;
+  const over1 = D.filter((d) => d.longest >= 60).length;
+  const sellI = qIndex("SellIngot");
+  const r1 = ret(1), r7 = ret(7);
+  const errs = rows.filter((r) => r.ev === "err" || r.ev === "fail");
+  const fails = rows.filter((r) => r.ev === "fail");
+  const card = (k, n, d, cls = "") => `<div class="card"><div class="k">${k}</div><div class="n ${cls}">${n}</div><div class="d">${d}</div></div>`;
+  // Đang chơi, tính từ chính các dòng (ô "users in last 30 minutes" của Firebase console là Google
+  // Analytics, mà game không gửi GA). Game ghi một nhịp mỗi 5 phút khi tab đang mở, nên "online" =
+  // dòng cuối trong 6 phút và dòng đó không phải lúc rời tab. Chỉ có nghĩa khi khoảng xem kéo tới hiện tại.
+  const live = until === Infinity;
+  const online = D.filter((d) => now - d.lastAt < 6 * 60e3 && d.last.ev !== "hide").length;
+  const active30 = D.filter((d) => now - d.lastAt < 30 * 60e3).length;
+  $("cards").innerHTML = [
+    card("Đang online", live ? num(online) : "—", live ? "có tín hiệu trong 6 phút, chưa rời tab" : "chỉ khi xem tới hiện tại", online ? "good" : ""),
+    card("Hoạt động 30 phút", live ? num(active30) : "—", live ? "có chơi trong 30 phút qua" : "chỉ khi xem tới hiện tại"),
+    card("Người chơi", num(P), `${num(newP)} mới · ${num(P - newP)} cũ`),
+    card("Phiên", num(S.length), P ? `${(S.length / P).toFixed(1)} phiên/người` : ""),
+    card("Chơi quá 1 phút", fmtPc(over1, P), `${num(over1)} người có phiên ≥ 1 phút`),
+    card("Phiên trung vị", dur(med(S.map((s) => s.len))), `10% dài nhất ≥ ${dur(quant(S.map((s) => s.len), 0.9))}`),
+    card("Thời gian chơi / người", dur(med(D.map((d) => d.pl))), `trung bình ${dur(P ? D.reduce((a, d) => a + d.pl, 0) / P : null)}`),
+    card("Bán thỏi đầu tiên", fmtPc(D.filter((d) => sellI >= 0 && d.maxQi > sellI).length, P), "xong vòng đập → lò → bán"),
+    card("Xong màn 1", fmtPc(D.filter((d) => cleared(d, 1)).length, P), `${num(D.filter((d) => cleared(d, 1)).length)} người`),
+    card("Xong màn 2", fmtPc(D.filter((d) => cleared(d, 2)).length, P), `${num(D.filter((d) => cleared(d, 2)).length)} người`),
+    card("Quay lại D1", r1.base ? fmtPc2(r1.back, r1.base) : "—", r1.base ? `${r1.back}/${r1.base} người mới` : "chưa đủ ngày"),
+    card("Quay lại D7", r7.base ? fmtPc(r7.back, r7.base) : "—", r7.base ? `${r7.back}/${r7.base} người mới` : "chưa đủ ngày"),
+    card("Lỗi JS", num(errs.length), `${new Set(errs.map(who)).size} người · ${fails.length} không vào được game`, fails.length ? "bad" : ""),
+  ].join("");
+  $("range").textContent = `${stamp(since || (rows[0]?.at ?? now))} → ${until < Infinity ? stamp(until) : "nay"}`;
+
+  // ---- các mốc ----
+  const reachedQ = (i) => (i < 0 ? null : D.filter((d) => d.maxQi > i).length);
+  const atPct = (s, p) => D.filter((d) => d.maxSt > s || (d.maxSt === s && d.pct >= p)).length;
+  const miles = [
+    ["Mở game", P],
+    ["Đập viên đá đầu", reachedQ(qIndex("DestroyOre"))],
+    ["Bán thỏi đầu tiên", reachedQ(sellI)],
+    ["Nâng cấp lần đầu", reachedQ(qIndex("FieldUpgrade"))],
+    ["Mua dụng cụ đầu", reachedQ(qIndex("PurchaseLightEquip"))],
+    // Theo lần thuê thật (dòng mua), không theo quest: quest thuê đầu là xe cút kít, còn quest thuê thợ
+    // chỉ tới sau 40 % màn 1, trong khi thợ mở và người chơi thuê ngay ở 20 %.
+    ["Thuê xe cút kít", D.filter((d) => d.rents?.has("wheelbarrow")).length],
+    ["Thuê máy hạng nặng", D.filter((d) => [...(d.rents ?? [])].some((k) => k !== "wheelbarrow")).length],
+    ["Thuê thợ đầu", D.filter((d) => d.hired).length],
+    ["Màn 1 được 40%", atPct(1, 40)],
+    ["Xong màn 1", D.filter((d) => cleared(d, 1)).length],
+    ["Vào màn 2", D.filter((d) => d.maxSt >= 2).length],
+    ["Màn 2 được 40%", atPct(2, 40)],
+    ["Xong màn 2", D.filter((d) => cleared(d, 2)).length],
+  ].filter((m) => m[1] != null);
+  // "Qua bước" chỉ có nghĩa khi mốc dưới nằm trọn trong mốc trên. % màn không theo thứ tự quest
+  // (đá phá được lúc nào cũng tăng), nên khi nó vượt mốc trên thì để trống thay vì ra hơn 100 %.
+  table("tMile", ["Mốc", "Người", "% người chơi", ["Qua bước", "% của mốc ngay trên (trống khi hai mốc không nối tiếp nhau)"]], miles.map(([k, n], i) => {
+    const prev = i ? miles[i - 1][1] : n;
+    const step = prev ? pc(n, prev) : 0;
+    const cell = !i ? "—" : n > prev ? "" : [fmtPc(n, prev), step < 60 ? "bad" : step < 80 ? "warn" : ""];
+    return [k, num(n), `${spark(pc(n, P))}${fmtPc(n, P)}`, cell];
+  }));
+
+  // ---- từng quest ----
+  const qRows = [];
+  const doneAt = new Map(); // qid → {pl[], n[]}
+  for (const r of rows) if (r.ev === "quest") {
+    let a = doneAt.get(r.qid);
+    if (!a) doneAt.set(r.qid, (a = { pl: [], n: [] }));
+    a.pl.push(r.pl ?? 0); a.n.push(r.n ?? 1);
+  }
+  let lastStage = null;
+  const steps = [];
+  for (let i = 0; i < N; i++) {
+    const q = QL.quests?.[i];
+    if (q && q.stage !== lastStage) { lastStage = q.stage; qRows.push({ stage: `Màn ${q.stage}${QL.stages?.[q.stage] ? " · " + esc(QL.stages[q.stage]) : ""}` }); }
+    const reached = D.filter((d) => d.maxQi >= i).length;
+    const done = D.filter((d) => d.maxQi > i).length;
+    const stuck = D.filter((d) => d.maxQi === i);
+    const gone = stuck.filter((d) => now - d.lastAt > 864e5).length;
+    const a = q ? doneAt.get(q.id) : null;
+    const step = reached ? pc(done, reached) : null;
+    if (reached >= 5) steps.push(step);
+    qRows.push({ i, step, ok: reached >= 5, cells: [
+      `${i + 1}`, [esc(qName(i)), "name", q ? `id ${q.id} · ${q.type}` : ""],
+      num(reached), `${spark(pc(reached, P))}${fmtPc(reached, P)}`, num(done), step == null ? "—" : `${Math.round(step)}%`,
+      num(stuck.length), gone ? num(gone) : "",
+      dur(a ? med(a.pl) : null), a ? (med(a.n) ?? 1).toFixed(0) : "—",
+    ] });
+  }
+  const finished = D.filter((d) => d.maxQi >= N).length;
+  qRows.push({ stage: "Hết chuỗi quest" });
+  qRows.push({ cells: ["✓", ["Xong mọi quest hiện có", "name"], num(finished), `${spark(pc(finished, P))}${fmtPc(finished, P)}`, "", "", num(finished), "", "", ""] });
+  // Tô đỏ ba bước rụng nhiều nhất (có từ 5 người tới trở lên); vàng là ba bước tiếp theo.
+  const worst = [...steps].sort((a, b) => a - b);
+  const bad = worst[2] ?? -1, warn = worst[5] ?? -1;
+  table("tQuest", ["#", ["Quest", "", "l"], ["Tới", "Số người đã tới quest này"], "% người chơi", ["Xong", "Số người đã xong quest này"],
+    ["Qua bước", "Xong ÷ Tới. Đỏ = 3 bước rụng nhiều nhất, vàng = 3 bước tiếp theo (chỉ tính quest có từ 5 người tới)"],
+    ["Dừng ở đây", "Điểm xa nhất của họ là quest này"], ["↳ đã bỏ", "Trong số dừng ở đây: không thấy quay lại hơn 24 giờ"],
+    ["Chơi tới lúc xong", "Trung vị thời gian chơi (tích lũy) lúc nhận thưởng quest này"], ["Phiên thứ", "Trung vị: xong quest này ở phiên thứ mấy của người đó"]],
+    qRows.map((r) => {
+      if (r.stage != null) return r;
+      if (r.ok && r.step < 100) {
+        const cls = r.step <= bad ? "bad" : r.step <= warn ? "warn" : "";
+        if (cls) r.cells[5] = [r.cells[5], cls];
+      }
+      return r.cells;
+    }));
+  // ---- vì sao chậm: báo cáo công việc kèm nhịp 5 phút / lúc rời tab (telemetry.ts WorkProbe) ----
+  const why = new Map(); // quest đang làm (qi) → cộng dồn
+  const mark = new Map(); // phiên → dòng mở đầu khoảng báo cáo (lấy % màn lúc đó)
+  const SUM = ["tw", "ta", "bp", "bv", "bw", "tv", "tb", "td", "tf", "wk", "wi", "wr"];
+  for (const r of rows) {
+    const k = r.dev + "/" + r.ses;
+    if (r.tw == null) { if (r.ev === "open") mark.set(k, r); continue; }
+    const qi = r.qi ?? 0;
+    let w = why.get(qi);
+    if (!w) why.set(qi, (w = { who: new Set(), crew: 0, dp: 0, fr: [], hb: [], hv: [], ...Object.fromEntries(SUM.map((f) => [f, 0])) }));
+    w.who.add(who(r));
+    for (const f of SUM) w[f] += r[f] ?? 0;
+    w.crew += (r.wn ?? 0) * (r.tw ?? 0);
+    const m = mark.get(k);
+    if (m && m.st === r.st && (r.pct ?? 0) >= (m.pct ?? 0)) w.dp += r.pct - m.pct;
+    mark.set(k, r);
+    if (r.fr != null) w.fr.push(r.fr);
+    if (r.hb) w.hb.push(r.hb);
+    if (r.hv) w.hv.push(r.hv);
+  }
+  const perMin = (x, w) => (w.tw >= 30 ? (x / (w.tw / 60)).toFixed(1) : "—");
+  table("tWhy", ["#", ["Quest", "", "l"], ["Người", "Số người có báo cáo lúc đang làm quest này"], ["Phút", "Tổng thời gian tab mở, cộng mọi người"], ["Có thao tác", "% thời gian có chạm / bấm trong 2 phút gần nhất"],
+    ["% màn / phút", "Tiến độ màn tăng mỗi phút (tab mở)"], ["Tự đập / phút", "Khối người chơi phá bằng tay mỗi phút"], ["Máy / phút", "Khối máy phá mỗi phút"], ["Thợ / phút", "Khối đội thợ phá mỗi phút"],
+    ["Lái máy", "% thời gian đang lái máy (từ 22/10/2026 không tính xe cút kít)"], ["Xe cút kít", "% thời gian đẩy xe cút kít (từ 22/10/2026)"], ["Hết dầu", "% thời gian lái mà máy cạn dầu"], ["Đầy hàng", "% thời gian lưng (hoặc thùng máy) đã đầy"], ["Thợ", "Số thợ trung bình"],
+    ["Thợ kẹt", "% thời gian của cả đội: bị chặn trên đường hoặc không có đường tới đích"], ["Thợ không việc", "% thời gian của cả đội: không tìm được khối để đào / mảnh để khuân"], ["Thợ nghỉ", "% thời gian của cả đội: mệt, đi nghỉ hoặc đang ngồi ở căng tin"],
+    ["Mặt đá mở", "Trung vị số khối có một cạnh đứng được"], ["Nhát / khối (tay)", "Trung vị số nhát để phá một khối ở mặt đá, bằng dụng cụ cầm tay"], ["Nhát / khối (máy)", "Như trên, bằng máy đang lái hoặc vừa xuống"]],
+    [...why.entries()].sort((a, b) => a[0] - b[0]).map(([qi, w]) => {
+      const crewPc = (x) => (w.crew >= 30 ? `${Math.round((100 * x) / w.crew)}%` : "—");
+      return [`${qi + 1}`, [esc(qName(qi)), "name"], num(w.who.size), num(w.tw / 60), fmtPc(w.ta, w.tw),
+        w.tw >= 30 ? (w.dp / (w.tw / 60)).toFixed(2) + "%" : "—", perMin(w.bp, w), perMin(w.bv, w), perMin(w.bw, w),
+        fmtPc(w.tv, w.tw), fmtPc(w.tb, w.tw), w.tv >= 1 ? fmtPc(w.td, w.tv) : "—", fmtPc(w.tf, w.tw), w.tw ? (w.crew / w.tw).toFixed(1) : "—",
+        crewPc(w.wk), crewPc(w.wi), crewPc(w.wr), w.fr.length ? num(med(w.fr)) : "—", w.hb.length ? num(med(w.hb)) : "—", w.hv.length ? num(med(w.hv)) : "—"];
+    }));
+  $("hWhy").innerHTML = `Việc đã diễn ra trong lúc người chơi làm từng quest (báo cáo kèm nhịp 5 phút và lúc rời tab, từ bản build 21/10/2026).
+    Quest đứng lâu mà <b>% màn / phút</b> thấp: xem ai đang phá đá, thợ có bị kẹt / không có việc không, và đá có quá cứng không (nhát / khối).`;
+
+  $("hQuest").innerHTML = `${N} quest của chuỗi hướng dẫn (màn 1 tới màn 4), theo thứ tự game đưa ra. Tên lấy từ chính game.
+    Khi chuỗi quest đổi giữa các bản build, lọc theo <b>Bản build</b> để không trộn số.`;
+
+  // ---- tiến độ trong màn ----
+  const B = [[0, 1], [1, 5], [5, 10], [10, 20], [20, 40], [40, 60], [60, 80], [80, 101]];
+  const stageRows = [];
+  for (const s of [1, 2]) {
+    const inS = D.filter((d) => d.maxSt === s && !cleared(d, s));
+    const reachedS = D.filter((d) => d.maxSt >= s).length;
+    const doneS = D.filter((d) => cleared(d, s)).length;
+    stageRows.push([`Màn ${s}${QL.stages?.[s] ? " · " + esc(QL.stages[s]) : ""}`, num(reachedS),
+      ...B.map(([a, b]) => { const n = inS.filter((d) => d.pct >= a && d.pct < b).length; return n ? `${num(n)} <span class="faint">${fmtPc(n, reachedS)}</span>` : ""; }),
+      doneS ? `${num(doneS)} <span class="faint">${fmtPc(doneS, reachedS)}</span>` : ""]);
+  }
+  table("tStage", ["Màn", ["Đã vào", "Số người đã vào màn này"], ...B.map(([a, b]) => (b > 100 ? `≥ ${a}%` : `${a}–${b}%`)), "Đã xong"], stageRows);
+
+  // ---- theo ngày, và theo ngày × điện thoại / máy tính ----
+  const daysSet = [...new Set(rows.map((r) => day(r.at)))].sort().reverse();
+  const dm = (k) => k.slice(8, 10) + "/" + k.slice(5, 7);
+  // Các ô của một dòng: ps = người chơi của dòng, k = ngày (null = cả khoảng đang xem).
+  const period = (ps, k) => {
+    const set = new Set(ps.map((d) => d.key));
+    const ss = S.filter((s) => set.has(s.dev) && (k == null || s.day === k));
+    const nw = ps.filter((d) => (k == null ? d.first >= since : day(d.first) === k));
+    const o1 = new Set(ss.filter((s) => s.len >= 60).map((s) => s.dev)).size;
+    const r1 = ret(1, nw);
+    const c1 = rows.filter((r) => r.ev === "clear" && r.cl === 1 && (k == null || day(r.at) === k) && set.has(who(r))).length;
+    return [num(ps.length), num(nw.length), num(ps.length - nw.length), num(ss.length),
+      ps.length ? (ss.reduce((a, s) => a + s.len, 0) / 60 / ps.length).toFixed(1) : "—", fmtPc(o1, ps.length),
+      r1.base ? [fmtPc2(r1.back, r1.base), "", `${r1.back} / ${r1.base} người mới có phiên mới hôm sau`] : "—", c1 || ""];
+  };
+  const dayHead = ["Người chơi", ["Mới", "Chơi lần đầu vào ngày này (cả khoảng: trong khoảng đang xem)"], "Cũ", "Phiên", ["Phút / người", "Tổng độ dài các phiên ÷ số người chơi"],
+    ["Quá 1 phút", "% người có một phiên ≥ 1 phút"], ["D1", "Trong số người mới: % có một phiên mới bắt đầu vào ngày hôm sau. Ngày hôm sau chưa hết thì tính tới lúc này (xem mục Đọc các cột)"],
+    ["Xong màn 1", "Số lượt xong màn 1"]];
+  table("tDay", ["Ngày", ...dayHead], daysSet.map((k) => [dm(k), ...period(D.filter((d) => d.days.has(k)), k)]));
+  $("hDay").textContent = `Ngày theo ${$("utc").checked ? "UTC" : "giờ Việt Nam"}. Rê chuột lên ô D1 để xem số người.`;
+  const devType = (d) => (d.mob == null ? "Không rõ" : d.mob ? "Điện thoại / cảm ứng" : "Máy tính");
+  const DEV_LABEL = { "Điện thoại / cảm ứng": "📱 Điện thoại", "Máy tính": "💻 Máy tính", "Không rõ": "Không rõ" };
+  const devRows = [];
+  for (const k of [null, ...daysSet]) {
+    devRows.push({ stage: k == null ? "Cả khoảng đang xem" : dm(k) });
+    for (const t of Object.keys(DEV_LABEL)) {
+      const ps = D.filter((d) => devType(d) === t && (k == null || d.days.has(k)));
+      if (ps.length) devRows.push([DEV_LABEL[t], ...period(ps, k)]);
+    }
+  }
+  table("tDayDev", ["Thiết bị", ...dayHead], devRows);
+  $("hDev").textContent = "Cùng các cột như bảng trên, tách theo loại máy: cả khoảng đang xem, rồi từng ngày. Chỉ có những người đã vào được game.";
+
+  // ---- người chơi ----
+  const sortBy = { last: (a, b) => b.lastAt - a.lastAt, play: (a, b) => b.pl - a.pl, quest: (a, b) => b.maxQi - a.maxQi || b.pct - a.pct, first: (a, b) => b.first - a.first }[$("sortP").value];
+  const shown = [...D].sort(sortBy).slice(0, 300);
+  table("tPlayers", ["Mã máy", "Lần đầu", "Lần cuối", "Phiên", "Ngày chơi", "Thời gian chơi", "Màn", "% màn", ["Đang làm", "", "l"], "Tiền", "Máy", ["Nguồn", "", "l"], ["Build", "", "l"]],
+    shown.map((d) => {
+      const r = d.last;
+      const qi = r.qi ?? 0;
+      const doing = qi >= N ? "✓ xong hết" : `#${qi + 1} ${esc(qName(qi))}`;
+      return [[[...d.codes].map((c) => `<code>${esc(c)}</code>`).join(" ")], stamp(d.first), stamp(d.lastAt), num(d.ses.size), num(d.days.size), dur(d.pl), r.st ?? "—",
+        r.pct != null ? `${r.pct.toFixed(1)}%` : "—", [doing, "name"], num(r.cash), d.mob == null ? "—" : d.mob ? "📱" : "💻",
+        [`${esc(r.host)} · ${esc(r.from)}`, "l"], [esc(r.build), "l faint"]];
+    }));
+  $("hPlayers").textContent = P > shown.length ? ` · hiện ${shown.length} / ${P} người` : "";
+
+  // ---- mua sắm ----
+  const buys = new Map();
+  for (const r of rows) if (r.ev === "buy") {
+    const k = r.kind + ":" + r.key;
+    let b = buys.get(k);
+    if (!b) buys.set(k, (b = { kind: r.kind, key: r.key, n: 0, devs: new Set(), qi: [], pl: [], lv: 0 }));
+    b.n++; b.devs.add(who(r)); b.qi.push((r.qi ?? 0) + 1); b.pl.push(r.pl ?? 0);
+    if ((r.lv ?? 0) > b.lv) b.lv = r.lv;
+  }
+  // Đã thấy (dòng seen, từ 22/10/2026): thẻ món trong cửa hàng máy (card:<món>) và nút boost / quà hiện ra (offer:<mã>).
+  const cardSeen = new Map();
+  for (const r of rows) if (r.ev === "seen" && /^(card|offer):/.test(r.key ?? "")) {
+    const k = (r.key.startsWith("card:") ? "item:" : "boost:") + r.key.replace(/^w+:/, "");
+    (cardSeen.get(k) ?? cardSeen.set(k, new Set()).get(k)).add(who(r));
+  }
+  const seenOf = (kind, key) => cardSeen.get((kind === "boost" ? "boost:" : "item:") + key)?.size ?? 0;
+  const order = Object.keys(KIND);
+  table("tBuy", ["Loại", ["Món", "", "l"], "Lượt", "Người mua", "% người chơi", ["Đã thấy", "Thuê máy / dụng cụ: số người đã đứng xem thẻ món này trong cửa hàng máy. Boost / quà: số người đã thấy nút hiện ra (từ 22/10/2026)"], ["Cấp cao nhất", "Nâng cấp: cấp cao nhất ai đó đã đạt"], ["Đang ở quest", "Trung vị: đang làm quest số mấy lúc mua"], ["Chơi tới lúc mua", "Trung vị thời gian chơi lúc mua"]],
+    [...buys.values()].sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || b.n - a.n).map((b) =>
+      [KIND[b.kind] ?? b.kind, [esc(buyName(b.kind, b.key)), "name", b.key], num(b.n), num(b.devs.size), fmtPc(b.devs.size, P),
+        b.kind === "rent" || b.kind === "tool" || b.kind === "boost" ? num(seenOf(b.kind, b.key)) : "", b.kind === "up" ? b.lv : "",
+        `#${Math.round(med(b.qi))}`, dur(med(b.pl))]));
+
+  // ---- kỹ thuật ----
+  const groups = new Map();
+  for (const d of D) { const k = devType(d); (groups.get(k) ?? groups.set(k, []).get(k)).push(d); }
+  const typeOf = new Map(D.map((d) => [d.key, devType(d)]));
+  table("tDevice", ["Loại", "Người", ["FPS", "Trung vị FPS lúc chơi (các nhịp 5 phút)"], ["FPS thấp", "% nhịp có FPS dưới 25"], ["Perf. Mode", "% nhịp đang bật Perf. Mode"], ["Tải game", "Trung vị thời gian từ lúc mở trang tới lúc chơi được"]],
+    [...groups.entries()].map(([k, ds]) => {
+      const beats = rows.filter((r) => r.ev === "beat" && typeOf.get(who(r)) === k);
+      const fps = beats.filter((r) => r.fps != null).map((r) => r.fps);
+      const boots = rows.filter((r) => r.ev === "open" && typeOf.get(who(r)) === k && r.boot != null).map((r) => r.boot);
+      return [k, num(ds.length), fps.length ? Math.round(med(fps)) : "—", fps.length ? fmtPc(fps.filter((f) => f < 25).length, fps.length) : "—",
+        beats.length ? fmtPc(beats.filter((r) => r.pm).length, beats.length) : "—", boots.length ? `${(med(boots) / 1000).toFixed(1)}s` : "—"];
+    }));
+  // GA tải được: trong các nhịp có cờ `ga` (từ 2026-10-20), bao nhiêu % gtag.js đã tới nơi. Thấp = bị
+  // adblock / trang chủ chặn, nên Firebase console (Google Analytics) đếm thiếu người so với trang này.
+  const src = new Map();
+  const srcOf = new Map(D.map((d) => [d.key, `${d.last.host} · ${d.last.from}`]));
+  for (const d of D) { const k = srcOf.get(d.key); src.set(k, (src.get(k) ?? 0) + 1); }
+  const gaBeats = rows.filter((r) => r.ev === "beat" && r.ga != null);
+  table("tSource", [["Nơi chơi", "", "l"], "Người", "%", ["GA tải được", "% nhịp mà Google Analytics nạp được (còn lại: bị chặn, hoặc máy test)"]],
+    [...src.entries()].sort((a, b) => b[1] - a[1]).map(([k, n]) => {
+      const g = gaBeats.filter((r) => srcOf.get(who(r)) === k);
+      return [[esc(k), "l"], num(n), fmtPc(n, P), g.length ? fmtPc(g.filter((r) => r.ga === 1).length, g.length) : "—"];
+    }));
+  const bl = new Map();
+  for (const r of rows) {
+    let b = bl.get(r.build);
+    if (!b) bl.set(r.build, (b = { devs: new Set(), n: 0, a: r.at, z: r.at }));
+    b.devs.add(who(r)); b.n++; b.z = r.at;
+  }
+  table("tBuild", [["Build", "", "l"], "Người", "Dòng", "Từ", "Đến"], [...bl.entries()].sort((a, b) => b[1].z - a[1].z).map(([k, b]) => [[esc(k), "l"], num(b.devs.size), num(b.n), stamp(b.a), stamp(b.z)]));
+  const em = new Map();
+  for (const r of errs) {
+    const k = (r.ev === "fail" ? "[không vào được game] " : "") + (r.msg || "?");
+    let e = em.get(k);
+    if (!e) em.set(k, (e = { n: 0, devs: new Set(), z: r.at, fail: r.ev === "fail" }));
+    e.n++; e.devs.add(who(r)); e.z = r.at;
+  }
+  table("tErr", [["Lỗi", "", "l"], "Lượt", "Người", "Gần nhất"], [...em.entries()].sort((a, b) => b[1].n - a[1].n).slice(0, 30)
+    .map(([k, e]) => [[esc(k), e.fail ? "name bad" : "name", k], num(e.n), num(e.devs.size), stamp(e.z)]));
+
+  const tests = ALL.filter(isTest).length;
+  $("foot").textContent = `${rows.length.toLocaleString("vi-VN")} dòng đang tính` + ($("excl").checked && tests ? ` · đã bỏ ${tests.toLocaleString("vi-VN")} dòng từ máy test` : "") + (skip.size ? ` · bỏ ${skip.size} mã máy` : "") + ".";
+}
+
+// Last: everything above must exist before the first load() runs.
+boot();
+</script>
+</body>
+</html>

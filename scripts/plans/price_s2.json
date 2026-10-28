@@ -1,0 +1,58 @@
+[
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(localStorage.setItem('cm_save', JSON.stringify({v:1,cash:5000,gems:0,gear:550,upgrades:{},owned:['pickaxe','woodenCarrier'],equipMining:'pickaxe',equipCarrying:'woodenCarrier',quest:{index:31,progress:1},dialogues:[101],unlocked:['pickaxe','woodenCarrier'],mgmt:{done:[],research:null},run:{stageIndex:1,sold:0,broken:'',rentals:[],spent:0,cashbackClaimed:0,structures:[],workers:[],clearHinted:false,earned:0}})), location.href = location.origin + '/?gfx=high', true)"
+ },
+ {
+  "wait": 3000
+ },
+ {
+  "until": "!!window.__game && !document.getElementById(\"boot\")",
+  "timeout": 60000,
+  "every": 500
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "eval": "(__game.debug.quiet(), (()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})())"
+ },
+ {
+  "eval": "(()=>{const z=__game.sales.zone.center; __game.directT=0; __game.player.pos.set(z.x-4,0,z.z+2); __game.stage.follow(__game.player.pos, true); return JSON.stringify(z);})()"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(__game.directT=0, true)"
+ },
+ {
+  "eval": "([...document.querySelectorAll(\".sh-x\")].forEach(b=>b.click()), __game.directT=0, true)"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "snap": "price_s2"
+ },
+ {
+  "eval": "(__game.stage.zoom(1.8), __game.player.pos.z-=5, __game.directT=0, __game.stage.follow(__game.player.pos, true), true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "eval": "(__game.directT=0, true)"
+ },
+ {
+  "eval": "([...document.querySelectorAll(\".sh-x\")].forEach(b=>b.click()), __game.directT=0, true)"
+ },
+ {
+  "wait": 600
+ },
+ {
+  "snap": "price_s2_wide"
+ }
+]

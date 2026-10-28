@@ -1,0 +1,624 @@
+{
+ "_note": "TEMPORARY - numbers copied from the original game (Bulldozer Master, Supercent) for prototyping at the user's request; replace before publishing.",
+ "_role": "In the original this is the World-Map/LiveOps onboarding stage 'Frost Path' (GameModeType 4, Asia, unlocked at Stage 3 50%). It is NOT the tutorial that precedes stage 1; the first session starts directly in stage 1 with a quest chain + dialogue onboarding (see economy.json -> onboardingSequence). Kept here as an optional 12-block warm-up map.",
+ "id": 60101,
+ "name": "Frost Path",
+ "order": 1,
+ "gameMode": "OnboardingStage",
+ "difficulty": "Easy",
+ "contractType": null,
+ "keyResourceOre": "silver",
+ "maxWorkerCount": 0,
+ "cashTarget": null,
+ "clear": {
+  "progressPercentRequired": 100,
+  "progressFormula": "OnboardingStageProgressUI.CLEAR_PROGRESS_CONDITION = 1.0 (all ore). INFERRED: progress = destroyed ores / total ores (no sales stand in this map).",
+  "rewardOnClear": {
+   "groupId": 1064,
+   "type": "All",
+   "items": [
+    {
+     "rewardType": "Currency",
+     "id": 10006,
+     "item": "BizPoint",
+     "amount": 50,
+     "weight": null
+    }
+   ]
+  }
+ },
+ "heavyEquipmentRentMultiplier": null,
+ "oreHpMultiplier": 1,
+ "grid": {
+  "width": 1000,
+  "height": 1000,
+  "cellSize": 2.5,
+  "usedBounds": {
+   "minX": 488,
+   "maxX": 515,
+   "minZ": 483,
+   "maxZ": 511
+  },
+  "coords": "Cells are integer (x,z); +x = east (screen right), +z = north (into the quarry, away from the camera). Every rect here is normalised to its min corner (x,z) + size w,h in cells (90/270 rotation already applied to building footprints). In the raw StageJson, ore groups store their top-left cell (minX,maxZ) instead - already converted. worldCenter = ((x + w/2 - 500) * 2.5 + offset) INFERRED: the original world origin is unknown, only relative placement matters. One block = one cell = 2.5 world units."
+ },
+ "totals": {
+  "original": {
+   "totalOreCount": 12,
+   "totalDropItemCount": 72
+  },
+  "resolved": {
+   "blocks": 12,
+   "dropItems": 72,
+   "duplicateCellsRemoved": 0,
+   "byOre": {
+    "ice": 12
+   },
+   "potentialIncomeIfAllSmeltedAndSold": 1080
+  }
+ },
+ "areas": {
+  "ground": [
+   {
+    "x": 504,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 507,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 511,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "home": [
+   {
+    "x": 504,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   }
+  ],
+  "obstacle": [
+   {
+    "x": 496,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 483,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 483,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 488,
+    "z": 483,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 484,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 484,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 484,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 483,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 512,
+    "z": 487,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 504,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 496,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 492,
+    "z": 491,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 503,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 500,
+    "z": 499,
+    "w": 4,
+    "h": 4
+   },
+   {
+    "x": 508,
+    "z": 495,
+    "w": 4,
+    "h": 4
+   }
+  ]
+ },
+ "buildings": [],
+ "structures": [],
+ "cafeteria": [],
+ "spawns": [
+  {
+   "type": "playerSpawnPoint",
+   "x": 501,
+   "z": 492,
+   "w": 1,
+   "h": 1,
+   "rotY": 0,
+   "worldCenter": [
+    5.01,
+    0.0,
+    -18.75
+   ],
+   "offset": [
+    1.26,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "props": [
+  {
+   "type": "metalBarrier",
+   "x": 506,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    16.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 504,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    11.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 517,
+   "z": 484,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    46.25,
+    0.0,
+    -36.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 493,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -16.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 495,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -11.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 510,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    26.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 499,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -1.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 497,
+   "z": 487,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    -6.25,
+    0.0,
+    -31.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 485,
+   "z": 484,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    -33.75,
+    0.0,
+    -36.25
+   ]
+  },
+  {
+   "type": "mountain",
+   "x": 499,
+   "z": 503,
+   "w": 5,
+   "h": 5,
+   "rotY": 0,
+   "worldCenter": [
+    3.75,
+    -1.0,
+    13.75
+   ],
+   "offset": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 500,
+   "z": 499,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    1.25,
+    0.0,
+    -1.25
+   ]
+  },
+  {
+   "type": "metalBarrier",
+   "x": 502,
+   "z": 499,
+   "w": 1,
+   "h": 1,
+   "rotY": 90,
+   "worldCenter": [
+    6.25,
+    0.0,
+    -1.25
+   ]
+  },
+  {
+   "type": "road",
+   "x": 504,
+   "z": 500,
+   "w": 3,
+   "h": 3,
+   "rotY": 0,
+   "worldCenter": [
+    13.75,
+    0.0,
+    3.75
+   ]
+  }
+ ],
+ "oreGroups": [
+  {
+   "index": 0,
+   "x": 500,
+   "z": 495,
+   "w": 4,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  },
+  {
+   "index": 1,
+   "x": 501,
+   "z": 497,
+   "w": 2,
+   "h": 2,
+   "rotY_ignored": 0,
+   "weights": [
+    {
+     "ore": "ice",
+     "weight": 1
+    }
+   ],
+   "cellsGeneratedFromWeights": false
+  }
+ ],
+ "blocks": [
+  {
+   "x": 500,
+   "z": 495,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 495,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 495,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 495,
+   "ore": "ice"
+  },
+  {
+   "x": 500,
+   "z": 496,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 496,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 496,
+   "ore": "ice"
+  },
+  {
+   "x": 503,
+   "z": 496,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 497,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 497,
+   "ore": "ice"
+  },
+  {
+   "x": 501,
+   "z": 498,
+   "ore": "ice"
+  },
+  {
+   "x": 502,
+   "z": 498,
+   "ore": "ice"
+  }
+ ]
+}

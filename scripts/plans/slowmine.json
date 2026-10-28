@@ -1,0 +1,74 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"
+ },
+ {
+  "eval": "(__game.player.pos.set(5.6,0,1.95), __game.player.facing=Math.PI*0.85, __game.stage.zoom(0.42), __game.stage.follow(__game.player.pos, true), __game.timeScale = 0.12, true)"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "snap": "sm0"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm1"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm2"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm3"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm4"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm5"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm6"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm7"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm8"
+ },
+ {
+  "wait": 350
+ },
+ {
+  "snap": "sm9"
+ },
+ {
+  "wait": 350
+ }
+]

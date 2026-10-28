@@ -1,0 +1,6 @@
+[
+ {"until": "window.__game && !document.getElementById('boot') && !location.search.includes('stage=')", "timeout": 90000},
+ {"wait": 2500},
+ {"eval": "JSON.stringify({url: location.search, level: __game.level, prog: +__game.progress().toFixed(1), cash: __game.debug.state().cash, quest: __game.debug.quest(), unlocked: __game.debug.state().unlocked.length, dialogue: __game.dialogue.open})"},
+ {"snap": "stage_link"}
+]

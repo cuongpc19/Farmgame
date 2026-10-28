@@ -1,0 +1,1 @@
+[{"wait":1200},{"snap":"n0_dialog"},{"eval":"(()=>{let n=0; while(__game.dialogue.open && n<50){document.querySelector(\".dlg\").dispatchEvent(new PointerEvent(\"pointerdown\",{bubbles:true})); n++;} return n;})()"},{"eval":"(__game.timeScale=3, __game.player.pos.set(-10,0,2.4), true)"},{"wait":7000},{"snap":"n1_mining"}]

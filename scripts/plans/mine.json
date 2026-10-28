@@ -1,0 +1,1 @@
+[{"wait":1200},{"eval":"(__game.player.pos.set(-10,0,2.2), true)"},{"key":"w","ms":600},{"wait":6000},{"snap":"m1"},{"eval":"({cargo:__game.player.stack.count,remaining:__game.field.remaining,drops:__game.drops.list.length})"}]

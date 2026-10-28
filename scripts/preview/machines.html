@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;height:100%;background:#8a7a68}</style></head>
+<body><script type="module">
+import * as THREE from "three";
+import { loadProps } from "/src/game/props3d.ts";
+import { makeWheelbarrow, makeLoader, makeBreaker, makeRoller, makeDumpTruck, makeAtv, makeCart } from "/src/game/models.ts";
+import { truckModel } from "/src/game/world/props.ts";
+const r = new THREE.WebGLRenderer({ antialias: true }); r.outputColorSpace = THREE.SRGBColorSpace;
+r.setSize(innerWidth, innerHeight); document.body.appendChild(r.domElement);
+const s = new THREE.Scene(); s.background = new THREE.Color(0xa08a70);
+const cam = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.1, 400);
+cam.position.set(0, 26, 30); cam.lookAt(0, 0, 2);
+s.add(new THREE.HemisphereLight(0xfff4e0, 0x6a5440, 1.25)); const d = new THREE.DirectionalLight(0xffffff, 1.9); d.position.set(10, 20, 12); s.add(d);
+window.__game = { ready: true }; window.__dbg = "loading";
+try {
+  await loadProps();
+  const makers = [makeWheelbarrow, makeLoader, makeBreaker, makeRoller, makeDumpTruck, makeAtv];
+  makers.forEach((mk, i) => {
+    const m = mk(); m.root.scale.setScalar(i === 0 ? 1.4 : 1.5);
+    m.root.position.set((i - 2.5) * 6.5, 0, -3); m.root.rotation.y = 0.5; s.add(m.root);
+    const st = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshLambertMaterial({ color: 0xff3366 })); m.stackAnchor.add(st);
+  });
+  const t = truckModel(); t.root.position.set(-4, 0, 9); s.add(t.root);
+  const c = makeCart(); c.root.scale.setScalar(1.5); c.root.position.set(8, 0, 9); c.root.rotation.y = 0.5; s.add(c.root);
+  for (let k = 0; k < 6; k++) { const b = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.3, 0.3), new THREE.MeshLambertMaterial({ color: 0xffd34d })); b.position.set((k % 3) * 0.7 - 0.7, 0.15, Math.floor(k / 3) * 0.5 - 0.25); t.bed.add(b); }
+  r.render(s, cam); window.__dbg = "ok";
+} catch (e) { window.__dbg = "ERR " + (e.stack || e); }
+</script></body></html>

@@ -1,0 +1,4 @@
+[
+ {"wait": 1500},
+ {"eval": "({carry: __game.player.stack.count, furnace: __game.furnace.queue.length + (__game.furnace.output.count), pile: __game.sales.pile.count, pallet: __game.sales.moneyWaiting, ground: __game.drops.list.length})"}
+]

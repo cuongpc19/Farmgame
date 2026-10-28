@@ -1,0 +1,155 @@
+[
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(1), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv1"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(2), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv2"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(3), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv3"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(4), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv4"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(5), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv5"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(6), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv6"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(7), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv7"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(8), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv8"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(9), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv9"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(10), true)"
+ },
+ {
+  "wait": 8000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const V=g.player.pos.constructor; let at=null; if(g.bridges.length){const r=g.bridges[0].rect; at=new V((r.x0+r.x1)/2,0,(r.z0+r.z1)/2+3);} else if(g.harvesters.length){at=g.harvesters[0].pos.clone().add(new V(0,0,6));} else if(g.diggers.length){at=g.diggers[0].pos.clone().add(new V(0,0,6));} else {const b=g.field.blocks; let x=0,z=0,zmax=-1e9; for(const k of b){x+=k.cx; if(k.cz>zmax) zmax=k.cz;} at=new V(x/b.length*2.5,0,zmax*2.5+2);} g.player.pos.copy(at); g.stage.follow(g.player.pos,true); g.stage.zoom(2.3); return g.level+' '+g.st.name})()"
+ },
+ {
+  "wait": 3500
+ },
+ {
+  "snap": "lv10"
+ }
+]

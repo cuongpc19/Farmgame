@@ -1,0 +1,155 @@
+[
+ {
+  "wait": 800
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(1), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage1_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(2), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage2_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(3), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage3_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(4), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage4_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(5), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage5_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(6), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage6_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(7), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage7_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(8), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage8_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(9), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage9_look"
+ },
+ {
+  "eval": "(__game.debug.quiet(), __game.debug.stage(10), true)"
+ },
+ {
+  "wait": 7000
+ },
+ {
+  "eval": "(()=>{const g=__game; g.debug.quiet(); const ms=g.st.blocks; let x0=1e9,x1=-1e9,z1=-1e9; for(const b of ms){x0=Math.min(x0,b.cx);x1=Math.max(x1,b.cx);z1=Math.max(z1,b.cz);} g.player.pos.set((x0+x1)/2*2.5,0,z1*2.5-8); g.stage.zoom(3); return JSON.stringify({level:g.level, name:g.st.name, blocks:ms.length, bridges:g.bridges.map(b=>(b.onFoot?'foot':'car')+(b.built?'+':'-')+(b.nextPrice??'x')), diggers:g.diggers.map(d=>d.ore.key+d.left), oil:g.extraOil.length, harv:g.harvesters.length, carts:g.minecarts.length})})()"
+ },
+ {
+  "wait": 1500
+ },
+ {
+  "snap": "stage10_look"
+ }
+]

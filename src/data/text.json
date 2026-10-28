@@ -1,0 +1,655 @@
+{
+  "_note": "Candy Miner wording for everything the game shows (quests, dialogue, equipment names and blurbs, workers, boosts, HQ research and floors, stage names, ore names). The game data in src/data/game carries no original text: these are the only strings. Names follow docs/CANDY.md. Keys: quest / dialogue / worker / boost / HQ floor / HQ research ids, equipment and upgrade keys, stage order, ore keys (`ores`: display name per ore key). Dialogue keeps each entry's line count: Game slices some of them by position.",
+  "speakers": {
+    "hank": "Granny Gigi",
+    "sofia": "Coco"
+  },
+  "stages": {
+    "1": "Sugar Hills",
+    "2": "Chocolate River",
+    "3": "Gummy Swamp",
+    "4": "Lollipop Woods",
+    "5": "Ice Cream Glacier",
+    "6": "Cotton Cloud Peaks",
+    "7": "Caramel Canyon",
+    "8": "Licorice Caves",
+    "9": "Rainbow Falls",
+    "10": "Sourpuss Castle"
+  },
+  "quests": {
+    "1001": "Break a Candy Block",
+    "1002": "Scoop Up the Candy",
+    "1003": "Take Candy to the Factory",
+    "1004": "Sell Your Treats",
+    "1005": "Visit the Upgrade Kitchen",
+    "1006": "Get a Kitchen Upgrade",
+    "1007": "Break Soft Candy",
+    "1008": "🔨 Save {0} for the Sugar Mallet",
+    "1009": "Visit the Garage",
+    "1010": "Buy the Sugar Mallet",
+    "1011": "Break Candy Blocks",
+    "1012": "Take Candy to the Factory",
+    "1013": "Save {0} for a Wagon",
+    "1014": "Visit the Garage",
+    "1015": "Rent a Wagon",
+    "1016": "Drive the Wagon",
+    "1017": "Take Candy to the Factory",
+    "1018": "Sell Your Treats",
+    "1019": "Get a Kitchen Upgrade",
+    "1020": "Save {0} for a Machine",
+    "1021": "Rent a Machine",
+    "1022": "Drive a Machine",
+    "1023": "Break Candy Blocks",
+    "1024": "Get a Kitchen Upgrade",
+    "1025": "Break Hard Candy",
+    "1026": "Clear 40% of Stage 1",
+    "1027": "Hire a Candy Maker",
+    "1028": "Break Candy Blocks",
+    "1029": "Get a Kitchen Upgrade",
+    "1030": "Clear 80% of Stage 1",
+    "1031": "Finish Stage 1",
+    "1032": "Sign a New Land Contract",
+    "1033": "Break Candy Blocks",
+    "1034": "Hire a Candy Maker",
+    "1035": "Sell Gem Candy Treats",
+    "1036": "Get a Kitchen Upgrade",
+    "1037": "Rent the Pin Roller",
+    "1038": "Research at Candy HQ",
+    "1039": "Break Candy Blocks",
+    "1040": "Clear 40% of Stage 2",
+    "1041": "Hire 3 Candy Makers",
+    "1042": "Buy the Mixer Drill",
+    "1043": "Get a Kitchen Upgrade",
+    "1044": "Clear 60% of Stage 2",
+    "1045": "Break Candy Blocks",
+    "1046": "Sell Your Treats",
+    "1047": "Clear 80% of Stage 2",
+    "1048": "Finish Stage 2",
+    "1049": "Sign a New Land Contract",
+    "1050": "Rent a Machine",
+    "1051": "Hire a Candy Maker",
+    "1052": "Clear 20% of Stage 3",
+    "1053": "Get a Kitchen Upgrade",
+    "1054": "Break Hard Candy",
+    "1055": "Research at Candy HQ",
+    "1056": "Hire 3 Candy Makers",
+    "1057": "Get a Kitchen Upgrade",
+    "1058": "Clear 80% of Stage 3",
+    "1059": "Finish Stage 3",
+    "1060": "Research at Candy HQ",
+    "1061": "Sign a New Land Contract",
+    "1062": "Rent a Machine",
+    "1063": "Get a Kitchen Upgrade",
+    "1064": "Break Candy Blocks",
+    "1065": "Sell Your Treats",
+    "1066": "Hire a Candy Maker",
+    "1067": "Get a Kitchen Upgrade",
+    "1068": "Clear 40% of Stage 4",
+    "1069": "Hire 3 Candy Makers",
+    "1070": "Research at Candy HQ",
+    "1071": "Get a Kitchen Upgrade",
+    "1072": "Clear 80% of Stage 4",
+    "1073": "Finish Stage 4",
+    "1074": "Collect Sugar Bee Cash",
+    "1075": "Research at Candy HQ",
+    "1076": "Sign a New Land Contract",
+    "2001": "Rent a Machine",
+    "2002": "Get a Kitchen Upgrade",
+    "2003": "Recruit a Miner",
+    "2004": "Research at Candy HQ",
+    "2005": "Recruit a Carrier",
+    "2006": "Get a Kitchen Upgrade",
+    "2007": "Collect Sugar Bee Cash",
+    "2008": "Research at Candy HQ",
+    "1000001": "Get a Kitchen Upgrade",
+    "1000002": "Recruit a Miner",
+    "1000003": "Break Soft Candy",
+    "1000004": "Research at Candy HQ",
+    "1000005": "Collect Sugar Bee Cash",
+    "1000006": "Break Hard Candy",
+    "1000007": "Get a Kitchen Upgrade",
+    "1000008": "Break Gem Candy",
+    "1000009": "Recruit a Carrier",
+    "1000010": "Break Soft Candy",
+    "1000011": "Research at Candy HQ",
+    "1000012": "Break Hard Candy",
+    "1000013": "Collect Sugar Bee Cash",
+    "1000014": "Break Gem Candy"
+  },
+  "dialogue": {
+    "101": [
+      "Baron Sourpuss froze Candy Valley into blocks, sweetie! Grab your Candy Pick and set the candy free."
+    ],
+    "102": [
+      "Yummy load! Raw candy won't sell, though. Drop it on COOK at the factory to make treats."
+    ],
+    "201": [
+      "Look at all that cash, sweetie! Let's spend some at the Upgrade Kitchen. Better tools, more candy, one grumpy Baron!"
+    ],
+    "301": [
+      "You've got enough for a new tool. To the Garage we go!"
+    ],
+    "302": [
+      "Hand tools are yours to keep. Machines are rent-only."
+    ],
+    "401": [
+      "Shiny new tool! Anything you buy here stays yours for good.",
+      "Tap EQUIPMENT any time you want to switch tools."
+    ],
+    "501": [
+      "Rented! It's yours for this land. In the next land, you rent again.",
+      "It's parked by the factory already. Go take a peek!"
+    ],
+    "502": [
+      "Look at you in the driver's seat! Smooth moves, sweetie.",
+      "Getting out is easy too. Just tap the exit button.",
+      "One catch: that button only pops up once you've stopped.",
+      "Granny's safety rule number one: full stop before you hop out!"
+    ],
+    "601": [
+      "Uh-oh, the syrup tank's empty! Without syrup it can only crawl.",
+      "Until you rent a Syrup Tanker, carry syrup jars over from the Syrup Pump. Go fill it up!"
+    ],
+    "801": [
+      "Welcome to Candy HQ! Look outside: this land has its colours back, thanks to you!",
+      "While you're here, let's power up your hand tools. Follow me!",
+      "This is the Tool Workshop. Pop in often to make your tools stronger!"
+    ],
+    "802": [
+      "Tour done! Ready to free the next land from the Baron's sour spell?"
+    ],
+    "803": [
+      "Great news: the Machine Bay is open! Can you pop over to HQ for a sec?",
+      "This is where you research upgrades for your machines.",
+      "Machine research works a little differently: it costs Gear. Want to try it?",
+      "The HQ button is up in the corner. Tap it whenever you're ready!"
+    ],
+    "804": [
+      "The factory is humming again! Hi, I'm Coco, I keep things running here.",
+      "Sorry to butt in! Swing by Candy HQ when you're done. I'll be here."
+    ],
+    "901": [
+      "Too much candy for one Boss? Time to build a crew!",
+      "Job applications pop in every so often. Don't leave them waiting!",
+      "I baked a few favours: your first hire is free. Sign right here!",
+      "Your crew works on their own until the land is free, and they can borrow your hand tools too!",
+      "When you're set, swing by the Crew Cottage and I'll show you around!"
+    ],
+    "902": [
+      "Welcome to the Crew Cottage! Keep an eye on your team here.",
+      "Best part? Your crew can borrow your hand tools. Let me show you.",
+      "Everyone starts with basic tools. Slot yours in and they'll put them to work!",
+      "Empty slot? Tap Equip. Taken? Swap it. You can grab it back whenever you need it!",
+      "Your toolbox is still small, but this pays off later. Back to work, sweetie!"
+    ],
+    "903": [
+      "Tired crew head to the Picnic Café next door: a snack, a drink or a nap gets their energy back.",
+      "Throw them a CREW PICNIC now and then. It keeps everyone going.",
+      "Big crew? Add more tables. No seat means no proper rest!"
+    ],
+    "1101": [
+      "You freed enough candy to clear this land! Look, the colours are coming back!",
+      "Heads up: that's only the minimum. The Baron hates it when we're thorough!",
+      "You can move on now, but turning your leftover candy into cash first really pays. Your call!"
+    ],
+    "1201": [
+      "Great news, Boss! Our suppliers are giving us cashback now!",
+      "Sweet, right? The more you spend, the more comes back!",
+      "Tools, hires, upgrades: hit each target and the reward is yours!"
+    ],
+    "1501": [
+      "Grab syrup jars at the Syrup Pump. Spare jars go in the jar bin right here."
+    ],
+    "1601": [
+      "Granny's tip, sweetie: once you're breaking candy, just let go.",
+      "You'll stroll to the next block nearby and keep smashing on your own."
+    ]
+  },
+  "equipment": {
+    "player": {
+      "name": "Boss",
+      "desc": "Breaks, carries and gets it all done!",
+      "detail": "A whole crew in one apron!"
+    },
+    "pickaxe": {
+      "name": "Candy Pick",
+      "desc": "Light, tough and always ready!",
+      "detail": "Every candy miner's first friend!"
+    },
+    "sledgehammer": {
+      "name": "Sugar Mallet",
+      "desc": "Big, bouncy swings that crack candy!",
+      "detail": "Candy blocks feel every bonk!"
+    },
+    "jackhammer": {
+      "name": "Mixer Drill",
+      "desc": "Whirls candy apart in seconds!",
+      "detail": "Whirrr! Next block, please!"
+    },
+    "woodenCarrier": {
+      "name": "Candy Basket",
+      "desc": "A simple basket for your candy!",
+      "detail": "Light, plain and trusty!"
+    },
+    "cargoPack": {
+      "name": "Treat Pack",
+      "desc": "Packs more candy into every trip!",
+      "detail": "Bigger pack, fewer trips!"
+    },
+    "hydraulicBreaker": {
+      "name": "Smash Truck",
+      "desc": "Pounds candy with a giant arm!",
+      "detail": "Bang, bang, block gone!"
+    },
+    "rollerCrusher": {
+      "name": "Pin Roller",
+      "desc": "Rolls over candy and flattens it!",
+      "detail": "Flat as a cookie, every time!"
+    },
+    "wheelbarrow": {
+      "name": "Wagon",
+      "desc": "Moves a big load in one go!",
+      "detail": "Load it up and roll!"
+    },
+    "dumpTruck": {
+      "name": "Hauler",
+      "desc": "Dumps a full load in seconds!",
+      "detail": "Load, tip, repeat!"
+    },
+    "allTerrainVehicle": {
+      "name": "Syrup Buggy",
+      "desc": "Zips syrup across the land!",
+      "detail": "Syrup on wheels, fast!"
+    },
+    "wheelLoader": {
+      "name": "Scoop Truck",
+      "desc": "Scoops up any pile in one go!",
+      "detail": "It carries, so you don't!"
+    },
+    "largeHandDrill": {
+      "name": "Big Mixer",
+      "desc": "Whisks right through tough candy!",
+      "detail": "Big whisk, big chunks."
+    },
+    "knuckleDriller": {
+      "name": "Turbo Mixer",
+      "desc": "Hits super hard, but runs hot!",
+      "detail": "Let it cool when it glows."
+    },
+    "exoCarrier": {
+      "name": "Power Suit",
+      "desc": "A comfy suit that carries a mountain!",
+      "detail": "Lift more, move faster."
+    },
+    "drillCrusher": {
+      "name": "Drill Truck",
+      "desc": "Bores through a candy wall at once!",
+      "detail": "Twin drills, twice the crunch."
+    },
+    "crushHammer": {
+      "name": "Hammer Truck",
+      "desc": "A huge hammer with a long reach!",
+      "detail": "Every swing shakes the valley."
+    },
+    "infernoBreaker": {
+      "name": "Mega Smasher",
+      "desc": "The biggest smasher in the valley!",
+      "detail": "Smashes the toughest candy."
+    },
+    "haulTruck": {
+      "name": "Mega Hauler",
+      "desc": "Hauls a whole hill's worth!",
+      "detail": "Load it up, roll it home."
+    },
+    "wheelCrusher": {
+      "name": "Cake Wheel",
+      "desc": "Digs and loads in one go!",
+      "detail": "A spinning wheel of hungry scoops."
+    },
+    "fuelTruck": {
+      "name": "Syrup Tanker",
+      "desc": "Fills every machine it rolls past!",
+      "detail": "No more syrup jar runs."
+    }
+  },
+  "upgrades": {
+    "smelterSmeltingSpeed": "Cooking Speed",
+    "salesTruckWeightMin": "Van Load",
+    "playerMoveSpeed": "Move Speed",
+    "knuckleDrillerAttackPower": "Smash Power",
+    "knuckleDrillerOverheatAddAmount": "Overheat Rate",
+    "wheelBarrowCargo": "Load Size",
+    "largeHandDrillAttackPower": "Smash Power",
+    "jackhammerAttackPower": "Smash Power",
+    "sledgeHammerAttackPower": "Smash Power",
+    "pickaxeAttackPower": "Smash Power",
+    "exoskeletonCarrierCargo": "Load Size",
+    "enhancedBackpackCargo": "Load Size",
+    "woodenCarrierCargo": "Load Size",
+    "infernoBreakerAttackPower": "Smash Power",
+    "infernoBreakerMoveSpeed": "Move Speed",
+    "infernoBreakerFuelEfficiency": "Syrup Saver",
+    "crushHammerAttackPower": "Smash Power",
+    "crushHammerMoveSpeed": "Move Speed",
+    "crushHammerFuelEfficiency": "Syrup Saver",
+    "bucketWheelAttackPower": "Smash Power",
+    "bucketWheelCargo": "Load Size",
+    "bucketWheelMoveSpeed": "Move Speed",
+    "bucketWheelFuelEfficiency": "Syrup Saver",
+    "fuelTruckFuelAmount": "Syrup Tank",
+    "fuelTruckMoveSpeed": "Move Speed",
+    "haulTruckCargo": "Load Size",
+    "haulTruckMoveSpeed": "Move Speed",
+    "haulTruckFuelEfficiency": "Syrup Saver",
+    "drillCrusherAttackPower": "Smash Power",
+    "drillCrusherMoveSpeed": "Move Speed",
+    "drillCrusherFuelEfficiency": "Syrup Saver",
+    "atvMoveSpeed": "Move Speed",
+    "dumpTruckCargo": "Load Size",
+    "dumpTruckMoveSpeed": "Move Speed",
+    "dumpTruckFuelEfficiency": "Syrup Saver",
+    "rollerCrusherAttackPower": "Smash Power",
+    "rollerCrusherMoveSpeed": "Move Speed",
+    "rollerCrusherFuelEfficiency": "Syrup Saver",
+    "wheelLoaderCargo": "Load Size",
+    "wheelLoaderMoveSpeed": "Move Speed",
+    "wheelLoaderFuelEfficiency": "Syrup Saver",
+    "hydraulicBreakerAttackPower": "Smash Power",
+    "hydraulicBreakerMoveSpeed": "Move Speed",
+    "hydraulicBreakerFuelEfficiency": "Syrup Saver"
+  },
+  "workers": {
+    "1": {
+      "name": "Walt Becker",
+      "trait": "Candy Cracker",
+      "desc": "Walt has cracked candy in three valleys. He's built like a jawbreaker."
+    },
+    "2": {
+      "name": "Leon Fisher",
+      "trait": "Candy Cracker",
+      "desc": "Leon is a quiet ex-baker who double-checks every job."
+    },
+    "3": {
+      "name": "Otis Grant",
+      "trait": "Heavy Lifter",
+      "desc": "Otis keeps the whole crew laughing, even on sour days."
+    },
+    "4": {
+      "name": "Nina Brooks",
+      "trait": "Quick Feet",
+      "desc": "Nina is saving every paycheck to open her own cupcake shop."
+    },
+    "5": {
+      "name": "Max Reyes",
+      "trait": "Candy Cracker",
+      "desc": "Max drummed in a rock band. Now he bangs on candy blocks."
+    },
+    "6": {
+      "name": "Lena Ortiz",
+      "trait": "Tireless",
+      "desc": "Lena chats nonstop at the café, then works like a robot."
+    },
+    "7": {
+      "name": "Jada Cole",
+      "trait": "Quick Feet",
+      "desc": "Jada has dug through candy lands much wilder than this one."
+    },
+    "8": {
+      "name": "Vera Kowal",
+      "trait": "Candy Cracker",
+      "desc": "Vera used to fix candy machines. She always finds a faster way."
+    },
+    "9": {
+      "name": "Diego Ruiz",
+      "trait": "Heavy Lifter",
+      "desc": "Diego is a fresh apprentice who never learned to take it easy."
+    },
+    "10": {
+      "name": "Sven Lund",
+      "trait": "Sugar Power",
+      "desc": "Sven used to stir giant toffee pots. He says little and lifts a lot."
+    },
+    "11": {
+      "name": "Hana Park",
+      "trait": "Tireless",
+      "desc": "Hana wrote recipe books. She never skips a step."
+    }
+  },
+  "boosts": {
+    "1001": {
+      "title": "SPEED BOOST",
+      "description": "+{0} faster moves and swings, crew included"
+    },
+    "1002": {
+      "title": "POWER BOOST",
+      "description": "+{0} smashing power"
+    },
+    "1003": {
+      "title": "MAGNET BOOST",
+      "description": "No carry limit, and candy flies to you"
+    },
+    "2001": {
+      "title": "SPEED BOOST",
+      "description": "+{0} faster moves and swings, crew included"
+    },
+    "2002": {
+      "title": "POWER BOOST",
+      "description": "+{0} smashing power"
+    },
+    "2003": {
+      "title": "MAGNET BOOST",
+      "description": "No carry limit, and candy flies to you"
+    },
+    "3001": {
+      "title": "CASH BONUS",
+      "description": "+{0}"
+    },
+    "3002": {
+      "title": "GEAR BONUS",
+      "description": "+{0}"
+    },
+    "3003": {
+      "title": "GEM BONUS",
+      "description": "+{0}"
+    },
+    "4001": {
+      "title": "CASH BONUS",
+      "description": "+{0}"
+    },
+    "5001": {
+      "title": "FACTORY RUSH",
+      "description": "+{0} cooking speed"
+    },
+    "5002": {
+      "title": "BIG ORDER",
+      "description": "Sell 300 treats right away"
+    },
+    "5003": {
+      "title": "CREW PICNIC",
+      "description": "Your crew stays full of energy"
+    },
+    "6001": {
+      "title": "FACTORY RUSH",
+      "description": "+{0} cooking speed"
+    },
+    "6002": {
+      "title": "BIG ORDER",
+      "description": "Sell 300 treats right away"
+    },
+    "6003": {
+      "title": "CREW PICNIC",
+      "description": "Your crew stays full of energy"
+    },
+    "7001": {
+      "title": "CASH BONUS",
+      "description": "+{0}"
+    },
+    "8001": {
+      "title": "MYSTERY BOX",
+      "description": "+3 rare gifts from Coco"
+    }
+  },
+  "floors": {
+    "1": {
+      "name": "CONTRACT ROOM",
+      "title": null
+    },
+    "2": {
+      "name": "TOOL WORKSHOP",
+      "title": "Hand Tool Upgrades"
+    },
+    "3": {
+      "name": "MACHINE BAY",
+      "title": "Machine Upgrades"
+    },
+    "4": {
+      "name": "RECIPE ROOM",
+      "title": null
+    },
+    "5": {
+      "name": "SALES OFFICE",
+      "title": "Sales Growth"
+    },
+    "6": {
+      "name": "CREW OFFICE",
+      "title": null
+    }
+  },
+  "research": {
+    "10001": "Sticky-Grip Handle",
+    "10002": "Sugar-Sharp Tip",
+    "10003": "Swirly Swing",
+    "10101": "Toffee Handle",
+    "10102": "Gumdrop Core",
+    "10103": "Balanced Swing",
+    "10104": "Bouncy Momentum",
+    "10105": "Sugar Rush Booster",
+    "10201": "Candy Piston",
+    "10202": "Hyper-Whirl Motor",
+    "10203": "Peppermint Bit",
+    "10204": "Cool Mint Loop",
+    "10205": "Fizzy Chamber",
+    "10206": "Rapid Whirl Mode",
+    "10207": "Fizz Kicker",
+    "10301": "Snug Whisk Head",
+    "10302": "Speed Dial",
+    "10303": "Rock Candy Blades",
+    "10304": "Whisk Booster",
+    "10305": "Spin Tuner",
+    "10306": "Comfy Glove Grip",
+    "10307": "Jelly Damper",
+    "10308": "Auto-Feed Coil",
+    "10309": "Smart Spin Control",
+    "20001": "Reinforced Basket",
+    "20002": "Balanced Straps",
+    "20101": "Wafer-Light Frame",
+    "20102": "Comfy Straps",
+    "20103": "Smart Stacking",
+    "20201": "Roomy Treat Pouch",
+    "20202": "Spring Assist",
+    "20203": "Spring Lift",
+    "20204": "Bouncy Leg Braces",
+    "20205": "Marshmallow-Light Suit",
+    "20206": "Power Suit Pro Kit",
+    "30101": "Rugged Ram",
+    "30102": "Quick-Flow Pistons",
+    "30103": "Hyper Pressure",
+    "30104": "Eco Syrup Kit",
+    "30105": "Pro Smasher Kit",
+    "30201": "Giant Rolling Pin",
+    "30202": "Direct Sugar Drive",
+    "30203": "Spin Booster",
+    "30204": "Twin Engine Setup",
+    "30205": "Cruise Dial",
+    "30206": "Mega Roller Kit",
+    "30301": "Rock Candy Bit",
+    "30302": "Twisty Torque",
+    "30303": "Peppermint Drill Head",
+    "30304": "Torque Boosters",
+    "30305": "Auto-Feed Tracks",
+    "30306": "Heavy Impact Core",
+    "30307": "Pro Driller Kit",
+    "40101": "Sturdy Wagon Frame",
+    "40102": "Big Wagon Tray",
+    "40103": "Rugged Wagon",
+    "40201": "Tough Hauler Bed",
+    "40202": "Bouncy Suspension",
+    "40203": "Power Axle",
+    "40204": "Sport Engine",
+    "40205": "Twin Boosters",
+    "40206": "Extended Hauler Bed",
+    "40207": "Hill Crawler Drive",
+    "40301": "Sporty Springs",
+    "40302": "Bigger Jar Rack",
+    "40303": "Tuned Engine",
+    "40304": "Quick-Grab Clamps",
+    "40401": "Mega Hauler Bed",
+    "40402": "Armored Chassis",
+    "40403": "Heavy-Load Springs",
+    "40404": "Double Boosters",
+    "40405": "Smart Drive Unit",
+    "40406": "Tuned Load Spread",
+    "40407": "Eco Engine",
+    "40408": "Mega Hauler Pro Kit",
+    "40501": "Rugged Scoop",
+    "40502": "Spring Lift Arm",
+    "40503": "Turbo Syrup Jar",
+    "40504": "Swivel Steering",
+    "40505": "Syrup-Saver Drive",
+    "50101": "Giant Cake Wheel",
+    "50102": "Jumbo Hopper",
+    "50103": "Sugar Wheel Motor",
+    "50104": "Rock Candy Teeth",
+    "50105": "Mega Drive",
+    "50106": "Deep Hopper",
+    "50107": "Syrup-Saver Core",
+    "50108": "Precision Spin Control",
+    "50109": "Jawbreaker Teeth",
+    "50110": "Smart Energy Split",
+    "50111": "Max Load Tuning",
+    "50112": "Cake Wheel Pro Kit",
+    "90101": "Jumbo Syrup Tank",
+    "90102": "Sport Wheels",
+    "90103": "Turbo Syrup Pump",
+    "90104": "Armored Syrup Tank",
+    "90105": "Smart Syrup Hose"
+  },
+  "toasts": {
+    "collect": "Scoop up the candy!",
+    "save": "Save up cash for new tools!",
+    "smash": "Keep breaking candy!",
+    "clear": "Free this whole land!",
+    "pick": "Pick your next land!",
+    "hq": "Power up at Candy HQ!",
+    "idle": "Grab the sugar bees' cash!"
+  },
+  "ores": {
+    "limestone": "Sugar Cube",
+    "sandstone": "Caramel",
+    "dunite": "Mint",
+    "ice": "Ice Candy",
+    "copper": "Toffee",
+    "iron": "Licorice",
+    "manganese": "Grape Gum",
+    "silver": "Silver Pearl",
+    "gold": "Honeycomb",
+    "amber": "Butterscotch",
+    "amethyst": "Plum Jelly",
+    "emerald": "Lime Gummy",
+    "diamond": "Rock Candy",
+    "bronzite": "Brittle",
+    "obsidian": "Dark Chocolate",
+    "bismuth": "Rainbow Candy",
+    "basalt": "Milk Chocolate",
+    "aquamarine": "Blue Raspberry",
+    "yooperlite": "Glow Candy",
+    "opal": "Unicorn Candy",
+    "zircon": "Sour Drop",
+    "ruby": "Cherry Drop",
+    "coal": "Cocoa",
+    "quartz": "Sugar Glass",
+    "lapisLazuli": "Blueberry Gum",
+    "tanzanite": "Berry Swirl",
+    "mystery": "Mystery Box"
+  }
+}

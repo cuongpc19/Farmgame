@@ -1,0 +1,12 @@
+[
+ {"wait": 800},
+ {"eval": "(__game.debug.quiet(), __game.debug.stage(3), true)"},
+ {"wait": 6000},
+ {"eval": "(()=>{const g=__game; g.debug.quiet(); return JSON.stringify({level:g.level, name:g.st.name, blocks:g.st.blocks.length, bridges:g.bridges.map(b=>[b.groupId,b.onFoot,b.built,b.heavy,b.nextPrice]), diggers:g.diggers.map(d=>[d.ore.key,d.left,d.locked]), oil:g.extraOil.map(o=>o.locked), harvesters:g.harvesters.length, walk:g.map.walk.length, wheel:g.map.wheel.length})})()"},
+ {"eval": "(()=>{const g=__game; g.debug.crew('Mining',3); g.debug.crew('Carrying',2); g.timeScale=4; return g.workers.length})()"},
+ {"wait": 25000},
+ {"eval": "(()=>{const g=__game; const c=(v)=>[+(v.x/2.5+500).toFixed(0), +(500-v.z/2.5).toFixed(0)]; return JSON.stringify({broken:g.st.blocks.length-g.field.remaining, furnaceQ:g.furnace.queue.length, out:g.furnace.output.count, workers:g.workers.map(w=>w.state+'@'+c(w.pos))})})()"},
+ {"eval": "(()=>{const g=__game; g.timeScale=1; g.player.pos.copy(g.bridges[0] ? new g.player.pos.constructor((g.bridges[0].rect.x0+g.bridges[0].rect.x1)/2,0,(g.bridges[0].rect.z0+g.bridges[0].rect.z1)/2) : g.player.pos); g.stage.zoom(1.6); return 'on bridge'})()"},
+ {"wait": 1500},
+ {"snap": "s3_bridge"}
+]

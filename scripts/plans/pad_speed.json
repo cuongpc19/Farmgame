@@ -1,0 +1,11 @@
+[
+ {"wait": 1200},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} const g=__game; g.debug.quiet(); g.timeScale=1; const p=g.player; p.stack.capacity=40; for(let i=0;i<20;i++) p.stack.push(10101); window.__t=performance.now(); window.__g=g.time; p.pos.copy(g.furnace.zone.center); return p.stack.count})()"},
+ {"until": "__game.player.stack.count === 0", "timeout": 20000, "every": 50},
+ {"eval": "JSON.stringify({case:'20 minerals onto REFINING', gameSec:+(__game.time-window.__g).toFixed(2), was:'4.0 s at 0.2 s/item'})"},
+ {"eval": "(()=>{const g=__game, p=g.player; p.pos.set(0,0,30); for(let i=0;i<20;i++) g.storage.pile.push(10101); return true})()"},
+ {"wait": 300},
+ {"eval": "(()=>{const g=__game, p=g.player; window.__g=g.time; p.pos.copy(g.storage.zone.center); return g.storage.pile.count})()"},
+ {"until": "__game.player.stack.count >= __game.player.stack.capacity", "timeout": 20000, "every": 50},
+ {"eval": "JSON.stringify({case:'a full back ('+__game.player.stack.capacity+') from STORAGE', gameSec:+(__game.time-window.__g).toFixed(2), carried:__game.player.stack.count})"}
+]

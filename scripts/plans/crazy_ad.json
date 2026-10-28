@@ -1,0 +1,11 @@
+[
+ {"wait": 1500},
+ {"eval": "JSON.stringify({sdk: !!(window.CrazyGames && window.CrazyGames.SDK), platform: 'ok'})"},
+ {"eval": "(()=>{let n=0; while(__game.dialogue.open && n<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); n++;} return n;})()"},
+ {"eval": "(window.__adr='pending', __game.ad.show('TEST').then(r=>window.__adr=r), true)"},
+ {"wait": 1500},
+ {"snap": "crazy_ad_mid"},
+ {"eval": "JSON.stringify({busy: __game.ad.busy, adr: window.__adr})"},
+ {"until": "window.__adr !== 'pending'", "timeout": 40000},
+ {"eval": "JSON.stringify({busy: __game.ad.busy, adr: window.__adr})"}
+]

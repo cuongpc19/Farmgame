@@ -1,0 +1,17 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(()=>{let k=0; while(__game.dialogue.open && k<80){document.querySelector('.dlg').dispatchEvent(new PointerEvent('pointerdown',{bubbles:true})); k++;} const g=__game; g.debug.quiet(); g.directCamera=()=>{}; g.directT=0; g.player.pos.set(5,0,20); g.stage.follow(g.player.pos,true); return true})()"
+ },
+ {
+  "wait": 2500
+ },
+ {
+  "snap": "floor_base"
+ },
+ {
+  "eval": "(async()=>{ const THREE = await import('/node_modules/.vite/deps/three.js'); const g=__game; const rc=new THREE.Raycaster(); const out=[]; for (const [sx,sy] of [[316,600],[318,700],[312,150],[300,600],[330,600]]) { rc.setFromCamera(new THREE.Vector2(sx/540*2-1, -(sy/960)*2+1), g.stage.camera); const hits=rc.intersectObjects(g.scene.children, true).filter(h=>h.object.visible).slice(0,3); out.push(sx+','+sy+': '+hits.map(h=>{ let o=h.object, n=[]; while(o && n.length<3){ n.push(o.name||o.type); o=o.parent; } return n.join('<')+'@'+h.point.x.toFixed(2)+','+h.point.y.toFixed(2)+','+h.point.z.toFixed(2)+' '+(h.object.geometry?.type||''); }).join(' | ')); } return out.join(' ## '); })()"
+ }
+]

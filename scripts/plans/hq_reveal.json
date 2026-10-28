@@ -1,0 +1,17 @@
+[
+ {"wait": 500},
+ {"snap": "hq_r0_ground"},
+ {"wait": 2600},
+ {"snap": "hq_r1_pan"},
+ {"wait": 2700},
+ {"snap": "hq_r2_drop"},
+ {"wait": 1700},
+ {"snap": "hq_r3_roof"},
+ {"wait": 2600},
+ {"snap": "hq_r4_down"},
+ {"wait": 450},
+ {"snap": "hq_r5_build"},
+ {"until": "__game.revealed === true", "timeout": 8000},
+ {"wait": 500},
+ {"snap": "hq_r6_rest"}
+]

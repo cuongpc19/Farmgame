@@ -1,0 +1,93 @@
+[
+ {
+  "wait": 1200
+ },
+ {
+  "eval": "(__game.timeScale = 6, __game.player.pos.set(-10,0,2.4), true)"
+ },
+ {
+  "until": "__game.player.stack.full",
+  "timeout": 60000,
+  "every": 300
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "snap": "l1_full"
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.furnace.zone.center), true)"
+ },
+ {
+  "until": "__game.player.stack.count === 0",
+  "timeout": 20000
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "until": "__game.furnace.output.count >= 3",
+  "timeout": 30000
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "snap": "l2_smelt"
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "eval": "(__game.player.pos.set(__game.furnace.trayPos.x, 0, __game.furnace.trayPos.z + 1.2), true)"
+ },
+ {
+  "until": "__game.player.stack.count >= 3",
+  "timeout": 20000
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.sales.zone.center), true)"
+ },
+ {
+  "until": "__game.sales.moneyWaiting > 0",
+  "timeout": 40000
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "snap": "l3_truck"
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "eval": "(__game.player.pos.copy(__game.sales.moneyPos), true)"
+ },
+ {
+  "until": "__game.sales.moneyWaiting === 0",
+  "timeout": 20000
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "wait": 800
+ },
+ {
+  "snap": "l4_cash"
+ },
+ {
+  "eval": "({t: __game.time.toFixed(1), stack: __game.player.stack.count, sold: __game.st?.sold ?? null, fps: (()=>{const i=__game.stage.renderer.info.render; return i.calls + ' calls ' + i.triangles + ' tris';})()})"
+ },
+ {
+  "eval": "({cash: JSON.parse(localStorage.getItem('cm_save')||'{}').cash, prog: __game.progress().toFixed(2), t: __game.time.toFixed(0)})"
+ }
+]
